@@ -13,7 +13,7 @@
               <span class="logo-outer">
                 <span class="logo-inner">
                   <a href="index.html"
-                  ><img class="mx-auto" src="img/logo.png" alt=""
+                  ><img class="mx-auto" src="{{asset("storage/img/logo.png")}}" alt=""
                       /></a>
                 </span>
               </span>
