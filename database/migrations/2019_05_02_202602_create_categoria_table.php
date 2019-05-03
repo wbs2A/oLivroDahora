@@ -14,8 +14,9 @@ class CreateCategoriaTable extends Migration {
 	{
 		Schema::create('categoria', function(Blueprint $table)
 		{
-			$table->integer('idcategoria')->primary();
+			$table->integer('idcategoria',true);
 			$table->string('nome', 45)->nullable();
+			DB::table('categoria')->raw('ALTER TABLE  `categoria` ADD idcategoria INT PRIMARY KEY AUTO_INCREMENT;');
 		});
 	}
 

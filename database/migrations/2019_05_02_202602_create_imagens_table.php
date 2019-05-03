@@ -14,8 +14,9 @@ class CreateImagensTable extends Migration {
 	{
 		Schema::create('imagens', function(Blueprint $table)
 		{
-			$table->integer('idimagens')->primary();
+			$table->integer('idimagens',true);
 			$table->string('caminho', 45)->nullable();
+			DB::table('imagens')->raw('ALTER TABLE  `imagens` ADD idcimagens INT PRIMARY KEY AUTO_INCREMENT;');
 		});
 	}
 
