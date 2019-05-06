@@ -2,9 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\DB;
-
 class EstadoSeeder extends Seeder
 {
     /**

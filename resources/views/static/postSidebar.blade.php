@@ -2,10 +2,19 @@
 <div class="col-lg-4 sidebar-widgets">
     <div class="widget-wrap">
         <div class="single-sidebar-widget search-widget">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({
+                    google_ad_client: "ca-pub-5126773966914838",
+                    enable_page_level_ads: true
+                });
+            </script>
+{{--
             <form class="search-form" action="#">
                 <input placeholder="Pesquisar Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Pesquisar Posts'">
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
+--}}
         </div>
 
         <div class="single-sidebar-widget instafeed-widget">
