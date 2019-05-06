@@ -14,7 +14,7 @@ class CreateAvaliacaoTable extends Migration {
 	{
 		Schema::create('avaliacao', function(Blueprint $table)
 		{
-			$table->integer('idavaliacao',1);
+			$table->integer('idavaliacao', true);
 			$table->integer('quantidade')->nullable();
 			$table->integer('user_iduser')->unsigned()->index('fk_avaliacao_user1_idx');
 		});

@@ -14,13 +14,12 @@ class CreatePostTable extends Migration {
 	{
 		Schema::create('post', function(Blueprint $table)
 		{
-			$table->integer('idpost');
+			$table->integer('idpost',1);
 			$table->string('titulo', 45)->nullable();
 			$table->text('conteudo', 65535)->nullable();
 			$table->string('descricao', 45)->nullable();
-			$table->integer('categoria_idcategoria')->index('fk_post_categoria1_idx');
 			$table->dateTime('datapostagem')->nullable();
-			$table->primary(['idpost','categoria_idcategoria']);
+			$table->integer('categoria_idcategoria1')->index('fk_post_categoria1_idx1');
 		});
 	}
 

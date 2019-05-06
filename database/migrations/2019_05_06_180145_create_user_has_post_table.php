@@ -16,7 +16,7 @@ class CreateUserHasPostTable extends Migration {
 		{
 			$table->integer('user_iduser')->unsigned()->index('fk_user_has_post_user1_idx');
 			$table->integer('post_idpost')->index('fk_user_has_post_post1_idx');
-			$table->primary(['user_iduser','post_idpost']);
+			$table->primary(['user_iduser','post_idpost'],'user_post_pk');
 		});
 	}
 

@@ -17,7 +17,7 @@ class CreatePostHasAvaliacaoTable extends Migration {
 			$table->integer('post_idpost')->index('fk_post_has_avaliacao_post1_idx');
 			$table->integer('avaliacao_idavaliacao');
 			$table->integer('iduser')->unsigned();
-			$table->primary(['post_idpost','avaliacao_idavaliacao','iduser'], 'post_avaliacaopk_key');
+			$table->primary(['post_idpost','avaliacao_idavaliacao','iduser'], 'post_avaliacao_user_pk');
 			$table->index(['avaliacao_idavaliacao','iduser'], 'fk_post_has_avaliacao1_idx');
 		});
 	}

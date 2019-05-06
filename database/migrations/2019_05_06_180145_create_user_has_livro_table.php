@@ -16,7 +16,7 @@ class CreateUserHasLivroTable extends Migration {
 		{
 			$table->integer('user_iduser')->unsigned()->index('fk_user_has_livro_user1_idx');
 			$table->integer('livro_idlivro')->index('fk_user_has_livro_livro1_idx');
-			$table->primary(['user_iduser','livro_idlivro']);
+			$table->primary(['user_iduser','livro_idlivro'],'user_livro_pk');
 		});
 	}
 

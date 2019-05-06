@@ -14,7 +14,7 @@ class CreateLivroTable extends Migration {
 	{
 		Schema::create('livro', function(Blueprint $table)
 		{
-			$table->integer('idlivro',1);
+			$table->integer('idlivro', true);
 			$table->string('nome', 45)->nullable();
 			$table->float('valor', 10, 0)->nullable();
 			$table->string('descricao', 45)->nullable();

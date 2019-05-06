@@ -36,12 +36,32 @@
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -59,24 +79,21 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "/";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 63);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 63:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(64);
-
-
-/***/ }),
-
-/***/ 64:
+/***/ "./resources/js/jquery.sticky.js":
+/*!***************************************!*\
+  !*** ./resources/js/jquery.sticky.js ***!
+  \***************************************/
+/*! no static exports found */
 /***/ (function(module, exports) {
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 // Sticky Plugin v1.0.0 for jQuery
 // =============
@@ -89,7 +106,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 // Description: Makes an element on the page stick on the screen as you scroll
 //       It will only set the 'top' and 'position' of your element, you
 //       might need to adjust the width in some cases.
-
 (function ($) {
   var defaults = {
     topSpacing: 0,
@@ -123,11 +139,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
       } else {
         var newTop = documentHeight - s.stickyElement.outerHeight() - s.topSpacing - s.bottomSpacing - scrollTop - extra;
+
         if (newTop < 0) {
           newTop = newTop + s.topSpacing;
         } else {
           newTop = s.topSpacing;
         }
+
         if (s.currentTop != newTop) {
           s.stickyElement.css('width', s.stickyElement.width()).css('position', 'fixed').css('top', newTop);
 
@@ -146,6 +164,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
     for (var i = 0; i < sticked.length; i++) {
       var s = sticked[i];
+
       if (typeof s.getWidthFrom !== 'undefined' && s.responsiveWidth === true) {
         s.stickyElement.css('width', $(s.getWidthFrom).width());
       }
@@ -156,18 +175,25 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var o = $.extend({}, defaults, options);
       return this.each(function () {
         var stickyElement = $(this);
-
         var stickyId = stickyElement.attr('id');
         var wrapperId = stickyId ? stickyId + '-' + defaults.wrapperClassName : defaults.wrapperClassName;
         var wrapper = $('<div></div>').attr('id', stickyId + '-sticky-wrapper').addClass(o.wrapperClassName);
         stickyElement.wrapAll(wrapper);
 
         if (o.center) {
-          stickyElement.parent().css({ width: stickyElement.outerWidth(), marginLeft: "auto", marginRight: "auto" });
+          stickyElement.parent().css({
+            width: stickyElement.outerWidth(),
+            marginLeft: "auto",
+            marginRight: "auto"
+          });
         }
 
         if (stickyElement.css("float") == "right") {
-          stickyElement.css({ "float": "none" }).parent().css({ "float": "right" });
+          stickyElement.css({
+            "float": "none"
+          }).parent().css({
+            "float": "right"
+          });
         }
 
         var stickyWrapper = stickyElement.parent();
@@ -188,13 +214,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     unstick: function unstick(options) {
       return this.each(function () {
         var unstickyElement = $(this);
-
         var removeIdx = -1;
+
         for (var i = 0; i < sticked.length; i++) {
           if (sticked[i].stickyElement.get(0) == unstickyElement.get(0)) {
             removeIdx = i;
           }
         }
+
         if (removeIdx != -1) {
           sticked.splice(removeIdx, 1);
           unstickyElement.unwrap();
@@ -202,9 +229,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
       });
     }
-  };
+  }; // should be more efficient than using $window.scroll(scroller) and $window.resize(resizer):
 
-  // should be more efficient than using $window.scroll(scroller) and $window.resize(resizer):
+
   if (window.addEventListener) {
     window.addEventListener('scroll', scroller, false);
     window.addEventListener('resize', resizer, false);
@@ -216,7 +243,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   $.fn.sticky = function (method) {
     if (methods[method]) {
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } else if ((typeof method === 'undefined' ? 'undefined' : _typeof(method)) === 'object' || !method) {
+    } else if (_typeof(method) === 'object' || !method) {
       return methods.init.apply(this, arguments);
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.sticky');
@@ -226,16 +253,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   $.fn.unstick = function (method) {
     if (methods[method]) {
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-    } else if ((typeof method === 'undefined' ? 'undefined' : _typeof(method)) === 'object' || !method) {
+    } else if (_typeof(method) === 'object' || !method) {
       return methods.unstick.apply(this, arguments);
     } else {
       $.error('Method ' + method + ' does not exist on jQuery.sticky');
     }
   };
+
   $(function () {
     setTimeout(scroller, 0);
   });
 })(jQuery);
+
+/***/ }),
+
+/***/ 11:
+/*!*********************************************!*\
+  !*** multi ./resources/js/jquery.sticky.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\oLivroDahora\resources\js\jquery.sticky.js */"./resources/js/jquery.sticky.js");
+
 
 /***/ })
 

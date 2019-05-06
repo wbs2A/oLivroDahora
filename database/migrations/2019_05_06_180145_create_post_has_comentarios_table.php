@@ -17,7 +17,7 @@ class CreatePostHasComentariosTable extends Migration {
 			$table->integer('post_idpost')->index('fk_post_has_comentarios_post1_idx');
 			$table->integer('comentarios_idcomentarios');
 			$table->integer('comentarios_user_iduser')->unsigned();
-			$table->primary(['post_idpost','comentarios_idcomentarios','comentarios_user_iduser'], 'post_comentariopk_key');
+			$table->primary(['post_idpost','comentarios_idcomentarios','comentarios_user_iduser'],'post_comentario_user_pk');
 			$table->index(['comentarios_idcomentarios','comentarios_user_iduser'], 'fk_post_has_comentarios_comentarios1_idx');
 		});
 	}

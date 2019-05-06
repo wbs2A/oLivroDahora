@@ -14,8 +14,12 @@ class CreateImagensTable extends Migration {
 	{
 		Schema::create('imagens', function(Blueprint $table)
 		{
-			$table->integer('idimagens',1);
-			$table->string('caminho', 45)->nullable();
+			$table->integer('idimagens', true);
+			$table->string('filename', 100)->nullable();
+			$table->string('mime', 45)->nullable();
+			$table->string('path', 50)->nullable();
+			$table->integer('size')->nullable();
+			$table->dateTime('timestamps')->nullable();
 		});
 	}
 
