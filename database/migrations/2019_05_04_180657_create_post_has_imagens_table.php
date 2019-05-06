@@ -14,11 +14,9 @@ class CreatePostHasImagensTable extends Migration {
 	{
 		Schema::create('post_has_imagens', function(Blueprint $table)
 		{
-			$table->integer('post_idpost');
-			$table->integer('post_categoria_idcategoria');
+			$table->integer('post_idpost')->index('fk_post_has_imagens_post1_idx');
 			$table->integer('imagens_idimagens')->index('fk_post_has_imagens_imagens1_idx');
 			$table->primary(['post_idpost','imagens_idimagens']);
-			$table->index(['post_idpost'], 'fk_post_has_imagens_post1_idx');
 		});
 	}
 
