@@ -9,6 +9,7 @@
     "/js/isotope.pkgd.min.js": "/js/isotope.pkgd.min.js",
     "/js/jquery.ajaxchimp.min.js": "/js/jquery.ajaxchimp.min.js",
     "/js/jquery.magnific-popup.min.js": "/js/jquery.magnific-popup.min.js",
+    "/js/jquery.mask.js": "/js/jquery.mask.js",
     "/js/jquery.nice-select.min.js": "/js/jquery.nice-select.min.js",
     "/js/jquery.sticky.js": "/js/jquery.sticky.js",
     "/js/jquery.tabs.min.js": "/js/jquery.tabs.min.js",
@@ -16,6 +17,7 @@
     "/js/owl-carousel-thumb.min.js": "/js/owl-carousel-thumb.min.js",
     "/js/owl.carousel.min.js": "/js/owl.carousel.min.js",
     "/js/parallax.min.js": "/js/parallax.min.js",
+    "/js/register.js": "/js/register.js",
     "/js/vendor/bootstrap.min.js": "/js/vendor/bootstrap.min.js",
     "/js/vendor/jquery-2.2.4.min.js": "/js/vendor/jquery-2.2.4.min.js"
 }

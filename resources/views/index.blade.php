@@ -75,7 +75,55 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div class="row">
+                    @foreach ($post as $p)
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="single-amenities">
+                                    <div class="amenities-thumb">
+                                        <img
+                                                class="img-fluid w-100"
+                                                src="{{asset("storage/img/blog-post/blog-post1.jpg")}}"
+                                                alt=""
+                                        />
+                                    </div>
+                                    <div class="amenities-details">
+                                        <h5>
+                                            <a href="#"
+                                            >{{ $p->titulo }}
+                                            </a>
+                                        </h5>
+                                        <div class="amenities-meta mb-10">
+                                            <a href="#" class=""
+                                            ><span class="ti-calendar"></span>{{ $p->datapostagem }}</a
+                                            >
+                                            <a href="#" class="ml-20"
+                                            ><span class="ti-comment"></span>{{ $p->comentario }}</a
+                                            >
+                                        </div>
+                                        <p>
+                                            {{ $p->descricao }}
+                                        </p>
+
+                                        <div class="d-flex justify-content-between mt-20">
+                                            <div>
+                                                <a href="#" class="blog-post-btn">
+                                                    Leia mais <span class="ti-arrow-right"></span>
+                                                </a>
+                                            </div>
+                                            <div class="category">
+                                                <a href="#">
+                                                    <span class="ti-folder mr-1"></span> {{ $p->categoria }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    @endforeach
+
+                <!-- <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="single-amenities">
                             <div class="amenities-thumb">
@@ -447,12 +495,12 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             @include("static.postSidebar")
 
-    </div>
+        </div>
     </div>
 </section>
 <!--================ End Blog Post Area =================-->

@@ -15,9 +15,9 @@ class CreatePostTable extends Migration {
 		Schema::create('post', function(Blueprint $table)
 		{
 			$table->integer('idpost',1);
-			$table->string('titulo', 45)->nullable();
+			$table->string('titulo')->nullable();
 			$table->text('conteudo', 65535)->nullable();
-			$table->string('descricao', 45)->nullable();
+			$table->string('descricao')->nullable();
 			$table->dateTime('datapostagem')->nullable();
 			$table->integer('categoria_idcategoria1')->index('fk_post_categoria1_idx1');
 		});

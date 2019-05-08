@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use App\User;
+use App\Model\PessoaFisica;
+use App\Model\Endereco;
+use Validator;
 
 class RegisterController extends Controller
 {
@@ -27,8 +30,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
-
+    protected $redirectTo = '/';
+    protected function redirectTo(){
+        return  route('home');
+    }
+    
     /**
      * Create a new controller instance.
      *
@@ -47,25 +53,56 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+        $validate;
+        $data['telefone']=preg_replace("/[^0-9]/", "", $data['telefone']);
+        $data['cep']=preg_replace("/[^0-9]/", "", $data['cep']);
+        $data['cpf']=preg_replace("/[^0-9]/", "", $data['cpf']);
+        $data['rg']=preg_replace("/[^0-9]/", "", $data['rg']);
+        $validate = Validator::make($data, [
+            'name' => ['required', 'string', 'max:50'],
+            'email' => 'max:45',
+            'telefone'=>'required',
+            'idpessoaFisica' => 'cpf|unique:pessoafisica',
+            'password' => 'min:6|required|confirmed',
+            'password_confirmation' => 'same:password|required_with:password',
+            'email' => 'max:45',
+            'nascimento'=>'required',
+            'sexo'=>'required',
+            'cep'=>'required',
+            'numero'=>'required',
+            'cidade'=>'required',
+            'bairro'=>'required',
+            'rua'=>'required',
+            'estado'=>'required'
         ]);
+        return $validate;
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return User
+     * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
+        $data['telefone']=preg_replace("/[^0-9]/", "", $data['telefone']);
+        $data['cep']=preg_replace("/[^0-9]/", "", $data['cep']);
+        $data['cpf']=preg_replace("/[^0-9]/", "", $data['cpf']);
+        $data['rg']=preg_replace("/[^0-9]/", "", $data['rg']);
+        $tipo = 0;
+        $user=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'telefone'=> $data['telefone'],
+            'tipo' => $tipo,
+            'password' => Hash::make($data['password'])
         ]);
+        $data['user']=$user->iduser;
+        $endereco=Endereco::inserir($data);
+        $data['endereco']=$endereco->idEndereco;
+        $pessoa = PessoaFisica::inserir($data);
+        $data['pessoa']=$pessoa->idpessoaFisica;
+        return $user;
     }
 }

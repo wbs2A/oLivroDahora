@@ -27,5 +27,7 @@ mix.js('resources/js/app.js', 'public/js');
     mix.js("resources/js/main.js", "public/js");
     mix.js("resources/js/owl.carousel.min.js", "public/js");
     mix.js("resources/js/owl-carousel-thumb.min.js", "public/js");
-    mix.js("resources/js/parallax.min.js", "public/js")
+    mix.js("resources/js/parallax.min.js", "public/js");
+    mix.js("resources/js/register.js", "public/js");
+    mix.js("resources/js/jquery.mask.js", "public/js")
    .sass('resources/sass/app.scss', 'public/css');
