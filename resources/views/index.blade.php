@@ -505,4 +505,5 @@
 </section>
 <!--================ End Blog Post Area =================-->
 <script src='js/botwidget.js'></script>
+<script src='js/index.js'></script>
 @stop

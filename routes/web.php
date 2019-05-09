@@ -11,35 +11,33 @@
 |
 */
 Auth::routes();
-Route::get('/', 'HomeController@index')->name('home');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HeaderController@index')->name('home');
+Route::get('/home', 'HeaderController@index')->name('home');
 
 Route::get('/contato', function () {
     return view('contato');
 })->name('contato');
 
-Route::get('/categoria', function () {
-    return view('categoria');
-})->name('categoria');
+Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
 
-Route::post('/busca', 'HomeController@busca')->name('busca');
+Route::post('/busca', 'HeaderController@busca')->name('busca');
 
 Route::group(['middleware'=>["web"]], function (){
-	Route::get('/', 'HomeController@index')->name('home');
-	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/', 'HeaderController@index')->name('home');
+	Route::get('/home', 'HeaderController@index')->name('home');
 
-	Route::post('/busca', 'HomeController@busca')->name('busca');
+	Route::post('/busca', 'HeaderController@busca')->name('busca');
 	
 	Route::get('/contato', function () {
 	    return view('contato');
 	})->name('contato');
-	Route::get('/categoria', function () {
-	    return view('categoria');
-	})->name('categoria');
+	Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
     Route::get('/perfil', 'UserController@index')->name('perfil');
     Route::get('/carrinho', 'UserController@showCarrinho')->name('carrinho');
+
     Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
         Route::get('userInsertCpf/{id}', 'UserController@show');
+        Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
     });
 	 //Rota de logout personalizado
     Route::get('/logout', 'Auth\LoginController@logout');
