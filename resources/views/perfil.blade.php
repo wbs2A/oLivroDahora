@@ -1,15 +1,22 @@
 @extends('master')
 @section('content')
-<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-  <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-  <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-  <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-  <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+<div id="dashboard" class="container-fluid p-0">
+	<div class="row m-1">
+		<ul class="col-2 col-sm-2 col-md-2 p-0 nav flex-column nav-pills" id="pills-tab" role="tablist">
+			<li class="nav-item">
+	            <router-link :to="{name: 'home'}" class="nav-link active" id="pills-home-tab" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true"> Minha Conta</router-link>
+	        </li>
+			<li>
+				<router-link :to="{name:'post'}" class="nav-link" id="pills-post-tab" data-toggle="pill" role="tab" aria-controls="pills-post" aria-selected="true"> Post </router-link>
+			</li>
+		</ul>
+		<div class="col-10 m-0 p-0 tab-pane tab-content" id="pills-tabContent">
+	        <router-view></router-view>
+	    </div>
+		
+	</div>
+	
 </div>
-<div class="tab-content" id="v-pills-tabContent">
-  <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
-  <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-  <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
-  <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
-</div>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
 @stop

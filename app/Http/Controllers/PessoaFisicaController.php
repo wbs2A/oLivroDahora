@@ -112,4 +112,10 @@ class PessoaFisicaController extends Controller
         $user->save();
         return redirect()->route('perfil');
     }
+    public function alteraEndereco(Request $request, $id){
+        $data = $request->all();
+        $data['idEndereco']=$id;
+        $endereco = Endereco::alterar($data);
+        return redirect()->route('perfil');
+    }
 }
