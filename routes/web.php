@@ -41,6 +41,7 @@ Route::group(['middleware'=>["web"]], function (){
     });
 	 //Rota de logout personalizado
     Route::get('/logout', 'Auth\LoginController@logout');
+    Route::get('viewpost/{id}', "PostController@show");
 
 });
 

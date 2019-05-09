@@ -15,9 +15,14 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// import {TinkerComponent} from 'botman-tinker';
-// Vue.component('botman-tinker', TinkerComponent);
-
-// const app = new Vue({
-//     el: '#app'
-// });
+import {TinkerComponent} from 'botman-tinker';
+Vue.component('botman-tinker', TinkerComponent);
+import PostComponent from './components/PostComponent'
+import Post from './components/Post'
+const app = new Vue({
+    el: '#app',
+    components:{
+        'post-component': PostComponent,
+        'post': Post
+    }
+});

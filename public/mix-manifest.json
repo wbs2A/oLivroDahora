@@ -6,6 +6,8 @@
     "/js/bootstrap.js": "/js/bootstrap.js",
     "/js/bootstrap-datepicker.js": "/js/bootstrap-datepicker.js",
     "/js/botwidget.js": "/js/botwidget.js",
+    "/js/categoria.js": "/js/categoria.js",
+    "/js/index.js": "/js/index.js",
     "/js/isotope.pkgd.min.js": "/js/isotope.pkgd.min.js",
     "/js/jquery.ajaxchimp.min.js": "/js/jquery.ajaxchimp.min.js",
     "/js/jquery.magnific-popup.min.js": "/js/jquery.magnific-popup.min.js",

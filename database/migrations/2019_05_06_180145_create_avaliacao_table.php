@@ -17,6 +17,7 @@ class CreateAvaliacaoTable extends Migration {
 			$table->integer('idavaliacao', true);
 			$table->integer('quantidade')->nullable();
 			$table->integer('user_iduser')->unsigned()->index('fk_avaliacao_user1_idx');
+
 		});
 	}
 

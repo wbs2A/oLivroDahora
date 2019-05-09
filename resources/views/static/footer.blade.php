@@ -1,19 +1,18 @@
 <footer class="footer-area section-gap">
-    <div class="container">
+    <div class="container text-white">
         <div class="row">
             <div class="col-lg-3  col-md-6 col-sm-6">
                 <div class="single-footer-widget">
-                    <h6>About Us</h6>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore dolore
-                        magna aliqua.
+                    <h6 style="color: orange;">Sobre nós</h6>
+                    <p class="text-justify">
+                        Temos muito prazer em fazer este site para você! Aproveite. <em style="color: blue;">Valdenize e Wesley</em>
                     </p>
                 </div>
             </div>
             <div class="col-lg-4  col-md-6 col-sm-6">
                 <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>Stay update with our latest</p>
+                    <h6 style="color: orange;">Newsletter</h6>
+                    <p>Matenha-se atualizado sobre os livros mais recentes!</p>
                     <div class="" id="mc_embed_signup">
 
                         <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
@@ -41,7 +40,7 @@
             </div>
             <div class="col-lg-3  col-md-6 col-sm-6">
                 <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">Instragram Feed</h6>
+                    <h6 class="mb-20" style="color: orange;">Instragram Feed</h6>
                     <ul class="instafeed d-flex flex-wrap">
                         <li><img src="{{asset("storage/img/instagram/i1.jpg")}}" alt=""></li>
                         <li><img src="{{asset("storage/img/instagram/i2.jpg")}}" alt=""></li>
@@ -56,8 +55,8 @@
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6">
                 <div class="single-footer-widget">
-                    <h6>Follow Us</h6>
-                    <p>Let us be social</p>
+                    <h6 style="color: orange;">Nos siga em</h6>
+                    <p>Vamos socializar :)</p>
                     <div class="footer-social d-flex align-items-center">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>

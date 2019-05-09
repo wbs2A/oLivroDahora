@@ -26,19 +26,22 @@
 </head>
 <body>
     @include('static.header')
-    @yield('content')
+    <div id="app">
+        @yield('content')
+    </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.sticky.js"></script>
-    <script src="js/jquery.tabs.min.js"></script>
-    <script src="js/parallax.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/bootstrap-datepicker.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/jquery.mask.js"></script>
+    <script src="{{asset("js/owl.carousel.min.js")}}"></script>
+    <script src="{{asset("js/jquery.sticky.js")}}"></script>
+    <script src="{{asset("js/jquery.tabs.min.js")}}"></script>
+    <script src="{{asset("js/parallax.min.js")}}"></script>
+    <script src="{{asset("js/jquery.nice-select.min.js")}}"></script>
+    <script src="{{asset("js/jquery.ajaxchimp.min.js")}}"></script>
+    <script src="{{asset("js/jquery.magnific-popup.min.js")}}"></script>
+    <script src="{{asset("js/bootstrap-datepicker.js")}}"></script>
+    <script src="{{asset("js/main.js")}}"></script>
+    <script src="{{asset("js/app.js")}}"></script>
+    <script src="{{asset("js/jquery.mask.js")}}"></script>
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
@@ -49,8 +52,6 @@
             type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"
     ></script>
-    
-<script src='js/app.js'></script>
     @include('static.footer')
 </body>
 </html>
