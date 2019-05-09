@@ -6,7 +6,8 @@
             </div>
             <div class="card-body">
                 <img
-                        class="img-fluid w-100"
+                        class="img-fluid w-80"
+                        style="display: block;  margin-left: auto;  margin-right: auto;"
                         :src="'/'+model[0]['path']+model[0]['filename']"
                         alt=""
                 />

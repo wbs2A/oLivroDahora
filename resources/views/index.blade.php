@@ -4,10 +4,12 @@
 <section class="blog-post-area relative">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8" style="padding-top: 15px;">
                 <div class="row">
                     @foreach ($post as $p)
-                        <post-component :model="{{$p}}"></post-component>
+                        <div class="col-lg-6 col-md-6">
+                            <post-component :model="{{$p}}"></post-component>
+                        </div>
                     @endforeach
                 </div>
             </div>

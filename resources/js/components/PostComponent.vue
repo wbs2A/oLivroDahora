@@ -1,7 +1,8 @@
 <template>
-<div class="col-lg-6 col-md-6">
+<div>
     <div class="single-amenities">
         <div class="amenities-thumb">
+
             <img
              class="img-fluid w-100"
              :src="model['path']+model['filename']"
