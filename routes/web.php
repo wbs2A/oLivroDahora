@@ -38,13 +38,20 @@ Route::group(['middleware'=>["web"]], function (){
     Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
         Route::get('userInsertCpf/{id}', 'UserController@show');
         Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
+        Route::get('/getIdFisica', 'UserController@getIdPessoa');
+        Route::get('/getPFisica/{cpf}', 'PessoaFisicaController@show');
+        Route::post('/updateDadosPessoaisPessoaFisica/{cpf}', 'PessoaFisicaController@updateDados');
+        Route::post('/updateDadosPessoaisEndereco/{id}','PessoaFisicaController@alteraEndereco');
+        Route::post('/updateDadosPessoaisUser/{id}', 'UserController@alteraEmailSenha');
     });
 	 //Rota de logout personalizado
     Route::get('/logout', 'Auth\LoginController@logout');
     Route::get('viewpost/{id}', "PostController@show");
 
 });
-
-
+Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
+    Route::get('userInsertCpf/{id}', 'UserController@show');
+    Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
+});
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');

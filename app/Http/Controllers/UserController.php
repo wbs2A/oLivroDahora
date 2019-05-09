@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Model\PessoaFisica;
-use App\Model\Endereco;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
@@ -97,11 +96,9 @@ class UserController extends Controller
     public function getTipo(){
         return Auth::user()->tipo;
     }
-    public function alteraEndereco(Request $request, $id){
-        $data = $request->all();
-        $data['idEndereco']=$id;
-        $endereco = Endereco::alterar($data);
-        return redirect()->route('perfil');
+    public function getIdPessoa(){
+        $user = PessoaFisica::where('user_iduser', '=', Auth::user()->iduser)->first();
+        return $user['idpessoaFisica'];
     }
     public function alteraEmailSenha(Request $request, $id){
         $data = $request->all();
