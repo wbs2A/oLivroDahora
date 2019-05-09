@@ -1,5 +1,6 @@
 <!-- Start Blog Post Siddebar -->
 <div class="col-lg-4 sidebar-widgets">
+
     <div class="widget-wrap">
         <div class="single-sidebar-widget search-widget">
             <h3 class="text-center">Anuncie aqui!</h3>
@@ -112,50 +113,38 @@
                         <p>Mate Winston | Dec 15</p>
                     </div>
                 </div>
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="img-fluid" src="{{asset("storage/img/blog/pp4.jpg")}}" alt="">
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Home improvement advice every
-                                homeowner needs to know</h6>
-                        </a>
-                        <p>Mate Winston | Dec 15</p>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <div class="single-sidebar-widget newsletter-widget">
-            <h4 class="newsletter-title">Newsletter</h4>
-            <div class="form-group mt-30">
-                <div class="col-autos">
-                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"
-                           onblur="this.placeholder = 'Enter email'">
-                </div>
-            </div>
-            <button class="bbtns d-block mt-20 w-100">Inscreva-se</button>
-        </div>
+        {{--<div class="single-sidebar-widget newsletter-widget">--}}
+            {{--<h4 class="newsletter-title">Newsletter</h4>--}}
+            {{--<div class="form-group mt-30">--}}
+                {{--<div class="col-autos">--}}
+                    {{--<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"--}}
+                           {{--onblur="this.placeholder = 'Enter email'">--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<button class="bbtns d-block mt-20 w-100">Inscreva-se</button>--}}
+        {{--</div>--}}
 
-        <div class="single-sidebar-widget share-widget">
-            <h4 class="share-title">Compartilhe nosso site</h4>
-            <div class="social-icons mt-20">
-                <a href="#">
-                    <span class="ti-facebook"></span>
-                </a>
-                <a href="#">
-                    <span class="ti-twitter"></span>
-                </a>
-                <a href="#">
-                    <span class="ti-pinterest"></span>
-                </a>
-                <a href="#">
-                    <span class="ti-instagram"></span>
-                </a>
-            </div>
-        </div>
-    </div>
+        {{--<div class="single-sidebar-widget share-widget">--}}
+            {{--<h4 class="share-title">Compartilhe nosso site</h4>--}}
+            {{--<div class="social-icons mt-20">--}}
+                {{--<a href="#">--}}
+                    {{--<span class="ti-facebook"></span>--}}
+                {{--</a>--}}
+                {{--<a href="#">--}}
+                    {{--<span class="ti-twitter"></span>--}}
+                {{--</a>--}}
+                {{--<a href="#">--}}
+                    {{--<span class="ti-pinterest"></span>--}}
+                {{--</a>--}}
+                {{--<a href="#">--}}
+                    {{--<span class="ti-instagram"></span>--}}
+                {{--</a>--}}
+            {{--</div>--}}
+        {{--</div>--}}
+
 </div>
 </div>
 <!-- End Blog Post Siddebar -->
