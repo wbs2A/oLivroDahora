@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Model\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Auth;
 
 class PostController extends Controller
 {
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin/createPost');
     }
 
     /**
@@ -35,7 +37,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>$request->categoria]);
+        DB::table('user_has_post')->insert(['user_iduser'=>\Illuminate\Support\Facades\Auth::user()->iduser, 'post_idpost'=>$id]);
+        return redirect()->to('/perfil');
     }
 
     /**
@@ -56,9 +60,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($id, Post $post)
     {
-        //
+        $post = Post::getPostById($id);
+        return view('createpost', ['post'=>$post]);
     }
 
     /**
@@ -79,8 +84,14 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id,Post $post)
     {
-        //
+        Post::find($id)->delete();
+        return redirect()->to('/perfil');
     }
+
+    public function getPostByUser(){
+        return Post::getPostByUserId(\Illuminate\Support\Facades\Auth::user()->iduser);
+    }
+
 }

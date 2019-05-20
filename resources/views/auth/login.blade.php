@@ -37,23 +37,23 @@
 
                         <div class="form-group row justify-content-center m-0 p-0">
                             <div class="col-auto form-check align-self-center">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Lembrar-me') }}
-                                    </label>
+                                <label class="form-check-label" for="remember">
+                                    {{ __('Lembrar-me') }}
+                                </label>
                             </div>
                             @if (Route::has('request'))
                                 <div class="col-auto">
-                                        <a class="btn col-auto btn-link" href="{{ route('password.request') }}" style="color: #252525;">{{ __('Esqueceu sua senha?') }}</a>
+                                    <a class="btn col-auto btn-link" href="{{ route('password.request') }}" style="color: #252525;">{{ __('Esqueceu sua senha?') }}</a>
                                 </div>
                             @endif
                         </div>
 
                         <div class="form-group row mb-0 justify-content-center">
-                                <button type="submit" class="col-auto m-4 btn btn-secondary" role="button">
-                                    {{ __('Login') }}
-                                </button>
+                            <button type="submit" class="col-auto m-4 btn btn-secondary" role="button">
+                                {{ __('Login') }}
+                            </button>
                         </div>
                     </form>
                 </div>

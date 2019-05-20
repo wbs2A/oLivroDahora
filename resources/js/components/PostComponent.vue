@@ -27,7 +27,7 @@
             </p>
 
             <div class="d-flex justify-content-between mt-20">
-                <div>
+                <div v-if="!edit">
                     <a :href="'/viewpost/'+model['idpost']" class="blog-post-btn">
                         Leia mais <span class="ti-arrow-right"></span>
                     </a>
@@ -46,7 +46,7 @@
 <script>
     export default {
         name: "PostComponent",
-        props:['data','idpost','descricao', 'titulo', 'categoria','model']
+        props:['edit','idpost','descricao', 'titulo', 'categoria','model'],
     }
 </script>
 
