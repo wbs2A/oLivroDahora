@@ -2,10 +2,9 @@
 <div>
     <div class="single-amenities">
         <div class="amenities-thumb">
-
-            <img
+            <img v-if="model.imagens.length"
              class="img-fluid w-100"
-             :src="model['path']+model['filename']"
+            :src="model['imagens'][0]['path']+model['imagens'][0]['filename']"
             alt=""
             />
         </div>
@@ -20,7 +19,7 @@
                 ><span class="ti-calendar"></span>{{model['datapostagem']}}</a
                 >
                 <a href="#" class="ml-20"
-                ><span class="ti-comment"></span>{{model['comentario']}}</a
+                ><span class="ti-comment"></span>{{model['comentarios_count']}}</a
                 >
             </div>
             <p>
@@ -35,7 +34,7 @@
                 </div>
                 <div class="category">
                     <a href="#">
-                        <span class="ti-folder mr-1"></span> {{model['categoria']}}
+                        <span class="ti-folder mr-1"></span> {{model['categoria']['nome']}}
                     </a>
                 </div>
             </div>
@@ -47,8 +46,7 @@
 <script>
     export default {
         name: "PostComponent",
-        props:['data','idpost','descricao', 'titulo', 'categoria','model'],
-
+        props:['data','idpost','descricao', 'titulo', 'categoria','model']
     }
 </script>
 

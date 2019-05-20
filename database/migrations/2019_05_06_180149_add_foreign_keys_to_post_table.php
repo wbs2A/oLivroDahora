@@ -14,7 +14,7 @@ class AddForeignKeysToPostTable extends Migration {
 	{
 		Schema::table('post', function(Blueprint $table)
 		{
-			$table->foreign('categoria_idcategoria1', 'fk_post_categoria1')->references('idcategoria')->on('categoria')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('categoria_idcategoria', 'fk_post_categoria')->references('idcategoria')->on('categoria')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}
 
@@ -28,7 +28,7 @@ class AddForeignKeysToPostTable extends Migration {
 	{
 		Schema::table('post', function(Blueprint $table)
 		{
-			$table->dropForeign('fk_post_categoria1');
+			$table->dropForeign('fk_post_categoria');
 		});
 	}
 

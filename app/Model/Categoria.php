@@ -10,4 +10,8 @@ class Categoria extends Model
 	protected $primaryKey = 'idcategoria';
 	public $timestamps = false;
 
+	public function post()
+    {
+        return $this->hasOne(\App\Model\Post::class, 'categoria_idcategoria');
+    }
 }
