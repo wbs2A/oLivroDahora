@@ -17,9 +17,9 @@ class CreateComentariosTable extends Migration {
 			$table->integer('idcomentarios', true);
 			$table->text('texto', 65535)->nullable();
 			$table->integer('user_iduser')->unsigned()->index('fk_comentarios_user1_idx');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
-            $table->timestamp('deleted_at');
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
 		});
 	}

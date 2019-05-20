@@ -19,7 +19,8 @@ class CreatePostTable extends Migration {
 			$table->text('conteudo', 65535)->nullable();
 			$table->string('descricao')->nullable();
 			$table->dateTime('datapostagem')->nullable();
-			$table->integer('categoria_idcategoria1')->index('fk_post_categoria1_idx1');
+			$table->integer('categoria_idcategoria')->index('fk_post_categoria1_idx1');
+
 		});
 	}
 

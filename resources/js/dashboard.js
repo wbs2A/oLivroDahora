@@ -10,6 +10,7 @@ import Home from './components/home'
 import moment from 'moment';
 import Vue2Filters from 'vue2-filters'
 import VeeValidate from 'vee-validate' 
+import PostManager from './components/PostManager'
 
 Vue.use(Vue2Filters);
 Vue.use(VeeValidate);
@@ -58,7 +59,7 @@ const router = new VueRouter({
         {
             path: window.location.pathname+'/post',
             name: 'post',
-            // component: ,
+             component: PostManager,
         }
         // {
         //     path: window.location.pathname+'/comments',

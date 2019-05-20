@@ -67,4 +67,16 @@ class Post extends Model
             ->groupBy('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
             ->get();
     }
+
+    public  static function getPostByUserId($userid){
+        return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
+            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_has_comentarios.post_idpost')
+            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
+            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
+            ->rightJoin('user_has_post','post.idpost', '=', 'user_has_post.post_idpost')
+            ->where('user_has_post.user_iduser', '=', $userid)
+            ->select('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
+            ->groupBy('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
+            ->get();
+    }
 }

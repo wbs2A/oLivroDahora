@@ -16,7 +16,7 @@ class CreateUserTable extends Migration {
 		{
 			$table->integer('iduser',1)->unsigned();
 			$table->string('name', 50)->nullable();
-			$table->string('email', 45)->nullable();
+			$table->string('email', 45)->unique();
 			$table->string('telefone', 45)->nullable();
 			$table->boolean('tipo')->nullable();
             $table->timestamp('email_verified_at')->nullable();

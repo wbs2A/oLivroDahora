@@ -5,14 +5,14 @@
                     class="header-top d-flex justify-content-between align-items-lg-center navbar-expand-lg"
             >
                 <div class="col menu-left">
-                    <a class="active" href="{{ route('home') }}">Home</a>
+                    <a class="active" href="/">Home</a>
                     <a href="{{ route('categoria') }}">Categoria</a>
                     <a href="{{ route('contato') }}">Contato</a>
                 </div>
                 <div class="col-5 text-lg-center mt-2 mt-lg-0">
               <span class="logo-outer">
                 <span class="logo-inner">
-                  <a href="index.html"
+                  <a href="/"
                   ><img class="mx-auto" src="{{asset("storage/img/logo.png")}}" alt=""
                       /></a>
                 </span>
@@ -54,7 +54,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-my-menu" aria-labelledby="navbarDropdown">
                                         @if(Auth::check())
-                                            <a class="row" href="{{route('perfil')}}">{{ Auth::user()->name }}</a>
+                                            <a class="row" href="{{route('dashboard')}}">{{ Auth::user()->name }}</a>
                                                 <hr class="half-rule"/>
                                             <a class="row" href="{{route('logout')}}"><i class="fas fa-walking"></i>Sair</a>
 

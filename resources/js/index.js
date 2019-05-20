@@ -19,10 +19,18 @@ import {TinkerComponent} from 'botman-tinker';
 Vue.component('botman-tinker', TinkerComponent);
 import PostComponent from './components/PostComponent'
 import Post from './components/Post'
+import UploadFiles from './components/UploadFiles'
+import CreatePost from './components/CreatePost'
+import EditPost from './components/EditPost'
+
+
 const app = new Vue({
     el: '#app',
     components:{
         'post-component': PostComponent,
-        'post': Post
+        'post': Post,
+        'upload-files': UploadFiles,
+        'edit-post':EditPost,
+        'create-post':CreatePost
     }
 });

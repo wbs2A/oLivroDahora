@@ -68,9 +68,9 @@ class LoginController extends Controller
     public function logout(Request $request){
         // session()->remove('user');
         Auth::logout();
-        return redirect('home');
+        return redirect('/');
     }
     protected function redirectTo(){
-        return  route('home');
+        return  route('/');
     }
 }
