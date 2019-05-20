@@ -68,3 +68,4 @@ class Post extends Model
     {
         return $this->belongsToMany(\App\User::class, 'user_has_post', 'post_idpost','user_iduser');
     }
+}
