@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\Friend;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,4 +38,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function friendsOfMine(){
+        return $this->belongsToMany('\App\Model\Friend', 'friends', 'user_id', 'friend_id');
+    }
+
+
+    public function friendsOf(){
+        return $this->belongsToMany('\App\User', 'friends', 'friend_id', 'user_id');
+    }
+
+    public function friends(){
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'id');// $this->friendsOfMine();//->merge($this->friendsOf());
+    }
 }

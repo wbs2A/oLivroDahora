@@ -70,5 +70,11 @@ Auth::routes();
 Route::group(['prefix'=>'admin/', 'middleware'=>'auth'], function(){
     Route::get('home', 'HomeController@index')->name('dashboard');
     Route::get('createpost',['uses'=>'PostController@create']);
+    Route::get('/chat', 'ChatController@index')->middleware('auth');
+    Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
+
 });
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    '\vendor\uniSharp\LaravelFilemanager\Lfm::routes()';
+});
