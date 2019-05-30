@@ -28,9 +28,8 @@ class HeaderController extends Controller
     public function index(Request $request)
     {
         $post;
-        if (!(empty( $request->session()->get('request')))) {
-            $data = $request->session()->get('request');
-            $request->session()->forget('request');
+        if (!(empty($request->all()))) {
+            $data = $request->all();
             $post= Post::buscaPostAll($data);
         }else{
             $post= Post::categoriaPosts();
@@ -42,7 +41,10 @@ class HeaderController extends Controller
         return redirect()->action("HeaderController@index");
     }
     public function getcategoriaPost(Request $request){
-        return Post::categoriaPosts($request->all()['categoria']);
+        if (isset($request->all()['categoria'])) {
+            return response()->json(Post::categoriaPosts($request->all()['categoria'])) ;
+        }
+        return response()->json(Post::categoriaPosts()) ;
     }
     public function categoria() {
         $categoria = Categoria::all();

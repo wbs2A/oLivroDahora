@@ -28,7 +28,7 @@ class AddForeignKeysToPostTable extends Migration {
 	{
 		Schema::table('post', function(Blueprint $table)
 		{
-			$table->dropForeign('fk_post_categoria1');
+			$table->dropForeign('fk_post_categoria');
 		});
 	}
 

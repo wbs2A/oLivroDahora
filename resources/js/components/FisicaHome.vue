@@ -168,10 +168,12 @@
                         <div class="modal-body">
                             <form method="post" :action="'api/updateDadosPessoaisUser/'+user.user_info.iduser" id="formUser">
                                 <input type="hidden" name="_token" :value="csrf">
-                                <div class="form-group input-group">
-                                    <div class="col">
-                                        <label for="email"> E-mail</label>
-                                        <input type="email" class="form-control text-body" id="email" name="email" v-model="user.user_info.email" required/>
+                                <div class="form-group input-group col">
+                                    <div class="input-fields row">
+                                        <div class="form-group col">
+                                            <label for="email"> E-mail</label>
+                                            <input type="email" class="form-control text-body" id="email" name="email" v-model="user.user_info.email" required/>
+                                        </div>
                                     </div>
 
                                     <div class="input-fields row">

@@ -5,10 +5,10 @@
                 <h1>{{model[0]['titulo']}}</h1>
             </div>
             <div class="card-body">
-                <img
+                <img v-if="model[0]['imagens']['length']"
                         class="img-fluid w-80"
                         style="display: block;  margin-left: auto;  margin-right: auto;"
-                        :src="'/'+model[0]['path']+model[0]['filename']"
+                        :src="'/'+model[0]['imagens'][0]['path']+model[0]['imagens'][0]['filename']"
                         alt=""
                 />
                 <h3>{{model[0]['descricao']}}</h3>

@@ -26,57 +26,46 @@ class Post extends Model
      */
     public $timestamps = false;
     public static function buscaPostAll($data){
-        return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
-            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_idpost')
-            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
-            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
-            ->where('post.titulo', 'like', '%'.$data['busca'].'%')
+        return Post::where('post.titulo', 'like', '%'.$data['busca'].'%')
             ->orWhere('post.descricao', 'like', '%'.$data['busca'].'%')
             ->orWhere('post.conteudo', 'like', '%'.$data['busca'].'%')
-            ->select('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
-            ->groupBy('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
-            ->get();
+            ->with(['comentarios','imagens','categoria'])->withCount('comentarios')
+                ->paginate(1);
     }
     public static function categoriaPosts($categoria=null){
         if ($categoria == null) {
-            return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
-            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_has_comentarios.post_idpost')
-            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
-            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
-            ->select('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
-            ->groupBy('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
-            ->get();    
+            return Post::with(['comentarios','imagens','categoria'])->withCount('comentarios')
+                ->paginate(1);
         }
-        return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
-            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_has_comentarios.post_idpost')
-            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
-            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
-            ->where('categoria.idcategoria', '=', $categoria)
-            ->select('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
-            ->groupBy('post.titulo','post.descricao','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
-            ->get();
+        return Post::where('post.categoria_idcategoria', '=', $categoria)->with(['comentarios','imagens','categoria'])->withCount('comentarios')->paginate(1);
     }
 
     public static function getPostById($id){
-        return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
-            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_has_comentarios.post_idpost')
-            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
-            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
-            ->where('post.idpost', '=', $id)
-            ->select('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
-            ->groupBy('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
+        return Post::where('post.idpost', '=', $id)
+            ->with(['comentarios','imagens','categoria'])->withCount('comentarios')
             ->get();
     }
 
-    public  static function getPostByUserId($userid){
-        return Post::join('categoria', 'post.categoria_idcategoria', '=', 'categoria.idcategoria')
-            ->leftJoin('post_has_comentarios', 'post.idpost', '=', 'post_has_comentarios.post_idpost')
-            ->leftJoin('post_has_imagens', 'post.idpost', '=', 'post_has_imagens.post_idpost')
-            ->leftJoin('imagens', 'imagens.idimagens', '=', 'imagens_idimagens')
-            ->rightJoin('user_has_post','post.idpost', '=', 'user_has_post.post_idpost')
-            ->where('user_has_post.user_iduser', '=', $userid)
-            ->select('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria.nome as categoria','imagens.filename','imagens.mime','imagens.path','imagens.size', DB::raw('count(post_has_comentarios.post_idpost) as comentario'))
-            ->groupBy('post.titulo','post.descricao','post.conteudo','post.datapostagem','post.idpost','post.titulo', 'categoria','imagens.filename','imagens.mime','imagens.path','imagens.size')
-            ->get();
+    public function categoria()
+    {
+        return $this->belongsTo(\App\Model\Categoria::class, 'categoria_idcategoria');
+    }
+    public function comentarios()
+    {
+        return $this->belongsToMany(\App\Model\Comentarios::class, 'post_has_comentarios','post_idpost', 'comentarios_idcomentarios');
+    }
+
+    public function imagens()
+    {
+        return $this->belongsToMany(\App\Model\Imagens::class, 'post_has_imagens', 'post_idpost','imagens_idimagens');
+    }
+
+    public function avaliacoes()
+    {
+        return $this->belongsToMany(\App\Model\Avaliacao::class, 'post_has_avaliacao', 'post_idpost','avaliacao_idavaliacao');
+    }
+    public function users()
+    {
+        return $this->belongsToMany(\App\User::class, 'user_has_post', 'post_idpost','user_iduser');
     }
 }

@@ -18,7 +18,8 @@ mix.js('resources/js/app.js', 'public/js');
     mix.js("resources/js/vendor/jquery-2.2.4.min.js", "public/js/vendor");
     mix.js("resources/js/bootstrap-datepicker.js", "public/js");
     mix.js("resources/js/isotope.pkgd.min.js", "public/js");
-    mix.js("resources/js/botwidget.js", "public/js").sass("resources/sass/chat.min.scss", 'public/css');
+    mix.js("resources/js/botwidget.js", "public/js")
+    .sass("resources/sass/chat.min.scss", 'public/css');
     mix.js("resources/js/jquery.ajaxchimp.min.js", "public/js");
     mix.js("resources/js/jquery.magnific-popup.min.js", "public/js");
     mix.js("resources/js/jquery.nice-select.min.js", "public/js");

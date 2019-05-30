@@ -10,37 +10,49 @@
 				    </div>
 			</div>
 		</div>
-	<div class="col-8 col-sm-8 col-md-8  p-0">
-		<div class="row">
-            <div class="col-lg-6 col-md-6" v-for="p in datapost">
-				<post-component :model="p"></post-component>
-
+    	<div class="col-8 col-sm-8 col-md-8  p-0">
+    		<div class="row">
+                <div class="col-lg-6 col-md-6">
+    				  <post-component :model="datapost.data"></post-component>
+                </div>
             </div>
-        </div>
-	</div>
-</div>
+    	</div>
+    </div>
 </template>
 <script>
 import Categoria from '../components/categoria';
-import PòstComponent from '../components/PostComponent'
+import PostComponent from '../components/PostComponent';
+// import Pagination from 'laravel-vue-pagination';
 export default {
 	props:['mycategoria','mypost'],
 	components: {
 		categoria: Categoria,
-		'post-component':PòstComponent
-   	},
-   	data() {
+		'post-component':PostComponent
+    },
+    data() {
    		return{
    			dataCategoria: null,
    			datapost:null,
-   			teste:null
+   			teste:null,
+            csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
    		}
    	},
    	created(){
    		this.dataCategoria= this.mycategoria;
    		this.datapost= this.mypost;
    	},
+      mounted() {
+        // Fetch initial results
+        this.getResults();
+      },
    	methods:{
+         // Our method to GET results from a Laravel endpoint
+         getResults(page = 1) {
+            axios.get(window.location.pathname+'?page=' + page)
+               .then(response => {
+                  this.datapost = response.data;
+               });
+         },
    		setCategoria(categoria){
    			this.teste=categoria;
    			axios.post('api/getcategoriaPost/', {
