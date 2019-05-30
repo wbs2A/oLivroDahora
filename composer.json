@@ -20,10 +20,13 @@
         "geekcom/validator-docs": "^1.5",
         "jeroennoten/laravel-adminlte": "^1.25",
         "kreait/firebase-php": "4.0",
+        "laravel-frontend-presets/bulma": "^2.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
         "reliese/laravel": "^0.0.13",
-        "unisharp/laravel-filemanager": "^1.9"
+        "unisharp/laravel-filemanager": "^1.9",
+        "pusher/pusher-php-server": "~3.0",
+        "reliese/laravel": "^0.0.13",
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

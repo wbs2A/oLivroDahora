@@ -110,8 +110,9 @@ return [
     'menu' => [
         'Navegação Principal',
         [
-            'text' => 'Blog',
-            'url'  => '/',
+            'text' => 'Início',
+            'url' => '/admin/home',
+            'icon' => 'home'
         ],
         [
             'text'        => 'Novo Post',
@@ -186,6 +187,11 @@ return [
         [
             'text'       => 'Information',
             'icon_color' => 'aqua',
+        ],
+
+        [
+            'text' => 'Ir para o Blog',
+            'url'  => '/',
         ],
     ],
 
