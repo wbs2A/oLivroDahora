@@ -25,6 +25,7 @@ class Post extends Model
      * @var bool
      */
     public $timestamps = false;
+    
     public static function buscaPostAll($data){
         return Post::where('post.titulo', 'like', '%'.$data['busca'].'%')
             ->orWhere('post.descricao', 'like', '%'.$data['busca'].'%')

@@ -6,6 +6,7 @@ use App\Model\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Auth;
+use App\User;   
 
 class PostController extends Controller
 {
@@ -51,7 +52,12 @@ class PostController extends Controller
     public function show($id, Post $post)
     {
         $post = Post::getPostById($id);
-        return view('viewpost',['post'=>$post]);
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            return view('viewpost',['post'=>$post, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first()]);
+        }else{
+            return view('viewpost',['post'=>$post]);
+        }
+        
     }
 
     /**

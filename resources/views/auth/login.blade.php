@@ -43,11 +43,13 @@
                                     {{ __('Lembrar-me') }}
                                 </label>
                             </div>
-                            @if (Route::has('request'))
+                            @if (Route::has('password.request'))
+                                
                                 <div class="col-auto">
                                     <a class="btn col-auto btn-link" href="{{ route('password.request') }}" style="color: #252525;">{{ __('Esqueceu sua senha?') }}</a>
                                 </div>
                             @endif
+                            
                         </div>
 
                         <div class="form-group row mb-0 justify-content-center">

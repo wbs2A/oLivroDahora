@@ -19,8 +19,18 @@ class Imagens extends Model
      */
     protected $primaryKey = 'idimagens';
 
+    protected $fillable = ['filename', 'mime', 'path', 'size'];
+    public $timestamps = false;
     public function posts()
     {
         return $this->belongsToMany(\App\Model\Post::class, 'post_has_imagens', 'imagens_idimagens','post_idpost');
+    }
+    public function pessoaFisica()
+    {
+        return $this->belongsTo(\App\Model\PessoaFisica::class, 'imagens_idimagens','idimagens');
+    }
+    public function comentario()
+    {
+        return $this->belongsTo(\App\Model\Comentarios::class, 'imagens_idimagens','idimagens');
     }
 }

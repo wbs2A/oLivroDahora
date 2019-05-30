@@ -29,8 +29,8 @@ axios.defaults.headers.common = {
 };
 
 
-const app = new Vue({
-    el: '#app',
+const index = new Vue({
+    el: '#index',
     props:['tes'],
     components:{
         'post-component': PostComponent,
@@ -41,7 +41,7 @@ const app = new Vue({
         'create-post':CreatePost
     },
     data: {
-   		teste:null,
+      teste:null,
         posts: {
             total: 0,
             per_page: 2,
@@ -51,35 +51,36 @@ const app = new Vue({
         },
         mypost:null,
         offset: 4,
-   	},
-    mounted() {
-    	if (!this.mypost) {
-        	this.getPosts();
-    	}else{
-    		this.posts=this.mypost;
-    	}
     },
-   	methods:{
-   		setCategoria: function (categoria){
-   			console.log(categoria);
-   			this.teste=categoria;
-   			axios.post('api/getcategoriaPost/', {
-   				categoria : categoria
-   			}).then(
-   				 res => {
-   					console.log(this.teste);
-   				 	this.posts = res.data;
-   				 	console.log(res.data);
-   				 },
-   				 (error) => {
-   				 	console.log(error);
-   				 });
-   		},
+    mounted() {
+      console.log(this.tes);
+      if (!this.mypost) {
+          this.getPosts();
+      }else{
+        this.posts=this.mypost;
+      }
+    },
+    methods:{
+      setCategoria: function (categoria){
+        console.log(categoria);
+        this.teste=categoria;
+        axios.post('api/getcategoriaPost/', {
+          categoria : categoria
+        }).then(
+           res => {
+            console.log(this.teste);
+            this.posts = res.data;
+            console.log(res.data);
+           },
+           (error) => {
+            console.log(error);
+           });
+      },
         getPosts(page) {
-        	console.log(`/api/getcategoriaPost?page=${page}`);
+          console.log(`/api/getcategoriaPost?page=${page}`);
             axios.get(`/api/getcategoriaPost?page=${page}`)
                 .then((response) => {
-                	console.log(response.data);
+                  console.log(response.data);
                     this.posts = response.data;
                 })
                 .catch(() => {
@@ -89,7 +90,7 @@ const app = new Vue({
         setPosts(posts) {
             this.mypost=posts;
         }
-   	}
+    }
 
 
 });

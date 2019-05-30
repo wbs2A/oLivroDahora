@@ -15,6 +15,7 @@ class AddForeignKeysToComentariosTable extends Migration {
 		Schema::table('comentarios', function(Blueprint $table)
 		{
 			$table->foreign('user_iduser', 'fk_comentarios_user1')->references('iduser')->on('user')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('imagens_idimagens', 'fk_comentarios_imagens1')->references('idimagens')->on('imagens')->onUpdate('NO ACTION')->onDelete('NO ACTION');
 		});
 	}
 

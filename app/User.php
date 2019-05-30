@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
     
@@ -44,5 +44,9 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->belongsToMany(\App\Model\Post::class, 'user_has_post', 'user_iduser','post_idpost');
+    }
+    public function pessoaFisica()
+    {
+        return $this->hasOne(\App\Model\PessoaFisica::class, 'user_iduser');
     }
 }

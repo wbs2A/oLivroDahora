@@ -12,6 +12,12 @@
 
                             @csrf
                             <div class="form-group row">
+                                <div class="m-2">
+                                    <update-imagem ref="modal" :legenda="'Add foto'"v-on:submit="setImagem" :cla="'fa fa-user'" :size="'90'" :url="'/api/register/imagem'"></update-imagem> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                
                                 <div class="col-5">
                                     <label for="name" class="col-form-label text-md-right">Nome Completo</label>
                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
@@ -23,7 +29,7 @@
                                     @endif
                                 </div>
 
-                                <div class="col-4">
+                                <div class="col-3">
                                     <label for="email" class="col-form-label text-md-right">E-Mail</label>
                                     <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required placeholder="teste@teste.com">
 
@@ -34,7 +40,7 @@
                                     @endif
                                 </div>
 
-                                <div class="col-3">
+                                <div class="col-2">
                                     <label for="telefone" class="col-form-label text-md-right">Telefone</label>
                                     <input id="telefone" type="tel" data-mask="(000) 0000-0000" class="form-control{{ $errors->has('telefone') ? ' is-invalid' : '' }}" value="{{ old('telefone') }}" name="telefone" placeholder="(000) 0000-0000" required>
                                     <small id="telefoneHelp" class="form-text text-muted">Por favor, como ddd do seu estado. Apenas numeros.</small>

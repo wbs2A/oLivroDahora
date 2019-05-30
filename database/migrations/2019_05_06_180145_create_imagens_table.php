@@ -19,7 +19,6 @@ class CreateImagensTable extends Migration {
 			$table->string('mime', 45)->nullable();
 			$table->string('path', 50)->nullable();
 			$table->integer('size')->nullable();
-			$table->dateTime('timestamps')->nullable();
 		});
 	}
 

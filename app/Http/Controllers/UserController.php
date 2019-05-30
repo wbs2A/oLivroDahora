@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use App\User;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
+use App\Model\Imagens;
 
 class UserController extends Controller
 {
@@ -96,6 +100,13 @@ class UserController extends Controller
     public function getTipo(){
         return Auth::user()->tipo;
     }
+    public function getUserLogado(){
+        if (Auth::check()) {
+            return User::where('iduser',Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first();
+        }else{
+            return null;        
+        }
+    }
     public function getIdPessoa(){
         $user = PessoaFisica::where('user_iduser', '=', Auth::user()->iduser)->first();
         return $user['idpessoaFisica'];
@@ -118,5 +129,39 @@ class UserController extends Controller
     }
     public function showCarrinho(){
         return view('carrinho');
+    }
+    public function postimagem(Request $request){
+        $this->validate($request, [
+//            'file' => 'image|max:3000'
+        ]);
+        $file = Input::file('file');
+        // $filename = $file->getClientOriginalName();
+        $path = Storage::disk('public')->putFile('', $request->file('file'));
+        if($path) {
+            $input['filename'] = $path;
+            $input['mime'] = $file->getClientMimeType();
+            $input['path'] = storage_path();
+            $input['size'] = $file->getClientSize();
+            $file = Imagens::create($input);
+            return response()->json([
+                'success' => true,
+                'id' => $file->idimagens
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
+    }
+    public function deleteImagem($id){
+        $imagem=Imagens::where('idimagens',$id)->first();
+        if(Storage::disk('public')->delete($imagem->filename)) {
+            Imagens::where('idimagens',$id)->delete();
+            return response()->json([
+                'success' => true
+            ], 200);
+        }
+        return response()->json([
+            'success' => false
+        ], 500);
     }
 }
