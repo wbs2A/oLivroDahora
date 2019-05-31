@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(['verify' => true]);
+Auth::routes();
 
 Route::get('/', 'HeaderController@index')->name('home');
 Route::get('/home', function (){
@@ -24,15 +24,15 @@ Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
 
 Route::post('/busca', 'HeaderController@busca')->name('busca');
 
-Route::group(['middleware'=>["web","verified"]], function (){
+Route::group(['middleware'=>["web"]], function (){
 
 	Route::post('/busca', 'HeaderController@index')->name('busca');
-	
+
 	Route::get('/contato', function () {
 	    return view('contato');
 	})->name('contato');
 	Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
-    
+
     Route::get('/carrinho', 'UserController@showCarrinho')->name('carrinho');
 
     Route::get('/createpost', 'PostController@create');
@@ -44,7 +44,7 @@ Route::group(['middleware'=>["web","verified"]], function (){
     Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
         Route::get('userInsertCpf/{id}', 'UserController@show');
         Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
-        Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');  
+        Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');
         Route::get('/getIdFisica', 'UserController@getIdPessoa');
         Route::get('/getPFisica/{cpf}', 'PessoaFisicaController@show');
         Route::post('/updateDadosPessoaisPessoaFisica/{cpf}', 'PessoaFisicaController@updateDados');
@@ -53,11 +53,11 @@ Route::group(['middleware'=>["web","verified"]], function (){
         Route::post('insertPost/', 'PostController@store')->name('submit');
         Route::get('getPostUser/', 'PostController@getPostByUser');
     });
+	 //Rota de logout personalizado
+    Route::get('/logout', 'Auth\LoginController@logout');
     Route::get('viewpost/{id}', "PostController@show");
 
 });
-	 //Rota de logout personalizado
-    Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
 Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::get('userInsertCpf/{id}', 'UserController@show');
     Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
@@ -68,27 +68,17 @@ Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');
 
 
+Auth::routes();
 
-Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function(){
+Route::group(['prefix'=>'admin/', 'middleware'=>'auth'], function(){
     Route::get('home', 'HomeController@index')->name('dashboard');
     Route::get('createpost',['uses'=>'PostController@create']);
     Route::get('/chat', 'ChatController@index')->middleware('auth');
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
+    Route::post('/chat/getChat', 'ChatController@getChat')->middleware('auth');
 
 });
 
-
-
-Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
-    Route::get('comentarios/{id}', 'CommentController@index');
-    Route::post('/comentario', 'CommentController@store');
-    Route::post('comments/{commentId}', 'CommentController@update');
-    Route::post('/comentario/imagem', 'UserController@postimagem');
-    Route::delete('/comentario/imagem/{id}', 'UserController@deleteimagem');
-    Route::get('/comentario/{id}/{idpost}', 'CommentController@getComentario');
-});
-Route::delete('/api/comentario/{id}', 'CommentController@deleteComentario');
-Route::post('api/register/imagem', 'UserController@postimagem');
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\vendor\uniSharp\LaravelFilemanager\Lfm::routes()';
 });
