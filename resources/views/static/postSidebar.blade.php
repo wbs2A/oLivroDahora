@@ -1,5 +1,5 @@
 <!-- Start Blog Post Siddebar -->
-<div class="col-lg-4 sidebar-widgets">
+<div id="sideBar" class="col-lg-4 sidebar-widgets">
 
     <div class="widget-wrap">
         <div class="single-sidebar-widget search-widget">
@@ -17,13 +17,13 @@
                     </div>
                 </div>
             </div>
-            {{--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>--}}
+            <!--             {{--<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>--}}
             {{--<script>--}}
                 {{--(adsbygoogle = window.adsbygoogle || []).push({--}}
                     {{--google_ad_client: "ca-pub-5126773966914838",--}}
                     {{--enable_page_level_ads: true--}}
                 {{--});--}}
-            {{--</script>--}}
+            {{--</script>--}} -->
         </div>
 
         <div class="single-sidebar-widget instafeed-widget">
@@ -37,114 +37,65 @@
                 <li><img src="{{asset("storage/img/blog/instagram/i6.jpg")}}" alt=""></li>
             </ul>
         </div>
-
-        <div class="single-sidebar-widget post-category-widget">
-            <h4 class="category-title">Categorias</h4>
-            <ul class="cat-list mt-20">
-                <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Fashion</p>
-                        <p>59</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Viagens</p>
-                        <p>09</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Estilo de vida</p>
-                        <p>24</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Finanças</p>
-                        <p>44</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="d-flex justify-content-between">
-                        <p>Comidinhas</p>
-                        <p>15</p>
-                    </a>
-                </li>
-            </ul>
+        <div class="single-sidebar-widget search-widget">
+            <div class="container single-sidebar-widget post-category-widget">
+               <h4 class="category-title">Categorias</h4>
+                    <categoria v-on:click="setCategoria" :post_count="1" :cate='@json($categoria)'></categoria>
+            </div>
         </div>
-
         <div class="single-sidebar-widget popular-post-widget">
             <h4 class="popular-title">Posts Populares</h4>
             <div class="popular-post-list">
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="img-fluid" src="{{asset("storage/img/blog/pp1.jpg")}}" alt="">
+                @foreach ($postsL as $post)
+                    <div class="single-post-list">
+                        <div class="thumb">
+                            @if($post->imagens)
+                                <img class="img-fluid" src="" alt="">
+                                <!-- {{asset("storage/img/blog/pp1.jpg")}} -->
+                            @endif
+                        </div>
+                        <div class="details mt-20">
+                            <a href="/viewpost/{{$post->idpost}}">
+                                <h6>{{$post->descricao}}</h6>
+                            </a>
+                            <p>{{$post->categoria->nome}} | {{$post->datapostagem}}</p>
+                        </div>
                     </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Retro-electric 1967 Ford Mustang
-                                revealed in Russia</h6>
-                        </a>
-                        <p>Mate Winston | Dec 15</p>
-                    </div>
-                </div>
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="img-fluid" src="{{asset("storage/img/blog/pp2.jpg")}}" alt="">
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Unsettling trend of food safety at
-                                sports stadiums uncovered</h6>
-                        </a>
-                        <p>Mate Winston | Dec 15</p>
-                    </div>
-                </div>
-                <div class="single-post-list">
-                    <div class="thumb">
-                        <img class="img-fluid" src="{{asset("storage/img/blog/pp3.jpg")}}" alt="">
-                    </div>
-                    <div class="details mt-20">
-                        <a href="blog-single.html">
-                            <h6>Christmas cottage from the Holiday
-                                flick selling for people</h6>
-                        </a>
-                        <p>Mate Winston | Dec 15</p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
-
-        {{--<div class="single-sidebar-widget newsletter-widget">--}}
-            {{--<h4 class="newsletter-title">Newsletter</h4>--}}
-            {{--<div class="form-group mt-30">--}}
-                {{--<div class="col-autos">--}}
-                    {{--<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"--}}
-                           {{--onblur="this.placeholder = 'Enter email'">--}}
+        <!-- 
+            {{--<div class="single-sidebar-widget newsletter-widget">--}}
+                {{--<h4 class="newsletter-title">Newsletter</h4>--}}
+                {{--<div class="form-group mt-30">--}}
+                    {{--<div class="col-autos">--}}
+                        {{--<input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email" onfocus="this.placeholder = ''"--}}
+                               {{--onblur="this.placeholder = 'Enter email'">--}}
+                    {{--</div>--}}
                 {{--</div>--}}
+                {{--<button class="bbtns d-block mt-20 w-100">Inscreva-se</button>--}}
             {{--</div>--}}
-            {{--<button class="bbtns d-block mt-20 w-100">Inscreva-se</button>--}}
-        {{--</div>--}}
 
-        {{--<div class="single-sidebar-widget share-widget">--}}
-            {{--<h4 class="share-title">Compartilhe nosso site</h4>--}}
-            {{--<div class="social-icons mt-20">--}}
-                {{--<a href="#">--}}
-                    {{--<span class="ti-facebook"></span>--}}
-                {{--</a>--}}
-                {{--<a href="#">--}}
-                    {{--<span class="ti-twitter"></span>--}}
-                {{--</a>--}}
-                {{--<a href="#">--}}
-                    {{--<span class="ti-pinterest"></span>--}}
-                {{--</a>--}}
-                {{--<a href="#">--}}
-                    {{--<span class="ti-instagram"></span>--}}
-                {{--</a>--}}
-            {{--</div>--}}
-        {{--</div>--}}
+            {{--<div class="single-sidebar-widget share-widget">--}}
+                {{--<h4 class="share-title">Compartilhe nosso site</h4>--}}
+                {{--<div class="social-icons mt-20">--}}
+                    {{--<a href="#">--}}
+                        {{--<span class="ti-facebook"></span>--}}
+                    {{--</a>--}}
+                    {{--<a href="#">--}}
+                        {{--<span class="ti-twitter"></span>--}}
+                    {{--</a>--}}
+                    {{--<a href="#">--}}
+                        {{--<span class="ti-pinterest"></span>--}}
+                    {{--</a>--}}
+                    {{--<a href="#">--}}
+                        {{--<span class="ti-instagram"></span>--}}
+                    {{--</a>--}}
+                {{--</div>--}}
+            {{--</div>--}} 
+        -->
 
+    </div>
 </div>
-</div>
-<!-- End Blog Post Siddebar -->
+<script src='{{asset("js/staticSideBar.js")}}'></script>
+<!-- End Blog Post Siddebar

@@ -1,4 +1,3 @@
-require('./bootstrap');
 window.Vue = require('vue');
 
 
@@ -31,7 +30,12 @@ const app = new Vue({
         offset: 4,
    	},
     mounted() {
-        this.getPosts();
+      if (!this.mypost) {
+          this.getPosts();
+      }else{
+        this.posts=this.mypost;
+      }
+      // this.getPosts();
     },
    	methods:{
    		setCategoria: function (categoria){
@@ -57,6 +61,9 @@ const app = new Vue({
                 .catch(() => {
                     console.log('handle server error from here');
                 });
+        },
+        setPosts(posts) {
+            this.mypost=posts;
         }
    	}
 });

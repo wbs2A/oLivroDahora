@@ -18,6 +18,8 @@ class Avaliacao extends Model
      * @var string
      */
     protected $primaryKey = 'idavaliacao';
+    public $timestamps = false;
+    protected $fillable = ['quantidade', 'user_iduser'];
 
 	public function user()
     {

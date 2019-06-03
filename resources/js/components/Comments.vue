@@ -42,7 +42,7 @@
 						<div v-else class="comment-avatar">
 						   <i class="fa fa-user icon" style="font-size: 20px;" aria-hidden="true"></i>
 					   </div>
-					   <button v-if="user.iduser == comment.iduser" class="bnt btn-danger" @click="openeditComentario('/api/comentario/'+comment.commentid)">Editar</button>
+					   <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment.imagem)">Editar</button>
 					   <button v-if="user.iduser == comment.iduser || user.iduser == comment.idpostuser" class="bnt btn-danger" @click="opendeleteComentario('/api/comentario/'+comment.commentid)">Exluir</button>
 					   <div class="comment-text m-1">
 							<p v-if="comment.comment">
@@ -221,6 +221,7 @@ export default {
 		   index: 0,
 		   tes:null,
 		   cr:0,
+		   endereco:null,
 		   replyCommentBoxs: [],
 		   commentsData: [],
 		   viewcomment: [],
@@ -460,10 +461,11 @@ export default {
 	        	}
 	        });
 	    },
-	    openeditComentario(string){
+	    openeditComentario(string, imagem){
 	    	console.log(string);
 	        $('#contaLabelEdit').text('Editar comentario');
 	        // $('#conteudoEdit').text('Deseja, realmente, excluir este comentario?');
+	        this.endereco=imagem;
 	        $('#sim').attr('data-ref', string);
 	        $('#Edit').modal('show');
 	    },

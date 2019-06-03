@@ -8,7 +8,8 @@ class PostHasAvaliacao extends Model
 {
     protected $table = 'post_has_avaliacao';
 	public $incrementing = false;
-
+	public $timestamps = false;
+	protected $fillable = ['post_idpost', 'avaliacao_idavaliacao','iduser'];
 
 	public function avaliacao()
 	{

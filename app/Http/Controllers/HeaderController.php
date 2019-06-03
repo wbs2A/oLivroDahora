@@ -28,13 +28,15 @@ class HeaderController extends Controller
     public function index(Request $request)
     {
         $post;
+        $categoria = Categoria::withCount('post')->get();
         if (!(empty($request->all()))) {
             $data = $request->all();
             $post= Post::buscaPostAll($data);
         }else{
             $post= Post::categoriaPosts();
         }
-        return view('index', ['post' => $post]);
+        $postsL= Post::postsAvaliacao();
+        return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL]);
     }
     public function busca(Request $request){
         $request->session()->put('request', $request->all());
@@ -46,9 +48,16 @@ class HeaderController extends Controller
         }
         return response()->json(Post::categoriaPosts()) ;
     }
-    public function categoria() {
+    public function categoria(Request $request) {
         $categoria = Categoria::all();
-        $post= Post::categoriaPosts();
-        return view('categoria', ['categoria' => $categoria, 'post' => $post]);
+        $postsL= Post::postsAvaliacao();
+        if (isset($request->all()['id'])) {
+            // dd($request->all()['id']);
+            $post= Post::categoriaPosts($request->all()['id']);
+        }else{
+            $post= Post::categoriaPosts();
+        }
+        return view('categoria', ['categoria' => $categoria, 'post' => $post , 'postsL'=>$postsL]);
+
     }
 }

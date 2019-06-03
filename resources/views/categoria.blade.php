@@ -20,6 +20,7 @@
                 </div>
             </div>
             <vue-pagination :pagination='@json($post)'
+                    :posts="posts"
                     @paginate="getPosts"
                     @mypost="setPosts"
                 :offset="1">

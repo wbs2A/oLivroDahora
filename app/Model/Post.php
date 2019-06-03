@@ -41,9 +41,23 @@ class Post extends Model
         return Post::where('post.categoria_idcategoria', '=', $categoria)->with(['comentarios','imagens','categoria'])->withCount('comentarios')->paginate(1);
     }
 
+    public static function postsAvaliacao(){
+        return Post::has('avaliacoes')->with(['comentarios','imagens','categoria','avaliacoesR'=>function($q){
+                $q->orderBy('qq','desc');
+            }])
+            ->limit(1)
+            ->get();
+    }
+    public function avaliacoesR(){
+        return $this->avaliacoes()
+    ->selectRaw('sum(quantidade)/count(*) as qq')
+    ->groupBy('post_idpost','avaliacao_idavaliacao');
+}
+ 
     public static function getPostById($id){
         return Post::where('post.idpost', '=', $id)
-            ->with(['comentarios','imagens','categoria'])->withCount('comentarios')
+            ->with(['comentarios','imagens','categoria','avaliacoes'])
+            ->withCount('comentarios')
             ->get();
     }
 

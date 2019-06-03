@@ -53,7 +53,6 @@ const index = new Vue({
         offset: 4,
     },
     mounted() {
-      console.log(this.tes);
       if (!this.mypost) {
           this.getPosts();
       }else{

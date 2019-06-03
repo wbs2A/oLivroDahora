@@ -16,9 +16,6 @@ window.Vue = require('vue');
  */
 
 
-const app = new Vue({
-    el: '#app'
-});
 
 
 // Bulma NavBar Burger Script

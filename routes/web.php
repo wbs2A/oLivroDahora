@@ -21,8 +21,9 @@ Route::get('/contato', function () {
 })->name('contato');
 
 Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
+Route::post('/categoria', 'HeaderController@categoria' )->name('categoria');
 
-Route::post('/busca', 'HeaderController@busca')->name('busca');
+Route::post('/busca', 'HeaderController@index')->name('busca');
 
 Route::group(['middleware'=>["web","verified"]], function (){
 
@@ -32,7 +33,7 @@ Route::group(['middleware'=>["web","verified"]], function (){
 	    return view('contato');
 	})->name('contato');
 	Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
-    
+    Route::post('/categoria', 'HeaderController@categoria' )->name('categoria');    
     Route::get('/carrinho', 'UserController@showCarrinho')->name('carrinho');
 
     Route::get('/createpost', 'PostController@create');
@@ -86,6 +87,7 @@ Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::post('/comentario/imagem', 'UserController@postimagem');
     Route::delete('/comentario/imagem/{id}', 'UserController@deleteimagem');
     Route::get('/comentario/{id}/{idpost}', 'CommentController@getComentario');
+    Route::post('/avaliacao', 'AvaliacoesController@store');
 });
 Route::delete('/api/comentario/{id}', 'CommentController@deleteComentario');
 Route::post('api/register/imagem', 'UserController@postimagem');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Post;
+use App\Model\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Auth;
@@ -51,11 +52,13 @@ class PostController extends Controller
      */
     public function show($id, Post $post)
     {
+        $categoria = Categoria::withCount('post')->get();
         $post = Post::getPostById($id);
+        $postsL= Post::postsAvaliacao();
         if (\Illuminate\Support\Facades\Auth::check()) {
-            return view('viewpost',['post'=>$post, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first()]);
+            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first()]);
         }else{
-            return view('viewpost',['post'=>$post]);
+            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL]);
         }
         
     }
