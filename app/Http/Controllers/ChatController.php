@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Chat;
 use App\Model\Friend;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,9 +48,10 @@ class ChatController extends Controller
      * @param  \App\Model\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show(Chat $chat)
+    public function show($id)
     {
-        //
+        $friend = User::find($id);
+        return view('friend.chat')->withFriend($friend);
     }
 
     /**
@@ -84,5 +86,14 @@ class ChatController extends Controller
     public function destroy(Chat $chat)
     {
         //
+    }
+
+    public function getChat($id){
+        $chats = Chat::where(function($query) use ($id){
+            $query->where('user_id', '=', Auth::user()->id)->where('friend_id','=',$id);
+        })->orWhere(function ($query) use ($id){
+            $query->where('user_id','=',$id)->where('friend_id','=',Auth::user()->id);
+        })->get();
+        return $chats;
     }
 }

@@ -1,13 +1,58 @@
 <template>
-    
+    <div class="panel-block">
+        <div class="chat" v-if="chats.length != 0">
+            <div v-for="chat in chats">
+                <div class="chat-right" v-if="chat.user_id == userid">
+                    {{chat.chat}}
+                </div>
+                <div class="chat-left" v-else>
+                    {{ chat.chat }}
+                </div>
+            </div>
+        </div>
+        <div v-else class="no-message">
+            Ainda não há mensagens...
+        </div>
+    </div>
 </template>
 
 <script>
     export default {
+        props:['chats','userid','friendid'],
         name: "Chat"
     }
 </script>
 
 <style scoped>
+.panel-block{
+    flex-direction: column;
+}
+    .chat{
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 0 20px 0 grey;
+        margin-bottom: 20px;
+        border: 1px solid grey;
+        max-height: 600px;
+        overflow-x: auto;
+    }
+    .chat .chat-right, .chat .chat-left{
+        max-width: 70px;
+        box-shadow: 0 0 8px 0px grey;
+        padding: 8px;
+        margin-left: 4px;
+    }
+    .chat-right{
+        float: right;
+    }
+    .chat-left{
+        float: left;
+    }
+    .no-message{
+        height: 200px;
+        display: flex;
+        align-items: center;
+    }
+
 
 </style>

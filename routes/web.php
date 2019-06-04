@@ -59,11 +59,13 @@ Route::group(['middleware'=>["web","verified"]], function (){
 });
 	 //Rota de logout personalizado
     Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
-Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
-    Route::get('userInsertCpf/{id}', 'UserController@show');
-    Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
-    Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');
-});
+
+    Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
+        Route::get('userInsertCpf/{id}', 'UserController@show');
+        Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
+        Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');
+        Route::get('/chat/getChat/{id}', 'ChatController@getChat')->middleware('web');
+    });
 Route::get('/perfil', 'UserController@index')->name('perfil')->middleware('auth');
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
 Route::get('/botman/tinker', 'BotManController@tinker');

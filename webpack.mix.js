@@ -31,6 +31,7 @@ mix.js('resources/js/app.js', 'public/js');
     mix.js("resources/js/register.js", "public/js");
     mix.js("resources/js/categoria.js", "public/js");
     mix.js("resources/js/index.js", "public/js");
+    mix.js("resources/js/conversation.js", "public/js");
     mix.js("resources/js/post.js", "public/js");
     mix.js("resources/js/dashboard.js", "public/js");
     mix.js("resources/js/jquery.mask.js", "public/js");
