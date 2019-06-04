@@ -1,7 +1,7 @@
 <template>
     <span>
         <div v-for="(file, key) in files" class="file-listing">
-            <img class="preview rounded col-2" v-bind:ref="'preview'+parseInt(key)" :src="src.filename" />
+            <img class="preview rounded col-2" v-bind:ref="'preview'+parseInt(key)" />
                                                                                        
             <div class="success-container" v-if="file.id > 0">
                 Success
@@ -55,6 +55,12 @@ axios.defaults.headers.common = {
                 files: []
             }
         },
+        mounted(){
+            console.log(this.src);
+            if (this.src) {
+                this.$refs['preview'+parseInt(i)][0].src=this.src.filename;
+            }
+        },
         methods:{
             setImagem(event){
                 if (event.target.files.length) {
@@ -99,7 +105,7 @@ axios.defaults.headers.common = {
                             continue;
                         }
                         let formData = new FormData();
-                        formData.append('file', this.files[i]);
+                        formData.append('imagem', this.files[i]);
                         axios.post(this.url,
                             formData,
                             {

@@ -78,7 +78,10 @@ class AvaliacoesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $av =Avaliacao::find($id);
+        $av->quantidade = $request->input('quantidade');
+        $av->save();
+        return ['status' => true];
     }
 
     /**

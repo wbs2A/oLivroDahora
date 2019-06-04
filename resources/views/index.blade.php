@@ -7,7 +7,6 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6" v-for="p in posts.data">
                         <post-component v-if="p" :model="p"></post-component>
-                        
                     </div>
                 </div>
                 <vue-pagination  
@@ -18,12 +17,11 @@
                     :offset="1">
                 </vue-pagination>
             </div>
-            
+            <script src='js/index.js'></script>
             @include("static.postSidebar")
 
         </div>
     </div>
 </section>
 <script src='js/botwidget.js'></script>
-<script src='js/index.js'></script>
 @stop

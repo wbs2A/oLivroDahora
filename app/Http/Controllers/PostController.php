@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Auth;
 use App\User;   
-
+use App\Model\PostHasImagens;
 class PostController extends Controller
 {
     /**
@@ -41,6 +41,8 @@ class PostController extends Controller
     {
        $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>$request->categoria]);
        DB::table('user_has_post')->insert(['user_iduser'=>\Illuminate\Support\Facades\Auth::user()->iduser, 'post_idpost'=>$id]);
+       $i= $this->insertImagem($request);
+       PostHasImagens::create(['post_idpost' => $id,'post_categoria_idcategoria' => $request->categoria,'imagens_idimagens' => $i]);
        return redirect()->to('/admin/');
     }
 

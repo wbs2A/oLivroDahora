@@ -134,9 +134,9 @@ class UserController extends Controller
         $this->validate($request, [
 //            'file' => 'image|max:3000'
         ]);
-        $file = Input::file('file');
+        $file = Input::file('imagem');
         // $filename = $file->getClientOriginalName();
-        $path = Storage::disk('public')->putFile('', $request->file('file'));
+        $path = Storage::disk('public')->putFile('', $request->file('imagem'));
         if($path) {
             $input['filename'] = $path;
             $input['mime'] = $file->getClientMimeType();
@@ -152,7 +152,7 @@ class UserController extends Controller
             'success' => false
         ], 500);
     }
-    public function deleteImagem($id){
+    public function deleteimagem($id){
         $imagem=Imagens::where('idimagens',$id)->first();
         if(Storage::disk('public')->delete($imagem->filename)) {
             Imagens::where('idimagens',$id)->delete();

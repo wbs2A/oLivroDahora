@@ -56,7 +56,7 @@
                         </div>
                         <div class="details mt-20">
                             <a href="/viewpost/{{$post->idpost}}">
-                                <h6>{{$post->descricao}}</h6>
+                                <h6>{{$post->titulo}}</h6>
                             </a>
                             <p>{{$post->categoria->nome}} | {{$post->datapostagem}}</p>
                         </div>
