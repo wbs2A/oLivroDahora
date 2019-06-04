@@ -73,6 +73,7 @@ Route::get('/botman/tinker', 'BotManController@tinker');
 
 
 Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function(){
+    Route::get('/','HomeController@index');
     Route::get('home', 'HomeController@index')->name('dashboard');
     Route::get('createpost',['uses'=>'PostController@create']);
     Route::get('/chat', 'ChatController@index')->middleware('auth');
