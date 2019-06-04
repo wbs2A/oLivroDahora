@@ -2,19 +2,25 @@
     <div class="col">
         <div class="card">
             <div class="card-header">
-                <div class="row">
+
                     <h1>{{model[0]['titulo']}}</h1>
+                    <br>
+                <span v-if="model[0]['avaliacoes']['length'] > 0">
+                    <star-rating v-if="user" :inline="true" :star-size="20" :rating="model[0]['avaliacoes'][0]['quantidade']"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
+                </span>
+                <span v-else>
+                    <star-rating v-if="user" :inline="true" :star-size="20"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
+
+                </span>
+
                     
-                </div>
-                    <star-rating v-if="user" :inline="true" :star-size="20"   @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
-                </div>
             </div>
             <div class="card-body">
-                <img v-if="model[0]['imagens']['length']"
+                <img v-if="model[0]['imagens']['length'] > 0"
                         class="img-fluid w-80"
                         style="display: block;  margin-left: auto;  margin-right: auto;"
                         :src="'/'+model[0]['imagens'][0]['path']+model[0]['imagens'][0]['filename']"
-                        alt=""
+                        alt="model[0]['descricao']"
                 />
                 <h3>{{model[0]['descricao']}}</h3>
                 <p>{{model[0]['conteudo']}}</p>
@@ -23,6 +29,7 @@
                 <em class="text-right">{{model[0]['datapostagem']}}</em>
             </div>
         </div>
+        {{model[0]}}
     </div>
 </template>
 
@@ -45,21 +52,23 @@
                 this.currentRating = (rating === 0) ? this.currentSelectedRating : "Click to select " + rating + " stars"
             },
             setCurrentSelectedRating: function(rating) {
-                this.currentSelectedRating = "You have Selected: " + rating + " stars";
-                axios.post('/api/avaliacao',{
-                    idpost: this.model[0]['idpost'],
-                    quantidade: rating,
-                    user_iduser: this.user.iduser
-                }).then(res=>{
-                    console.log(res.data);
-                });
+                if (this.model[0]['avaliacoes']['length'] > 0) {
+                    console.log(this.model[0]);
+                    axios.post('/api/avaliacao/'+this.model[0]['avaliacoes'][0]['idavaliacao'],{
+                        quantidade: rating
+                    }).then(res=>{
+                        console.log(res.data);
+                    });
+                }else{
+                    axios.post('/api/avaliacao',{
+                        idpost: this.model[0]['idpost'],
+                        quantidade: rating,
+                        user_iduser: this.user.iduser
+                    }).then(res=>{
+                        console.log(res.data);
+                    });
+                }
             }
-        },
-        mounted(){
-            // console.log(this.model);
-            // // if (this.model[0]['avaliacoes']) {
-            //     avaliacao = model[0]['avaliacoes']['quantidade'];
-            // }
         },
         data() {
             return {

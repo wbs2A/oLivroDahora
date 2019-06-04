@@ -1,7 +1,7 @@
 <template>
   <nav>
     
-    <ul class="pagination">
+    <ul class="pagination" style="justify-content: center !important;">
       <li  class="page-item" >
         <a class="page-link" @click="changePage(posts.current_page - 1)" aria-label="Previous">
             <span aria-hidden="true">«</span>
@@ -18,25 +18,20 @@
     </ul>
   </nav>
 </template>
-<style >
-  .pagination{
-    justify-content: center !important;
-  }
-</style>
 <script>
   export default{
       props: {
-      pagination: {
-          type: Object,
-          required: true
-      },
-      offset: {
-          type: Number,
-          default: 4
-      },
-      posts:{
-       type: Object
-      }
+        pagination: {
+            type: Object,
+            required: true
+        },
+        offset: {
+            type: Number,
+            default: 4
+        },
+        posts:{
+         type: Object
+        }
     },
      mounted() {
       console.log(this.pagination);

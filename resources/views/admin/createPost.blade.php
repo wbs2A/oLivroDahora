@@ -12,7 +12,7 @@
             <div class="col-xs-10 col-xs-offset-1">
 
                 <div class="card">
-                    <form action="{{route('submit')}}" method="post">
+                    <form id="createPost" action="{{route('submit')}}" method="post">
                         <div class="form-group">
                             <div class="col">
                                 <label for="title">Insira o título do Post</label>
@@ -23,7 +23,7 @@
                             <div class="col">
                                 <label for="img">Insira a imagem do Post</label>
                                 <br>
-                                <input>
+                                <update-imagem ref="modal" :legenda="'Add foto'"v-on:submit="setImagem" :cla="'fa fa-file-image-o'" :size="'90'" :url="'/api/register/imagem'"></update-imagem>
                             </div>
                         </div>
                         <div class="form-group">
@@ -55,6 +55,7 @@
 @stop
 
 @section('js')
+
     <script src="{{asset('vendor/tinymce/js/tinymce/tinymce.min.js')}}"></script>
     <script>
         var editor_config = {
@@ -92,4 +93,5 @@
 
         tinymce.init(editor_config);
     </script>
+    <script src="{{asset('js/createPost.js')}}"></script>
 @stop

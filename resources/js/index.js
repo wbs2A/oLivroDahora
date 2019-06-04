@@ -88,6 +88,11 @@ const index = new Vue({
         },
         setPosts(posts) {
             this.mypost=posts;
+            if (!this.mypost) {
+                this.getPosts();
+            }else{
+              this.posts=this.mypost;
+            }
         }
     }
 

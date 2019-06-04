@@ -12,7 +12,7 @@
                         <div class="row">
                             <comment :comment-url="{{$post[0]['idpost']}}" :user="{{ $user}}"></comment>
                         </div>
-                        @else
+                    @else
                             <div class="row">
                                 <post :model="{{$post}}"></post>
                             </div>
@@ -20,7 +20,7 @@
                             <div class="row">
                                 <comment :comment-url="{{$post[0]['idpost']}}"></comment>
                             </div>
-                        @endif
+                    @endif
                     <div class="row">
                     </div>
                 </div>

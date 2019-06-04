@@ -6,6 +6,7 @@
     "/js/bootstrap-datepicker.js": "/js/bootstrap-datepicker.js",
     "/js/botwidget.js": "/js/botwidget.js",
     "/js/categoria.js": "/js/categoria.js",
+    "/js/createPost.js": "/js/createPost.js",
     "/js/dashboard.js": "/js/dashboard.js",
     "/js/index.js": "/js/index.js",
     "/js/isotope.pkgd.min.js": "/js/isotope.pkgd.min.js",
@@ -21,6 +22,7 @@
     "/js/parallax.min.js": "/js/parallax.min.js",
     "/js/post.js": "/js/post.js",
     "/js/register.js": "/js/register.js",
+    "/js/staticSideBar.js": "/js/staticSideBar.js",
     "/js/vendor/bootstrap.min.js": "/js/vendor/bootstrap.min.js",
     "/js/vendor/jquery-2.2.4.min.js": "/js/vendor/jquery-2.2.4.min.js"
 }
