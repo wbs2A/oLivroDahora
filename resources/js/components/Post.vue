@@ -29,7 +29,6 @@
                 <em class="text-right">{{model[0]['datapostagem']}}</em>
             </div>
         </div>
-        {{model[0]}}
     </div>
 </template>
 

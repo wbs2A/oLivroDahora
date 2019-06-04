@@ -9,7 +9,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Model\Comentarios;
 use App\Model\Post;
 
-class PostCommented extends Notification
+class ComentarioComentario extends Notification
 {
     use Queueable;
     private $c;
@@ -46,7 +46,7 @@ class PostCommented extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Novo Comentário')
+                    ->subject('Nova resposta ao seu comentário')
                     ->line($this->c->texto)
                     ->action('Ver comentário', url('viewpost/'.$this->p->idpost))
                     ->line('Tenha um bom dia');

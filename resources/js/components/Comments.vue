@@ -42,7 +42,7 @@
 						<div v-else class="comment-avatar">
 						   <i class="fa fa-user icon" style="font-size: 20px;" aria-hidden="true"></i>
 					   </div>
-					   <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment.imagem)">Editar</button>
+					   <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment.imagem)"					   >Editar</button>
 					   <button v-if="user.iduser == comment.iduser || user.iduser == comment.idpostuser" class="bnt btn-danger" @click="opendeleteComentario('/api/comentario/'+comment.commentid)">Exluir</button>
 					   <div class="comment-text m-1">
 							<p v-if="comment.comment">
@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="contaLabelEdit" aria-hidden="true">
+            <div class="modal fade" v-if="commentBoxs[90]" id="Edit" tabindex="-1" role="dialog" aria-labelledby="contaLabelEdit" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">

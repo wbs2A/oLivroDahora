@@ -12,6 +12,8 @@ use App\Model\PessoaFisica;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\UserController;
+use App\Notifications\PostCommented;
+use App\Notifications\ComentarioComentario;
 class CommentController extends Controller
 {
 	//
@@ -29,9 +31,19 @@ class CommentController extends Controller
 	   'idpost' => 'required',
 	   'user_iduser' => 'required',
 	   ]);
+
 	   $comment = Comentarios::create($request->except('idpost'));
+	   $hp = PostHasComentarios::where('post_idpost',$request->input('idpost'))->with(['post.users'])->first();
+	   $autorP =  $hp->post->users;
+	   $post = $hp->post;
+	   $autorP->each->notify(new PostCommented($comment, $post));
 	   if (empty($request->input('reply_id'))) {
 		   PostHasComentarios::create(['post_idpost' => $request->input('idpost'), 'comentarios_idcomentarios' => $comment->idcomentarios, 'comentarios_user_iduser' => $request->input('user_iduser')]);
+	   }else{
+	   		$commentP = Comentarios::where('idcomentarios',$request->input('reply_id'))->with(['user'])->first();
+	   		// dd($commentP->user);
+		    $autorC =  $commentP->user;
+		    $autorC->notify(new ComentarioComentario($comment, $post));
 	   }
 	   if($comment){
 			return $this->oneComment($comment->idcomentarios, $request->input('idpost'));

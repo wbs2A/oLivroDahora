@@ -21,8 +21,6 @@
                                 <comment :comment-url="{{$post[0]['idpost']}}"></comment>
                             </div>
                     @endif
-                    <div class="row">
-                    </div>
                 </div>
                 @include("static.postSidebar")
 
