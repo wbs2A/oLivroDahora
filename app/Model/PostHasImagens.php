@@ -8,7 +8,7 @@ class PostHasImagens extends Model
 {
     protected $table = 'post_has_imagens';
 	public $incrementing = false;
-
+    public $timestamps = false;
 	
 	protected $fillable = ['post_idpost','post_categoria_idcategoria','imagens_idimagens'];
 	public function imagem()

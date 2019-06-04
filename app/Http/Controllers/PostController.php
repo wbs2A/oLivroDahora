@@ -39,10 +39,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-       $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>$request->categoria]);
+         //dd($request);
+       $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>2]);
        DB::table('user_has_post')->insert(['user_iduser'=>\Illuminate\Support\Facades\Auth::user()->iduser, 'post_idpost'=>$id]);
-       $i= $this->insertImagem($request);
-       PostHasImagens::create(['post_idpost' => $id,'post_categoria_idcategoria' => $request->categoria,'imagens_idimagens' => $i]);
+       if($request->imagem != null){
+           PostHasImagens::create(['post_idpost' => $id,'post_categoria_idcategoria' => 2,'imagens_idimagens' => $request->imagem]);
+       }
        return redirect()->to('/admin/');
     }
 

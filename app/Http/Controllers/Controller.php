@@ -17,7 +17,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function insertImagem(Request $request){
+    public function insertImagem( $request){
         $this->validate($request, [
 //            'file' => 'image|max:3000'
         ]);

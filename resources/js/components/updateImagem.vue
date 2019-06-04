@@ -31,7 +31,7 @@ axios.defaults.headers.common = {
         props: {
             url:{
                 type: String,
-                required: true
+                required: false
             },
             cla:{
                 type: String,
@@ -69,7 +69,9 @@ axios.defaults.headers.common = {
                         console.log(document.getElementsByClassName('icon')[i].style.display);
                         document.getElementsByClassName('icon')[i].style.display='none';
                     }
+                    console.log('te');
                     this.files =event.target.files;
+                    console.log('te2');
                     this.getImagePreviews();
                 }
             },
@@ -88,8 +90,10 @@ axios.defaults.headers.common = {
                 this.getImagePreviews();
             },
             getImagePreviews(){
+                console.log('te');
                 for( let i = 0; i < this.files.length; i++ ){
-                    if ( /\.(jpe?g|png|gif)$/i.test( this.files[i].name ) ) {
+                    if ( /\.(jpe?g|png|gif|jpg|jfif)$/i.test( this.files[i].name ) ) {
+                        console.log(this.files.length);
                         let reader = new FileReader();
                         reader.addEventListener("load", function(){
                             this.$refs['preview'+parseInt(i)][0].src = reader.result;

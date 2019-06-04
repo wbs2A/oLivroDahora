@@ -7,12 +7,15 @@
 @stop
 
 @section('content')
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="container">
         <div class="row text-center">
             <div class="col-xs-10 col-xs-offset-1">
 
                 <div class="card">
-                    <form id="createPost" action="{{route('submit')}}" method="post">
+                    <form id="createPost" action="{{route('submit')}}" method="post" >
                         <div class="form-group">
                             <div class="col">
                                 <label for="title">Insira o título do Post</label>
@@ -23,7 +26,8 @@
                             <div class="col">
                                 <label for="img">Insira a imagem do Post</label>
                                 <br>
-                                <update-imagem ref="modal" :legenda="'Add foto'"v-on:submit="setImagem" :cla="'fa fa-file-image-o'" :size="'90'" :url="'/api/register/imagem'"></update-imagem>
+
+                                <update-imagem ref="modal" v-on:submit="setImagem" :url="'/api/register/imagem'" :legenda="'Imagem'" :cla="'fa fa-file-image-o'" :size="'50'"></update-imagem>
                             </div>
                         </div>
                         <div class="form-group">
@@ -33,7 +37,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea name="content" class="form-control my-editor" id="input" rows="10"></textarea>
+                            <textarea name="conteudo" class="form-control my-editor" id="input" rows="10"></textarea>
                         </div>
 {{--                        <div class="form-group">
                             <div class="col">
