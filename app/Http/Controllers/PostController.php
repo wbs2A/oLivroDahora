@@ -107,4 +107,9 @@ class PostController extends Controller
         return Post::getPostByUserId(\Illuminate\Support\Facades\Auth::user()->iduser);
     }
 
+    public function getPosts(){
+        $posts = \Illuminate\Support\Facades\Auth::user()->posts()->get();
+        return view('admin.viewPosts')->with(['Posts'=>$posts]);
+    }
+
 }

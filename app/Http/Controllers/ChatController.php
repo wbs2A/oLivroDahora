@@ -90,10 +90,19 @@ class ChatController extends Controller
 
     public function getChat($id){
         $chats = Chat::where(function($query) use ($id){
-            $query->where('user_id', '=', Auth::user()->id)->where('friend_id','=',$id);
+            $query->where('user_id', '=', Auth::user()->iduser)->where('friend_id','=',$id);
         })->orWhere(function ($query) use ($id){
-            $query->where('user_id','=',$id)->where('friend_id','=',Auth::user()->id);
+            $query->where('user_id','=',$id)->where('friend_id','=',Auth::user()->iduser);
         })->get();
         return $chats;
+    }
+
+    public function sendChat(Request $request){
+        $chat = new Chat;
+        $chat->user_id   =  $request->user_id;
+        $chat->friend_id = $request->friend_id;
+        $chat->chat      = $request->chat;
+        $chat->save();
+        return [];
     }
 }

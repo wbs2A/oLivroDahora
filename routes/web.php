@@ -26,7 +26,8 @@ Route::post('/categoria', 'HeaderController@categoria' )->name('categoria');
 Route::post('/busca', 'HeaderController@index')->name('busca');
 
 Route::group(['middleware'=>["web","verified"]], function (){
-
+    Route::get('/api/chat/getChat/{id}', 'ChatController@getChat');
+    Route::post('/api/chat/sendChat', 'ChatController@sendChat');
 	Route::post('/busca', 'HeaderController@index')->name('busca');
 	
 	// Route::get('/contato', function () {
@@ -64,7 +65,6 @@ Route::group(['middleware'=>["web","verified"]], function (){
         Route::get('userInsertCpf/{id}', 'UserController@show');
         Route::post('/getcategoriaPost', 'HeaderController@getcategoriaPost');
         Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');
-        Route::get('/chat/getChat/{id}', 'ChatController@getChat')->middleware('web');
     });
 Route::get('/perfil', 'UserController@index')->name('perfil')->middleware('auth');
 Route::match(['get', 'post'], '/botman', 'BotManController@handle');
@@ -76,6 +76,7 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
     Route::get('/','HomeController@index');
     Route::get('home', 'HomeController@index')->name('dashboard');
     Route::get('createpost',['uses'=>'PostController@create']);
+    Route::get('/posts', 'PostController@getPosts')->name('posts');
     Route::get('/chat', 'ChatController@index')->middleware('auth');
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
 

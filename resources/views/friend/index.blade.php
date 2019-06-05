@@ -10,18 +10,17 @@
 <div class="container">
     <div class="column is-8 is-offset-2">
         <div class="panel">
-            <div class="panel-heading">
-                Amigos:
-            </div>
+                <ul>
             @forelse($Friends as $friend)
-                <a href="{{route('chat.show', $friend->iduser)}}" class="panel-block h3">
+                <li><a href="{{route('chat.show', $friend->iduser)}}" class="panel-block h3">
                     {{$friend->name}}
-                </a>
+                </a></li>
             @empty
                 <div class="panel-block">
-                    Você ainda não adicionou nenhum amigo.
+                    <li>Você ainda não adicionou nenhum amigo.</li>
                 </div>
             @endforelse
+                </ul>
         </div>
     </div>
 </div>

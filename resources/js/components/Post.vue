@@ -13,17 +13,17 @@
 
                 </span>
 
-                    
             </div>
             <div class="card-body">
                 <img v-if="model[0]['imagens']['length'] > 0"
                         class="img-fluid w-80"
                         style="display: block;  margin-left: auto;  margin-right: auto;"
-                        :src="'/'+model[0]['imagens'][0]['path']+model[0]['imagens'][0]['filename']"
-                        alt="model[0]['descricao']"
+                        :src="'/storage/'+model[0]['imagens'][0]['filename']"
+
                 />
-                <h3>{{model[0]['descricao']}}</h3>
-                <p>{{model[0]['conteudo']}}</p>
+                <h3 class="text-center">{{model[0]['descricao']}}</h3>
+                <div style="padding-top: 5px;" v-html="model[0]['conteudo']">
+                </div>
             </div>
             <div class="card-footer">
                 <em class="text-right">{{model[0]['datapostagem']}}</em>

@@ -4,7 +4,7 @@
         <div class="amenities-thumb">
             <img v-if="model.imagens.length"
              class="img-fluid w-100"
-            :src="model['imagens'][0]['path']+model['imagens'][0]['filename']"
+            :src="model['imagens'][0]['filename']"
             alt=""
             />
         </div>

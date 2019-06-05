@@ -115,9 +115,20 @@ return [
             'icon' => 'home'
         ],
         [
-            'text'        => 'Novo Post',
-            'url'         => 'admin/createpost',
-            'icon'        => 'plus',
+            'text'        => 'Posts',
+            'icon'        => 'newspaper-o',
+            'submenu' => [
+                [
+                    'text' => 'Criar Post',
+                    'icon'=>'plus',
+                    'url'         => 'admin/createpost'
+                ],
+                [
+                    'text' => 'Gerenciar Posts',
+                    'icon' => 'tasks',
+                    'url'  => 'admin/posts',
+                ],
+            ],
         ],
         [
             'text'        => 'Conversas',

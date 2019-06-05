@@ -23,7 +23,7 @@
                     </div>
                     <chat v-bind:chats="chats"
                           v-bind:friendid="{{$friend->iduser}}"
-                          v-bind:userid="userId"></chat>
+                          v-bind:userid="{{Auth::user()->iduser}}"></chat>
                 </div>
 
             </div>
