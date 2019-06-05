@@ -155,7 +155,9 @@ class CommentController extends Controller
     }
     public function deleteComentario($id){
     	$key = Comentarios::where('idcomentarios',$id)->first();
-    	$k = $key->imagens_idimagens;
+    	if ($key->imagens_idimagens) {
+    		$userIm= (new UserController)->deleteimagem($key->imagens_idimagens);
+    	}
     	if ($key->reply_id != 0) {
     		Comentarios::where('reply_id', $id)->delete();
     		$key = Comentarios::where('idcomentarios', $id)->delete();
@@ -164,9 +166,27 @@ class CommentController extends Controller
     		PostHasComentarios::where('comentarios_idcomentarios',$id)->delete();
     		$key = Comentarios::where('idcomentarios',$id)->delete();
     	}
-    	if ($k) {
-    		$userIm= (new UserController)->deleteImagem($k);
-    	}
     	return ['status'=> true];
+    }
+    public function update(Request $request, $id){
+    	$comment = Comentarios::find($id);
+    	if (isset($request->texto)) {
+    		$comment->texto=$request->texto;
+    		if (empty($comment->imagens_idimagens)) {
+    			$userIm= (new UserController)->deleteimagem($comment->imagens_idimagens);
+    			$comment->imagens_idimagens=null;
+    		}
+    		$comment->save();
+    	}else{
+    		$comment->texto=null;
+    		if (empty($comment->imagens_idimagens)) {
+    			$userIm= (new UserController)->updateimagem($comment->imagens_idimagens, $request);
+    		}else{
+    			$r= (new UserController)->postimagem($request);
+    			$comment->imagens_idimagens=$r->id;	
+    		}
+    		$comment->save();
+    	}
+    	dd($comment);
     }
 }

@@ -87,7 +87,7 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
 Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::get('comentarios/{id}', 'CommentController@index');
     Route::post('/comentario', 'CommentController@store');
-    Route::post('comments/{commentId}', 'CommentController@update');
+    Route::put('/comentario/{commentId}', 'CommentController@update');
     Route::post('/comentario/imagem', 'UserController@postimagem');
     Route::delete('/comentario/imagem/{id}', 'UserController@deleteimagem');
     Route::get('/comentario/{id}/{idpost}', 'CommentController@getComentario');
