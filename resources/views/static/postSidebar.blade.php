@@ -98,4 +98,4 @@
     </div>
 </div>
 <script src='{{asset("js/staticSideBar.js")}}'></script>
-<!-- End Blog Post Siddebar
+<!-- End Blog Post Siddebar -->
