@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Redirect;
 
 $botman = resolve('botman');
 
-$botman->hears('Hi', function ($bot) {
-    $bot->reply('Hello!');
+$botman->hears('Oi', function ($bot) {
+    $bot->reply('Fala meu bom!');
 
 
 });
