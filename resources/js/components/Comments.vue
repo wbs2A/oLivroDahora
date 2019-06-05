@@ -42,7 +42,7 @@
 						<div v-else class="comment-avatar">
 						   <i class="fa fa-user icon" style="font-size: 20px;" aria-hidden="true"></i>
 					   </div>
-					   <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment.imagem)"					   >Editar</button>
+					   <!-- <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment)"					   >Editar</button> -->
 					   <button v-if="user.iduser == comment.iduser || user.iduser == comment.idpostuser" class="bnt btn-danger" @click="opendeleteComentario('/api/comentario/'+comment.commentid)">Exluir</button>
 					   <div class="comment-text m-1">
 							<p v-if="comment.comment">
@@ -168,7 +168,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal fade" v-if="commentBoxs[90]" id="Edit" tabindex="-1" role="dialog" aria-labelledby="contaLabelEdit" aria-hidden="true">
+            <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="contaLabelEdit" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -178,8 +178,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        	<update-imagem ref="reply" :src="endereco" v-on:update="setupdate":cla="'fa fa-file-image-o'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
-							<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message"></textarea>
+                        	<update-imagem ref="update" :src="imagem" v-on:update="update":cla="'fa fa-file-image-o'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+							<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message2"></textarea>
 							<span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                             <span id="conteudoEdit"></span>
                         </div>
@@ -216,12 +216,13 @@ export default {
 		   comments: 0,
 		   commentBoxs: [],
 		   message: null,
+		   message2: null,
 		   id:0,
 		   replyId:0,
 		   index: 0,
 		   tes:null,
 		   cr:0,
-		   endereco:null,
+		   imagem:null,
 		   replyCommentBoxs: [],
 		   commentsData: [],
 		   viewcomment: [],
@@ -461,11 +462,18 @@ export default {
 	        	}
 	        });
 	    },
-	    openeditComentario(string, imagem){
+	    openeditComentario(string, comentario){
 	    	console.log(string);
+	    	console.log(comentario);
 	        $('#contaLabelEdit').text('Editar comentario');
+	    	if (comentario.idimagem == null) {
+	    		this.message2=comentario.comment;
+	    	}else{
+	    		console.log(comentario.imagem);
+	    		this.imagem=comentario.imagem;
+	    		this.$refs.update.setupdate();
+	    	}
 	        // $('#conteudoEdit').text('Deseja, realmente, excluir este comentario?');
-	        this.endereco=imagem;
 	        $('#sim').attr('data-ref', string);
 	        $('#Edit').modal('show');
 	    },
@@ -476,9 +484,11 @@ export default {
 	    	if (document.getElementsByClassName('icon')[0].style.display == 'none') {
 				this.$refs.modal.submitFiles();
 			}else{
-			   if (this.message != null && this.message != ' ') {
+			   if (this.message2 != null && this.message2 != ' ') {
 				   this.errorComment = null;
-			        axios.update(string).then(res => {
+			        axios.put(string,{
+			        	texto: this.message2
+			        }).then(res => {
 			        	console.log(res.data);
 			        	if (res.data.status) {
 							$('#Edit').modal('hide');
@@ -495,7 +505,7 @@ export default {
 			    }
 			}
 	    },
-	    setupdate(resposta){
+	    update(resposta){
 
 	    }
 	},

@@ -55,12 +55,6 @@ axios.defaults.headers.common = {
                 files: []
             }
         },
-        mounted(){
-            console.log(this.src);
-            if (this.src) {
-                this.$refs['preview'+parseInt(i)][0].src=this.src.filename;
-            }
-        },
         methods:{
             setImagem(event){
                 if (event.target.files.length) {
@@ -73,6 +67,12 @@ axios.defaults.headers.common = {
                     this.files =event.target.files;
                     console.log('te2');
                     this.getImagePreviews();
+                }
+            },
+            setupdate(){
+                console.log(this.src);
+                if (this.src) {
+                    this.$refs['preview'+parseInt(i)][0].src=this.src.filename;
                 }
             },
             removeFile( key ){
