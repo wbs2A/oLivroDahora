@@ -38,8 +38,8 @@ class CommentController extends Controller
 	   // dd($autorP);
 	   $comment = Comentarios::create($request->except('idpost'));
 	   $post = $hp;
-	   $autorP->each->notify(new PostCommented($comment, $post));
 	   if (empty($request->input('reply_id'))) {
+	   		$autorP->each->notify(new PostCommented($comment, $post));
 		   PostHasComentarios::create(['post_idpost' => $request->input('idpost'), 'comentarios_idcomentarios' => $comment->idcomentarios, 'comentarios_user_iduser' => $request->input('user_iduser')]);
 	   }else{
 	   		$commentP = Comentarios::where('idcomentarios',$request->input('reply_id'))->with(['user'])->first();
@@ -176,21 +176,22 @@ class CommentController extends Controller
     	$comment = Comentarios::find($id);
     	if (isset($request->texto)) {
     		$comment->texto=$request->texto;
-    		if (empty($comment->imagens_idimagens)) {
+    		if (!empty($comment->imagens_idimagens)) {
     			$userIm= (new UserController)->deleteimagem($comment->imagens_idimagens);
     			$comment->imagens_idimagens=null;
     		}
     		$comment->save();
-    	}else{
+    		return ['status'=> true];
+    	}
+
     		$comment->texto=null;
-    		if (empty($comment->imagens_idimagens)) {
+    		if (!empty($comment->imagens_idimagens)) {
     			$userIm= (new UserController)->updateimagem($comment->imagens_idimagens, $request);
     		}else{
     			$r= (new UserController)->postimagem($request);
-    			$comment->imagens_idimagens=$r->id;	
+    			$comment->imagens_idimagens=$r->original['id'];	
     		}
     		$comment->save();
-    	}
-    	dd($comment);
+    		return ['status'=> true];
     }
 }

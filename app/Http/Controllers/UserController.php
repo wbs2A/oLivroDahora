@@ -164,7 +164,7 @@ class UserController extends Controller
             'success' => false
         ], 500);
     }
-    public function updateimagem($id, $request){
+    public function updateimagem($id, Request $request){
         $imagem=Imagens::where('idimagens',$id)->first();
         $file = Input::file('imagem');
         $path = Storage::disk('public')->putFile('', $request->file('imagem'));

@@ -42,7 +42,7 @@
 						<div v-else class="comment-avatar">
 						   <i class="fa fa-user icon" style="font-size: 20px;" aria-hidden="true"></i>
 					   </div>
-					   <!-- <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/comentario/'+comment.commentid, comment)"					   >Editar</button> -->
+					   <!-- <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/ucomentario/'+comment.commentid, comment)"					   >Editar</button> -->
 					   <button v-if="user.iduser == comment.iduser || user.iduser == comment.idpostuser" class="bnt btn-danger" @click="opendeleteComentario('/api/comentario/'+comment.commentid)">Exluir</button>
 					   <div class="comment-text m-1">
 							<p v-if="comment.comment">
@@ -149,7 +149,7 @@
 			   </div>
 		   </div>
 		   <div class="modal fade" id="Mensagem" tabindex="-1" role="dialog" aria-labelledby="contaLabelMensagem" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="contaLabelMensagem"></h5>
@@ -169,7 +169,7 @@
                 </div>
             </div>
             <div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="contaLabelEdit" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="contaLabelEdit"></h5>
@@ -178,7 +178,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        	<update-imagem ref="update" :src="imagem" v-on:update="update":cla="'fa fa-file-image-o'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+                        	<update-imagem ref="update" :src="imagem" v-on:update="update":cla="'fa fa-file-image-o'" :size="'18'" :url="myurl"></update-imagem>
 							<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message2"></textarea>
 							<span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
                             <span id="conteudoEdit"></span>
@@ -221,6 +221,7 @@ export default {
 		   replyId:0,
 		   index: 0,
 		   tes:null,
+		   myurl:null,
 		   cr:0,
 		   imagem:null,
 		   replyCommentBoxs: [],
@@ -463,16 +464,17 @@ export default {
 	        });
 	    },
 	    openeditComentario(string, comentario){
+	    	this.imagem=comentario;
+	    	this.myurl=string;
 	    	console.log(string);
 	    	console.log(comentario);
 	        $('#contaLabelEdit').text('Editar comentario');
 	    	if (comentario.idimagem == null) {
 	    		this.message2=comentario.comment;
-	    	}else{
-	    		console.log(comentario.imagem);
-	    		this.imagem=comentario.imagem;
-	    		this.$refs.update.setupdate();
 	    	}
+	    		console.log(comentario.imagem);
+	    		// console.log(this.$refs.update);
+	    		// this.$refs.update.setupdate();
 	        // $('#conteudoEdit').text('Deseja, realmente, excluir este comentario?');
 	        $('#sim').attr('data-ref', string);
 	        $('#Edit').modal('show');
@@ -482,7 +484,7 @@ export default {
 	    	string = $('#sim').attr('data-ref');
 	    	console.log(string);
 	    	if (document.getElementsByClassName('icon')[0].style.display == 'none') {
-				this.$refs.modal.submitFiles();
+				this.$refs.update.submitFiles();
 			}else{
 			   if (this.message2 != null && this.message2 != ' ') {
 				   this.errorComment = null;
@@ -506,7 +508,17 @@ export default {
 			}
 	    },
 	    update(resposta){
-
+	    	console.log('resposta');
+			console.log(resposta);
+        	if (resposta.status) {
+				$('#Edit').modal('hide');
+	        	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
+					this.commentData = res.data;
+					this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
+					this.comments = this.commentData.length;
+					console.log(res.data);
+				});
+        	}
 	    }
 	},
    mounted() {
