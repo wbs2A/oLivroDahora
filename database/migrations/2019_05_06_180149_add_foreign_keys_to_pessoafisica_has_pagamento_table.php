@@ -14,8 +14,8 @@ class AddForeignKeysToPessoafisicaHasPagamentoTable extends Migration {
 	{
 		Schema::table('pessoafisica_has_pagamento', function(Blueprint $table)
 		{
-			$table->foreign('pagamento_idpagamento', 'fk_pessoafisica_has_pagamento_pagamento1')->references('idpagamento')->on('pagamento')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('pessoafisica_idpessoaFisica', 'fk_pessoafisica_has_pagamento_pessoafisica1')->references('idpessoaFisica')->on('pessoafisica')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('pagamento_idpagamento', 'fk_pessoafisica_has_pagamento_pagamento1')->references('idpagamento')->on('pagamento')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('pessoafisica_idpessoaFisica', 'fk_pessoafisica_has_pagamento_pessoafisica1')->references('idpessoaFisica')->on('pessoafisica')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

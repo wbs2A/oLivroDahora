@@ -27,7 +27,7 @@ Route::post('/busca', 'HeaderController@index')->name('busca');
 
 Route::group(['middleware'=>["web","verified"]], function (){
     Route::get('/api/chat/getChat/{id}', 'ChatController@getChat');
-    Route::post('/api/chat/sendChat', 'ChatController@sendChat');
+    Route::post('/api/chat/sendChat', 'ChatController@sendChat')->middleware('auth');
 	Route::post('/busca', 'HeaderController@index')->name('busca');
 	
 	// Route::get('/contato', function () {
@@ -38,7 +38,6 @@ Route::group(['middleware'=>["web","verified"]], function (){
     Route::get('/carrinho', 'UserController@showCarrinho')->name('carrinho');
 
     Route::get('/createpost', 'PostController@create');
-    Route::get('/editpost/{id}','PostController@edit');
     Route::get('deletepost/{id}', 'PostController@destroy');
 
     Route::redirect('/perfil/post','/perfil');
@@ -79,7 +78,8 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
     Route::get('/posts', 'PostController@getPosts')->name('posts');
     Route::get('/chat', 'ChatController@index')->middleware('auth');
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
-
+    Route::get('/removePost/{id}', 'PostController@destroy')->name('removePost');
+    Route::get('/editpost/{id}','PostController@edit')->name('editPost');
 });
 
 

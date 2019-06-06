@@ -15,7 +15,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total de posts</span>
-                    <span class="info-box-number">45</span>
+                    <span class="info-box-number">{{$posts}}</span>
                     <span class="progress-description">
                         <a style="color: white" href="{{route('posts')}}">Ir para <i class="fa fa-arrow-right"></i></a>
                   </span>
@@ -74,7 +74,7 @@
         <div class="box-header">
             <i class="ion ion-clipboard"></i>
 
-            <h3 class="box-title">To Do List</h3>
+            <h3 class="box-title">Lista de Afazeres</h3>
 
             <div class="box-tools pull-right">
                 <ul class="pagination pagination-sm inline">

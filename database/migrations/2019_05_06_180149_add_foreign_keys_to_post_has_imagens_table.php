@@ -14,8 +14,8 @@ class AddForeignKeysToPostHasImagensTable extends Migration {
 	{
 		Schema::table('post_has_imagens', function(Blueprint $table)
 		{
-			$table->foreign('imagens_idimagens', 'fk_post_has_imagens_imagens1')->references('idimagens')->on('imagens')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('post_idpost', 'fk_post_has_imagens_post1')->references('idpost')->on('post')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('imagens_idimagens', 'fk_post_has_imagens_imagens1')->references('idimagens')->on('imagens')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('post_idpost', 'fk_post_has_imagens_post1')->references('idpost')->on('post')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

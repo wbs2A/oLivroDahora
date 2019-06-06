@@ -14,8 +14,8 @@ class AddForeignKeysToPostHasComentariosTable extends Migration {
 	{
 		Schema::table('post_has_comentarios', function(Blueprint $table)
 		{
-			$table->foreign('comentarios_idcomentarios', 'fk_post_has_comentarios_comentarios1')->references('idcomentarios')->on('comentarios')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('post_idpost', 'fk_post_has_comentarios_post1')->references('idpost')->on('post')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('comentarios_idcomentarios', 'fk_post_has_comentarios_comentarios1')->references('idcomentarios')->on('comentarios')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('post_idpost', 'fk_post_has_comentarios_post1')->references('idpost')->on('post')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

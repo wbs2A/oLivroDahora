@@ -101,7 +101,7 @@ class ChatController extends Controller
         $chat = new Chat;
         $chat->user_id   =  $request->user_id;
         $chat->friend_id = $request->friend_id;
-        $chat->chat      = $request->chat;
+        $chat->chat       = $request->chat;
         $chat->save();
         return [];
     }

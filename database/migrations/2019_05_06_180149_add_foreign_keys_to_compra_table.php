@@ -14,8 +14,8 @@ class AddForeignKeysToCompraTable extends Migration {
 	{
 		Schema::table('compra', function(Blueprint $table)
 		{
-			$table->foreign('livro_idlivro', 'fk_compra_livro1')->references('idlivro')->on('livro')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('pagamento_idpagamento', 'fk_compra_pagamento1')->references('idpagamento')->on('pagamento')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('livro_idlivro', 'fk_compra_livro1')->references('idlivro')->on('livro')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('pagamento_idpagamento', 'fk_compra_pagamento1')->references('idpagamento')->on('pagamento')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

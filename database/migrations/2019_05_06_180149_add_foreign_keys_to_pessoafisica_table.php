@@ -14,9 +14,9 @@ class AddForeignKeysToPessoafisicaTable extends Migration {
 	{
 		Schema::table('pessoafisica', function(Blueprint $table)
 		{
-			$table->foreign('Endereco_idEndereco', 'fk_pessoaFisica_Endereco1')->references('idEndereco')->on('endereco')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('imagens_idimagens', 'fk_pessoaFisica_imagens1')->references('idimagens')->on('imagens')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('user_iduser', 'fk_pessoaFisica_user1')->references('iduser')->on('user')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('Endereco_idEndereco', 'fk_pessoaFisica_Endereco1')->references('idEndereco')->on('endereco')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('imagens_idimagens', 'fk_pessoaFisica_imagens1')->references('idimagens')->on('imagens')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('user_iduser', 'fk_pessoaFisica_user1')->references('iduser')->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

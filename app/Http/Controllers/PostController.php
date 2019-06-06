@@ -76,7 +76,7 @@ class PostController extends Controller
     public function edit($id, Post $post)
     {
         $post = Post::getPostById($id);
-        return view('createpost', ['post'=>$post]);
+        return view('admin.createPost', ['post'=>$post]);
     }
 
     /**
@@ -100,7 +100,7 @@ class PostController extends Controller
     public function destroy($id,Post $post)
     {
         Post::find($id)->delete();
-        return redirect()->to('/perfil');
+        return redirect()->to('/admin/posts');
     }
 
     public function getPostByUser(){

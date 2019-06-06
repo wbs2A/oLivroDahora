@@ -14,7 +14,7 @@ class AddForeignKeysToAvaliacaoTable extends Migration {
 	{
 		Schema::table('avaliacao', function(Blueprint $table)
 		{
-			$table->foreign('user_iduser', 'fk_avaliacao_user1')->references('iduser')->on('user')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('user_iduser', 'fk_avaliacao_user1')->references('iduser')->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

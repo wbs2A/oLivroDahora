@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'botman',
-        'upload'
+        'upload',
+        'http://localhost:8000/broadcasting/auth'
     ];
 }

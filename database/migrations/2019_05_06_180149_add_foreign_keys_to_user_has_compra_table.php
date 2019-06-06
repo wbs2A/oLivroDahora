@@ -14,8 +14,8 @@ class AddForeignKeysToUserHasCompraTable extends Migration {
 	{
 		Schema::table('user_has_compra', function(Blueprint $table)
 		{
-			$table->foreign('compra_idcompra', 'fk_user_has_compra_compra1')->references('idcompra')->on('compra')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-			$table->foreign('user_iduser', 'fk_user_has_compra_user1')->references('iduser')->on('user')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+			$table->foreign('compra_idcompra', 'fk_user_has_compra_compra1')->references('idcompra')->on('compra')->onUpdate('CASCADE')->onDelete('CASCADE');
+			$table->foreign('user_iduser', 'fk_user_has_compra_user1')->references('iduser')->on('user')->onUpdate('CASCADE')->onDelete('CASCADE');
 		});
 	}
 

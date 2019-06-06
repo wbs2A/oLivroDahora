@@ -7,9 +7,13 @@
 @stop
 
 @section('content')
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    @if(isset($post))
+        {{$post}}
+    @endif
+
     <div class="container">
         <div class="row text-center">
             <div class="col-xs-10 col-xs-offset-1">
