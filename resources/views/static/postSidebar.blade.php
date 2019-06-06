@@ -48,17 +48,17 @@
             <div class="popular-post-list">
                 @foreach ($postsL as $post)
                     <div class="single-post-list">
+
                         <div class="thumb">
-                            @if($post->imagens)
-                                <img class="img-fluid" src="" alt="">
-                                <!-- {{asset("storage/img/blog/pp1.jpg")}} -->
+                            @if($post['imagens'])
+                                <img class="img-fluid" src="storage/{{$post['imagens'][0]['filename']}}" alt="">
                             @endif
                         </div>
                         <div class="details mt-20">
-                            <a href="/viewpost/{{$post->idpost}}">
-                                <h6>{{$post->titulo}}</h6>
+                            <a href="/viewpost/{{$post['idpost']}}">
+                                <h6>{{$post['titulo']}}</h6>
                             </a>
-                            <p>{{$post->categoria->nome}} | {{$post->datapostagem}}</p>
+                            <p>{{$post['categoria']['nome']}} | {{$post['datapostagem']}}</p>
                         </div>
                     </div>
                 @endforeach
@@ -98,4 +98,4 @@
     </div>
 </div>
 <script src='{{asset("js/staticSideBar.js")}}'></script>
-<!-- End Blog Post Siddebar -->
+<!--  End Blog Post Siddebar -->

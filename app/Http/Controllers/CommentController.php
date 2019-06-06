@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Model\Comentarios;
 use App\Model\PostHasComentarios;
 use App\Model\UserHasPost;
+use App\Model\Post;
 use App\User;
 use App\Model\PessoaFisica;
 use Illuminate\Support\Facades\Auth;
@@ -32,10 +33,11 @@ class CommentController extends Controller
 	   'user_iduser' => 'required',
 	   ]);
 
+	   $hp = Post::where('idpost',$request->input('idpost'))->with(['users'])->first();
+	   $autorP =  $hp->users;
+	   // dd($autorP);
 	   $comment = Comentarios::create($request->except('idpost'));
-	   $hp = PostHasComentarios::where('post_idpost',$request->input('idpost'))->with(['post.users'])->first();
-	   $autorP =  $hp->post->users;
-	   $post = $hp->post;
+	   $post = $hp;
 	   $autorP->each->notify(new PostCommented($comment, $post));
 	   if (empty($request->input('reply_id'))) {
 		   PostHasComentarios::create(['post_idpost' => $request->input('idpost'), 'comentarios_idcomentarios' => $comment->idcomentarios, 'comentarios_user_iduser' => $request->input('user_iduser')]);
@@ -155,9 +157,8 @@ class CommentController extends Controller
     }
     public function deleteComentario($id){
     	$key = Comentarios::where('idcomentarios',$id)->first();
-    	if ($key->imagens_idimagens) {
-    		$userIm= (new UserController)->deleteimagem($key->imagens_idimagens);
-    	}
+    	$kImagem=$key->imagens_idimagens;
+
     	if ($key->reply_id != 0) {
     		Comentarios::where('reply_id', $id)->delete();
     		$key = Comentarios::where('idcomentarios', $id)->delete();
@@ -165,6 +166,9 @@ class CommentController extends Controller
     		Comentarios::where('reply_id', $id)->delete();
     		PostHasComentarios::where('comentarios_idcomentarios',$id)->delete();
     		$key = Comentarios::where('idcomentarios',$id)->delete();
+    	}
+    	if ($kImagem) {
+    		$userIm= (new UserController)->deleteimagem($kImagem);
     	}
     	return ['status'=> true];
     }

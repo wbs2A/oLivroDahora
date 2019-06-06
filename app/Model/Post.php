@@ -31,22 +31,34 @@ class Post extends Model
             ->orWhere('post.descricao', 'like', '%'.$data['busca'].'%')
             ->orWhere('post.conteudo', 'like', '%'.$data['busca'].'%')
             ->with(['comentarios','imagens','categoria'])->withCount('comentarios')
-                ->paginate(1);
+            ->orderBy('datapostagem','desc')
+                ->paginate(5);
     }
     public static function categoriaPosts($categoria=null){
         if ($categoria == null) {
-            return Post::with(['comentarios','imagens','categoria'])->withCount('comentarios')
-                ->paginate(1);
+            return Post::with(['comentarios','imagens','categoria'])->withCount('comentarios')->orderBy('datapostagem','desc')
+                ->paginate(5);
         }
-        return Post::where('post.categoria_idcategoria', '=', $categoria)->with(['comentarios','imagens','categoria'])->withCount('comentarios')->paginate(1);
+        return Post::where('post.categoria_idcategoria', '=', $categoria)->with(['comentarios','imagens','categoria'])->withCount('comentarios')->orderBy('datapostagem','desc')->paginate(5);
     }
-
+    private function teste($a,$b){
+        if ($a['avaliacoes_r'][0]['qq'] == $b['avaliacoes_r'][0]['qq']) {
+            return 0;
+        }
+        return ($a['avaliacoes_r'][0]['qq'] < $b['avaliacoes_r'][0]['qq']) ? -1 : 1;
+    }
     public static function postsAvaliacao(){
-        return Post::has('avaliacoes')->with(['comentarios','imagens','categoria','avaliacoesR'=>function($q){
-                $q->orderBy('qq','desc');
-            }])
-            ->limit(1)
+        $t=Post::has('avaliacoes')->with(['comentarios','imagens','categoria','avaliacoesR'])
+            ->limit(5)
             ->get();
+            $t = $t->toArray();
+            $e= usort($t,function($a,$b){
+                if ($a['avaliacoes_r'][0]['qq'] == $b['avaliacoes_r'][0]['qq']) {
+                    return 0;
+                }
+                return ($a['avaliacoes_r'][0]['qq'] > $b['avaliacoes_r'][0]['qq']) ? -1 : 1;
+            });
+        return $t;
     }
     public function avaliacoesR(){
         return $this->avaliacoes()

@@ -72,7 +72,7 @@ axios.defaults.headers.common = {
             setupdate(){
                 console.log(this.src);
                 if (this.src) {
-                    this.$refs['preview'+parseInt(i)][0].src=this.src.filename;
+                    this.$refs['preview'+parseInt(0)][0].src=this.src.filename;
                 }
             },
             removeFile( key ){
