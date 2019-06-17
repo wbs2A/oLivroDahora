@@ -80,6 +80,7 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
     Route::get('/removePost/{id}', 'PostController@destroy')->name('removePost');
     Route::get('/editpost/{id}','PostController@edit')->name('editPost');
+    Route::get('/createbook', 'BookController@create')->name('insertBook');
 });
 
 

@@ -23,7 +23,9 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                            {!! $post->conteudo  !!}
+                            <div class="col text-truncate">
+                                {!! $post->conteudo  !!}
+                            </div>
                         </div>
                         <div class="panel-footer">
                             {{$post->datapostagem}}

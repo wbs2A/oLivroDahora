@@ -137,6 +137,22 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],
+        [
+            'text'        => 'Livros',
+            'icon'        => 'book',
+            'submenu' => [
+                [
+                    'text' => 'Inserir Livro',
+                    'icon'=>'plus',
+                    'url'         => 'admin/createbook'
+                ],
+                [
+                    'text' => 'Gerenciar Livros',
+                    'icon' => 'tasks',
+                    'url'  => 'admin/posts',
+                ],
+            ],
+        ],
         'Configurações da Conta',
         [
             'text' => 'Perfil',
