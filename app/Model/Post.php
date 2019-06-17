@@ -95,4 +95,8 @@ class Post extends Model
     {
         return $this->belongsToMany(\App\User::class, 'user_has_post', 'post_idpost','user_iduser');
     }
+
+    public function livros(){
+        return $this->belongsToMany(\App\Model\Livro::class, 'post_has_livro', 'post_id', 'post_id');
+    }
 }
