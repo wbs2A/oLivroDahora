@@ -19,7 +19,7 @@ class CreateCompraTable extends Migration {
 			$table->dateTime('data')->nullable();
 			$table->boolean('realizado')->default(false);
 			$table->integer('livro_idlivro')->index('fk_compra_livro1_idx');
-			$table->integer('pagamento_idpagamento')->index('fk_compra_pagamento1_idx');
+			$table->integer('pagamento_idpagamento')->index('fk_compra_pagamento1_idx')->nullable();
 		});
 	}
 

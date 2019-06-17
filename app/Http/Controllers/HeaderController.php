@@ -7,6 +7,8 @@ use App\Model\Post;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 use App\Model\Categoria;
+use App\Model\Compra;
+use Illuminate\Support\Facades\Auth;
 
 class HeaderController extends Controller
 {
@@ -36,11 +38,23 @@ class HeaderController extends Controller
             $post= Post::categoriaPosts();
         }
         $postsL= Post::postsAvaliacao();
-        return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL]);
+        if (Auth::check()) {
+            $id = Auth::user()->iduser;
+        $compra = Compra::has('users')->with(['users','pagamento'])->whereHas('users', function($q) use($id) {
+       // Query the name field in status table
+               $q->where('user_iduser', '=', $id); // '=' is optional
+        })->get();
+            return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'compra' => $compra]);    
+        }
+        return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL, ]);
     }
     public function showCarrinho(){
-        
-        return view('carrinho');
+        $id = Auth::user()->iduser;
+        $compra = Compra::has('users')->with(['users','pagamento'])->whereHas('users', function($q) use($id) {
+       // Query the name field in status table
+               $q->where('user_iduser', '=', $id); // '=' is optional
+        })->where('compra.realizado', 0)->get();
+        return view('carrinho', ['compra' => $compra]);
     }
     public function getcategoriaPost(Request $request){
         if (isset($request->all()['categoria'])) {

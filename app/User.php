@@ -63,4 +63,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(\App\Model\PessoaFisica::class, 'user_iduser');
     }
+    public function compras(){
+        return $this->belongsToMany(\App\Model\Compra::class, 'user_has_compra', 'compra_idcompra', 'user_iduser');
+    }
 }

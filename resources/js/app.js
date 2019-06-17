@@ -45,23 +45,25 @@ document.addEventListener('DOMContentLoaded', function () {
     
 });
 
-$('document').ready(function () {
-    var a = $('#carrinho').attr('href');
-    console.log(a);
-    if (a !== undefined) {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: 'api/carrinho',
-            method: 'get',
-            success: function(result){
-                console.log(result);
-            }
-        });
-    }
-});
+// (function carrinho() {
+//     console.log('teste');
+//     var a = $('#carrinho').attr('href');
+//     console.log(a);
+//     if (a !== undefined) {
+//         $.ajaxSetup({
+//             headers: {
+//                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+//             }
+//         });
+//         $.ajax({
+//             url: 'api/carrinho',
+//             method: 'get',
+//             success: function(result){
+//                 console.log(result);
+//                 $('#checkout_items').text(result.length);
+//             }
+//         });
+//     }
+// })();
 
 require('./bulma-extensions');

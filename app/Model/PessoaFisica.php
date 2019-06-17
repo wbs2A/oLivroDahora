@@ -33,4 +33,7 @@ class PessoaFisica extends Model
     {
         return $this->hasOne(\App\Model\Imagens::class, 'idimagens','imagens_idimagens' );
     }
+    public function pagamento(){
+        return $this->belongsToMany(\App\Model\Pagamento::class, 'pessoafisica_has_pagamento', 'pessoafisica_idpessoaFisica', 'pagamento_idpagamento');
+    }
 }

@@ -30,4 +30,17 @@ class Compra extends Model
      * @var array
      */
     protected $fillable = ['valor', 'data', 'realizado', 'livro_idlivro', 'pagamento_idpagamento'];
+
+    public function users(){
+        return $this->belongsToMany(\App\User::class, 'user_has_compra', 'compra_idcompra', 'user_iduser');
+    }
+    // public function livro()
+    // {
+    //     return $this->belongsTo(\App\Model\Livro::class, 'livro_idlivro');
+    // }
+    public function pagamento()
+    {
+        return $this->belongsTo(\App\Model\Pagamento::class, 'pagamento_idpagamento');
+    }
+
 }

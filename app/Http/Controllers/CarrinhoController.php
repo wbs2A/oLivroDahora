@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Model\Compra;
+
 class CarrinhoController extends Controller
 {
     /**
@@ -45,7 +47,12 @@ class CarrinhoController extends Controller
      */
     public function show()
     {
-        return Auth::user()->iduser;
+        $id = Auth::user()->iduser;
+        $compra = Compra::with(['users','pagamento'])->whereHas('users', function($q) use($id) {
+       // Query the name field in status table
+               $q->where('user_iduser', '=', $id); // '=' is optional
+        })->get();
+        return $compra;
     }
 
     /**
