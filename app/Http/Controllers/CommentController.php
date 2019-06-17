@@ -174,24 +174,26 @@ class CommentController extends Controller
     }
     public function update(Request $request, $id){
     	$comment = Comentarios::find($id);
+    	$key = $comment->imagens_idimagens;
+    	$delete=false;
     	if (isset($request->texto)) {
     		$comment->texto=$request->texto;
     		if (!empty($comment->imagens_idimagens)) {
-    			$userIm= (new UserController)->deleteimagem($comment->imagens_idimagens);
+    			// dd($key);
+    			$delete=true;
     			$comment->imagens_idimagens=null;
     		}
-    		$comment->save();
-    		return ['status'=> true];
-    	}
-
+    	}else{
     		$comment->texto=null;
     		if (!empty($comment->imagens_idimagens)) {
-    			$userIm= (new UserController)->updateimagem($comment->imagens_idimagens, $request);
-    		}else{
-    			$r= (new UserController)->postimagem($request);
-    			$comment->imagens_idimagens=$r->original['id'];	
+    			$delete=true;
     		}
-    		$comment->save();
-    		return ['status'=> true];
+    		$comment->imagens_idimagens=$request->imagens_idimagens;	
+    	}
+    	$comment->save();
+    	if ($delete) {
+    		$userIm= (new UserController)->deleteimagem($key);
+    	}
+    	return ['status'=> true];
     }
 }

@@ -1,21 +1,16 @@
 <template>
     <span>
         <div v-for="(file, key) in files" class="file-listing">
-            <img class="preview rounded col-2" v-bind:ref="'preview'+parseInt(key)" />
-                                                                                       
-            <div class="success-container" v-if="file.id > 0">
-                Success
-                <input type="hidden" :name="input_name" :value="file.id"/>
-            </div>
-            <div class="remove-container" v-else>
-                <a class="remove" v-on:click="removeFile(key)">Remover</a>
+            <img class="preview rounded col-2" ref="preview" v-if="file.filename" :src="'/storage/'+file.filename"/>
+            <img class="preview rounded col-2" ref="preview" v-else />
+            <div class="remove-container" v-if="file">
+                <a class="remove" v-on:click="removeFile()">Remover</a>
             </div>
         </div>
-        <label  class="text-center m-0 p-0" >
-            <i :class="' icon '+cla" :style="'font-size:'+size+'px;'" aria-hidden="true"></i>
+        <label  class="m-0 p-0" >
+            <i :class="cla" :style="'font-size:'+size+'px;'" aria-hidden="true"></i>
             <input id="imagem" type="file" name="imagem" accept="image/*" @change="setImagem" style="display: none;">
-            <br>
-            <span>{{legenda}}</span>
+            <span :class="clas + ' row'">{{legenda}}</span>
         </label>
     </span>
 </template>
@@ -46,48 +41,81 @@ axios.defaults.headers.common = {
                 required: false  
             },
             src:{
-                type:Object,
+                type: Object,
                 required:false
+            }
+        },
+        watch: { 
+            src: function() { // watch it
+                console.log(this.src);
+                if (this.src && this.src.imagem) {
+                    this.files.push(this.src.imagem);
+                    console.log(this.files);
+                    for (var i = 0; i <  document.getElementsByClassName(this.clas).length; i++) {
+                        console.log(document.getElementsByClassName(this.clas)[i].style.display);
+                        document.getElementsByClassName(this.clas)[i].style.display='none';
+                    }
+                    console.log(this.$refs);
+                    // console.log(this.$refs.preview);
+                    // this.$refs.preview.src='storage/'+this.src.imagem.filename;
+
+                }
+            },
+            url: function(){
+                console.log(this.cla);
+                if (this.cla) {
+                    var s = this.cla.indexOf('icon');
+                    var v = this.cla.substring(s);
+                    console.log(v);
+                    this.clas=v;
+                }
             }
         },
         data() {
             return {
-                files: []
+                files: [],
+                clas:'icon'
+            }
+        },
+        mounted(){
+
+            console.log(this.cla);
+            if (this.cla) {
+                var s = this.cla.indexOf('icon');
+                var v = this.cla.substring(s);
+                console.log(v);
+                this.clas=v;
             }
         },
         methods:{
             setImagem(event){
                 if (event.target.files.length) {
-                    console.log(event.target.files.length);
-                    for (var i = 0; i <  document.getElementsByClassName('icon').length; i++) {
-                        console.log(document.getElementsByClassName('icon')[i].style.display);
-                        document.getElementsByClassName('icon')[i].style.display='none';
+                    console.log(event.target.files);
+                    for (var i = 0; i <  document.getElementsByClassName(this.clas).length && i < 2; i++) {
+                        console.log(document.getElementsByClassName(this.clas)[i]);
+                        document.getElementsByClassName(this.clas)[i].style.display='none';
                     }
+                    console.log(document.getElementById('imagem').parentElement);
                     console.log('te');
                     this.files =event.target.files;
                     console.log('te2');
                     this.getImagePreviews();
                 }
             },
-            setupdate(){
-                console.log(this.src);
-                if (this.src) {
-                    this.$refs['preview'+parseInt(0)][0].src=this.src.filename;
-                }
-            },
-            removeFile( key ){
-                console.log(typeof this.files);
-                if (this.files) {
-                    for (var i = 0; i <  document.getElementsByClassName('icon').length; i++) {
-                        console.log(document.getElementsByClassName('icon')[i].style.display);
-                        document.getElementsByClassName('icon')[i].style.display='block';
+            removeFile(){
+
+                if (this.files.length) {
+                    console.log(this.clas);
+                    for (var i = 0; i <  document.getElementsByClassName(this.clas).length; i++) {
+                        console.log(document.getElementsByClassName(this.clas)[i].style.display);
+                        document.getElementsByClassName(this.clas)[i].style.display='block';
                     }
                     this.files =[];
+                    this.$refs.preview[0].src='';
                     document.getElementById('imagem').value=''
                 }else{
                     console.log(this.url);
                 }
-                this.getImagePreviews();
             },
             getImagePreviews(){
                 console.log('te');
@@ -96,7 +124,7 @@ axios.defaults.headers.common = {
                         console.log(this.files.length);
                         let reader = new FileReader();
                         reader.addEventListener("load", function(){
-                            this.$refs['preview'+parseInt(i)][0].src = reader.result;
+                            this.$refs.preview[0].src = reader.result;
                         }.bind(this), false);
                         reader.readAsDataURL( this.files[i] );
                     }
@@ -105,9 +133,6 @@ axios.defaults.headers.common = {
             submitFiles() {
                 if (this.files.length) {
                     for( let i = 0; i < this.files.length; i++ ){
-                        if(this.files[i].id) {
-                            continue;
-                        }
                         let formData = new FormData();
                         formData.append('imagem', this.files[i]);
                         axios.post(this.url,
@@ -134,45 +159,16 @@ axios.defaults.headers.common = {
 </script>
 
 <style scoped>
-    input[type="file"]{
-        opacity: 0;
-        width: 100%;
-        height: 200px;
-        position: absolute;
-        cursor: pointer;
-    }
-    .filezone {
-        outline: 2px dashed grey;
-        outline-offset: -10px;
-        background: #ccc;
-        color: dimgray;
-        padding: 10px 10px;
-        min-height: 200px;
-        position: relative;
-        cursor: pointer;
-    }
-    .filezone:hover {
-        background: #c0c0c0;
-    }
-    .filezone p {
-        font-size: 1.2em;
-        text-align: center;
-        padding: 50px 50px 50px 50px;
-    }
     div.file-listing img{
         max-width: 90%;
     }
     div.file-listing{
         margin: auto;
-        padding: 10px;
+        /*padding: 10px;*/
         border-bottom: 1px solid #ddd;
     }
     div.file-listing img{
         height: 100px;
-    }
-    div.success-container{
-        text-align: center;
-        color: green;
     }
     div.remove-container{
         text-align: center;
@@ -180,17 +176,5 @@ axios.defaults.headers.common = {
     div.remove-container a{
         color: red;
         cursor: pointer;
-    }
-    a.submit-button{
-        display: block;
-        margin: auto;
-        text-align: center;
-        width: 200px;
-        padding: 10px;
-        text-transform: uppercase;
-        background-color: #CCC;
-        color: white;
-        font-weight: bold;
-        margin-top: 20px;
     }
 </style>

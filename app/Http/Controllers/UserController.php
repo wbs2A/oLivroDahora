@@ -127,9 +127,7 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('perfil');
     }
-    public function showCarrinho(){
-        return view('carrinho');
-    }
+    
     public function postimagem(Request $request){
         $this->validate($request, [
 //            'file' => 'image|max:3000'
@@ -154,6 +152,7 @@ class UserController extends Controller
     }
     public function deleteimagem($id){
         $imagem=Imagens::where('idimagens',$id)->first();
+        // dd($imagem);
         if(Storage::disk('public')->delete($imagem->filename)) {
             Imagens::where('idimagens',$id)->delete();
             return response()->json([
@@ -164,22 +163,22 @@ class UserController extends Controller
             'success' => false
         ], 500);
     }
-    public function updateimagem($id, Request $request){
-        $imagem=Imagens::where('idimagens',$id)->first();
-        $file = Input::file('imagem');
-        $path = Storage::disk('public')->putFile('', $request->file('imagem'));
-        if(Storage::disk('public')->delete($imagem->filename)) {
-            $imagem->filename = $path;
-            $imagem->mime = $file->getClientMimeType();
-            $imagem->path = storage_path();
-            $imagem->size = $file->getClientSize();
-            $imagem->save();
-            return response()->json([
-                'success' => true
-            ], 200);
-        }
-        return response()->json([
-            'success' => false
-        ], 500);
-    }
+    // public function updateimagem($id, Request $request){
+    //     $imagem=Imagens::where('idimagens',$id)->first();
+    //     $file = Input::file('imagem');
+    //     $path = Storage::disk('public')->putFile('', $request->file('imagem'));
+    //     if(Storage::disk('public')->delete($imagem->filename)) {
+    //         $imagem->filename = $path;
+    //         $imagem->mime = $file->getClientMimeType();
+    //         $imagem->path = storage_path();
+    //         $imagem->size = $file->getClientSize();
+    //         $imagem->save();
+    //         return response()->json([
+    //             'success' => true
+    //         ], 200);
+    //     }
+    //     return response()->json([
+    //         'success' => false
+    //     ], 500);
+    // }
 }

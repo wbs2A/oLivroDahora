@@ -28,14 +28,14 @@ Route::post('/busca', 'HeaderController@index')->name('busca');
 Route::group(['middleware'=>["web","verified"]], function (){
     Route::get('/api/chat/getChat/{id}', 'ChatController@getChat');
     Route::post('/api/chat/sendChat', 'ChatController@sendChat')->middleware('auth');
-	Route::post('/busca', 'HeaderController@index')->name('busca');
+	// Route::post('/busca', 'HeaderController@index')->name('busca');
 	
 	// Route::get('/contato', function () {
 	//     return view('contato');
 	// })->name('contato');
 	// Route::get('/categoria', 'HeaderController@categoria' )->name('categoria');
  //    Route::post('/categoria', 'HeaderController@categoria' )->name('categoria');    
-    Route::get('/carrinho', 'UserController@showCarrinho')->name('carrinho');
+    Route::get('/carrinho', 'HeaderController@showCarrinho')->name('carrinho');
 
     Route::get('/createpost', 'PostController@create');
     Route::get('deletepost/{id}', 'PostController@destroy');
@@ -93,6 +93,7 @@ Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::get('/comentario/{id}/{idpost}', 'CommentController@getComentario');
     Route::post('/avaliacao', 'AvaliacoesController@store');
     Route::post('/avaliacao/{id}', 'AvaliacoesController@update');
+    Route::get('/carrinho', 'CarrinhoController@show');
 });
 Route::delete('/api/comentario/{id}', 'CommentController@deleteComentario');
 Route::post('api/register/imagem', 'UserController@postimagem');

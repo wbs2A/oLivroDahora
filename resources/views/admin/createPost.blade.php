@@ -31,7 +31,7 @@
                                 <label for="img">Insira a imagem do Post</label>
                                 <br>
 
-                                <update-imagem ref="modal" v-on:submit="setImagem" :url="'/api/register/imagem'" :legenda="'Imagem'" :cla="'fa fa-file-image-o'" :size="'50'"></update-imagem>
+                                <update-imagem ref="modal" v-on:submit="setImagem" :url="'/api/register/imagem'" :legenda="'Imagem'" :cla="'fa fa-file-image-o icon'" :size="'50'"></update-imagem>
                             </div>
                         </div>
                         <div class="form-group">

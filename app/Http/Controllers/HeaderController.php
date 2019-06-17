@@ -38,9 +38,9 @@ class HeaderController extends Controller
         $postsL= Post::postsAvaliacao();
         return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL]);
     }
-    public function busca(Request $request){
-        $request->session()->put('request', $request->all());
-        return redirect()->action("HeaderController@index");
+    public function showCarrinho(){
+        
+        return view('carrinho');
     }
     public function getcategoriaPost(Request $request){
         if (isset($request->all()['categoria'])) {

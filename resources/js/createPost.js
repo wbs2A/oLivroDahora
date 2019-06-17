@@ -13,7 +13,7 @@ new Vue({
     },
     mounted(){
         document.getElementById('createPost').addEventListener('submit',this.submitFiles,false);
-        console.log('success');
+        console.log('successeeeexx');
     },
     methods:{
         submitFiles(event){

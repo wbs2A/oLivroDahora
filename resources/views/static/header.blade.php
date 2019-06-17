@@ -13,8 +13,7 @@
               <span class="logo-outer">
                 <span class="logo-inner">
                   <a href="/"
-                  ><img class="mx-auto" src="{{asset("storage/img/logo.png")}}" alt=""
-                      /></a>
+                  style="font-size: 30px; color: black; font-weight: bold;"> oLivro<span style="color: #007cffb5;">Dahora</span> </a>
                 </span>
               </span>
                 </div>
@@ -65,8 +64,8 @@
                                     </div> 
                             </li>
 
-                            <!-- <li class="nav-item checkout">
-                                    <a class="nav-link col" 
+                            <li class="nav-item checkout">
+                                    <a id="carrinho" class="nav-link col" 
                                     @if(Auth::check())
                                         href="{{route('carrinho')}}"
                                     @endif
@@ -74,7 +73,7 @@
                                         <i class="fa fa-shopping-cart row justify-content-end mr-3" aria-hidden="true"></i>
                                         <span id="checkout_items" class="checkout_items row justify-content-end mr-3">0</span>
                                     </a>
-                            </li> -->
+                            </li>
                         </ul>
                     </div>
                 </nav>

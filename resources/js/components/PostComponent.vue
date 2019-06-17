@@ -1,9 +1,9 @@
 <template>
 <div>
     <div class="single-amenities">
-        <div class="amenities-thumb">
+        <div class="amenities-thumb col">
             <img v-if="model.imagens.length"
-             class="img-fluid w-100"
+             class="img-fluid w-50"
             :src="'/storage/'+model.imagens[0]['filename']"
             alt=""
             />

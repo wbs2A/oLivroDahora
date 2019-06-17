@@ -16,8 +16,8 @@
 					   <input class="input col form-control" type="text" disabled :value="user.name">
 				   </div>
 				   <div class="form-row m-3">
-						<update-imagem ref="modal" v-on:submit="setImagem" :cla="'fa fa-file-image-o'" :size="'20'" :url="'/api/comentario/imagem'"></update-imagem>
-					   <textarea class="input form-control icon" placeholder="Add comment..." required v-model="message"></textarea>
+				   			<update-imagem ref="modal" v-on:submit="setImagem" :cla="'fa fa-file-image-o icon'" :size="'20'" :url="'/api/comentario/imagem'"></update-imagem>
+					   <textarea :class="'m-0 input form-control icon'" placeholder="Add comment..." required v-model="message"></textarea>
 					   <span class="input" v-if="errorComment" style="color:red">{{errorComment}}</span>
 				   </div>
 				   <div class="form-row m-3">
@@ -42,7 +42,7 @@
 						<div v-else class="comment-avatar">
 						   <i class="fa fa-user icon" style="font-size: 20px;" aria-hidden="true"></i>
 					   </div>
-					   <!-- <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/ucomentario/'+comment.commentid, comment)"					   >Editar</button> -->
+					   <button v-if="user.iduser == comment.iduser" class="bnt btn-info" @click="openeditComentario('/api/ucomentario/'+comment.commentid, comment)"					   >Editar</button>
 					   <button v-if="user.iduser == comment.iduser || user.iduser == comment.idpostuser" class="bnt btn-danger" @click="opendeleteComentario('/api/comentario/'+comment.commentid)">Exluir</button>
 					   <div class="comment-text m-1">
 							<p v-if="comment.comment">
@@ -78,8 +78,8 @@
 							   <input class="input col form-control" type="text" disabled :value="user.name">
 						   </div>
 						   <div class="form-row m-3">
-								<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
-								<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message"></textarea>
+								<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o icon'+comment.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+								<textarea :class="'input form-control icon'+comment.commentid" placeholder="Add comment..." required v-model="message"></textarea>
 							   <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
 						   </div>
 						   <div class="form-row m-3">
@@ -133,8 +133,8 @@
 											<input class="input col form-control" type="text" disabled :value="user.name">
 										</div>
 										<div class="form-row m-3">
-											<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
-											<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message"></textarea>
+											<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o icon'+replies.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+											<textarea :class="'input form-control icon'+replies.commentid" placeholder="Add comment..." required v-model="message"></textarea>
 											<span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
 										</div>
 										<div class="form-row m-3">
@@ -173,19 +173,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="contaLabelEdit"></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button @click="closeEdit" type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                        	<update-imagem ref="update" :src="imagem" v-on:update="update":cla="'fa fa-file-image-o'" :size="'18'" :url="myurl"></update-imagem>
-							<textarea class="input form-control icon" placeholder="Add comment..." required v-model="message2"></textarea>
-							<span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
+                        	<update-imagem ref="update" :src="imagem" v-on:submit="update":cla="'fa fa-file-image-o iconEdit'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+							<textarea class="input form-control iconEdit" placeholder="Add comment..." required v-model="message2"></textarea>
+							<span class="input" v-if="errorReply" style="color:red">{{errorEdit}}</span>
                             <span id="conteudoEdit"></span>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" @click="closeEdit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                             <button  class="btn btn-success" data-ref="" @click="editComentario()" id="sim">Sim</button>
                         </div>
                     </div>
@@ -230,6 +230,7 @@ export default {
 		   show: [],
 		   commentRepliesBoxs: [],
 		   errorComment: null,
+		   errorEdit: null,
 		   endereco:null,
 		   errorReply: null
 	   }
@@ -483,41 +484,59 @@ export default {
 	    	var string;
 	    	string = $('#sim').attr('data-ref');
 	    	console.log(string);
-	    	if (document.getElementsByClassName('icon')[0].style.display == 'none') {
+	    	if (document.getElementsByClassName('iconEdit')[0].style.display == 'none') {
 				this.$refs.update.submitFiles();
 			}else{
 			   if (this.message2 != null && this.message2 != ' ') {
-				   this.errorComment = null;
-			        axios.put(string,{
+				   this.errorEdit = null;
+			        axios.post(string,{
 			        	texto: this.message2
 			        }).then(res => {
 			        	console.log(res.data);
 			        	if (res.data.status) {
-							$('#Edit').modal('hide');
 				        	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
 								this.commentData = res.data;
 								this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
 								this.comments = this.commentData.length;
 								console.log(res.data);
+								this.closeEdit();
+								$('#Edit').modal('hide');
 							});
 			        	}
 			        });
 			    }else{
-			    	this.errorComment = "Por favor, insira um comentario";
+			    	this.errorEdit = "Por favor, insira um comentario";
 			    }
 			}
+	    },
+	    closeEdit(){
+			this.message2='';
+			this.$refs.update.removeFile();
+			this.imagem=null;
+
 	    },
 	    update(resposta){
 	    	console.log('resposta');
 			console.log(resposta);
-        	if (resposta.status) {
-				$('#Edit').modal('hide');
-	        	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
-					this.commentData = res.data;
-					this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
-					this.comments = this.commentData.length;
-					console.log(res.data);
-				});
+			var string;
+	    	string = $('#sim').attr('data-ref');
+	    	console.log(string);
+        	if (resposta.success) {
+        		axios.post(string,{
+			        imagens_idimagens: resposta.id
+			    }).then(res => {
+			        console.log(res.data);
+			        if (res.data.status) {
+				       	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
+							this.commentData = res.data;
+							this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
+							this.comments = this.commentData.length;
+							console.log(res.data);
+							this.closeEdit();
+							$('#Edit').modal('hide');
+						});
+			      	}
+			    });
         	}
 	    }
 	},
