@@ -46,12 +46,14 @@
     <script src="{{asset("js/bootstrap-datepicker.js")}}"></script>
     <script src="{{asset("js/jquery.mask.js")}}"></script>
 
+    <script src="{{asset("js/app.js")}}"></script>
+
     <script
             type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"
     ></script>
     <script src="{{asset("js/main.js")}}"></script>
-    <script src="{{asset("js/app.js")}}"></script>
+    @yield('script')
     @include('static.footer')
 </body>
 </html>

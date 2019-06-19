@@ -1,80 +1,112 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <title>O Livro Dahora</title>
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset("css/linearicons.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/font-awesome.min.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/magnific-popup.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/nice-select.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/owl.carousel.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/bootstrap.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/bootstrap-datepicker.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/themify-icons.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/main.css")}}" />
+    <link rel="stylesheet" href="{{asset("css/app.css")}}" />
+    <script
+            src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+    <header class="header-area sticky-top">
+        <nav class="navbar navbar-expand-xlg text-center m-4">
+            <div class="container justify-content-center">
+                <div class="header-wrap">
+                    <div
+                            class="header-top d-flex justify-content-between align-items-lg-center navbar-expand-lg"
+                    >
+                        <div class="col-5 text-lg-center mt-2 mt-lg-0">
+                          <span class="logo-outer">
+                            <span class="logo-inner">
+                              <a href="/"
+                              style="font-size: 30px; color: black; font-weight: bold;"> oLivro<span style="color: #007cffb5;">Dahora</span> </a>
+                            </span>
+                          </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
+    </header>
+    
+    <div id="app">
+        <div id="carrinho" class="container">
+            <div class="card">
+              <div class="card-body">
+                <p>Código: {{$compra[0]->pagamento->idpagamento}} </p>
+                <p>Data: {{$compra[0]->data}} </p>
+              </div>
+            </div>
+            <div class="row">
+                <div class="card col  m-1">
+                            <div class="card-header head ">Dados Pessoais </div>
+                           <div class="card-body cardbody">
+                               <ul>
+                                    <li><b>nome:</b>  {{$user['user_info']['name']}}</li>
+                                    <li><b>sexo:</b> {{$user['pf_info']['sexo']}}</li>
+                                    <li><b>telefone:</b>{{$user['user_info']['telefone']}}</li>
+                                    <li><b>RG:</b> {{$user['pf_info']['rg']}}</li>
+                                    <li><b>Data de Nascimento:</b> {{$user['pf_info']['dataNascimento'] }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card col  m-1">
+                            <div class="card-header head">Endereço </div>
+                            <div class="card-body cardbody">
+                                <ul>
+                                    <li><b>Rua: </b>{{$user['endereco_info']['rua'] }}</li>
+                                    <li><b>Bairro: </b>{{$user['endereco_info']['bairro'] }}</li>
+                                    <li><b>Número: </b>{{$user['endereco_info']['numero']}}</li>
+                                    <li><b>CEP: </b>{{$user['endereco_info']['cep'] }}</li>
+                                    <li><b>Cidade: </b>{{$user['cidade_info']['nome']}}</li>
+                                    <li><b>Estado: </b>{{$user['estado_info']['nome']}}</li>
+                                </ul>
+                            </div>
+                        </div>
+            </div>
+        </div>
     </div>
+    <script
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            crossorigin="anonymous"
+    ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{asset("js/owl.carousel.min.js")}}"></script>
+    <script src="{{asset("js/jquery.sticky.js")}}"></script>
+    <script src="{{asset("js/jquery.tabs.min.js")}}"></script>
+    <script src="{{asset("js/parallax.min.js")}}"></script>
+    <script src="{{asset("js/jquery.nice-select.min.js")}}"></script>
+    <script src="{{asset("js/jquery.ajaxchimp.min.js")}}"></script>
+    <script src="{{asset("js/jquery.magnific-popup.min.js")}}"></script>
+    <script src="{{asset("js/bootstrap-datepicker.js")}}"></script>
+    <script src="{{asset("js/jquery.mask.js")}}"></script>
+
+    <script src="{{asset("js/app.js")}}"></script>
+
+    <script
+            type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"
+    ></script>
+    <script src="{{asset("js/main.js")}}"></script>
+    <script type="text/javascript" src="{{asset("js/carrinho.js")}}"></script>
 </body>
 </html>

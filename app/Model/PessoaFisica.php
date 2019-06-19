@@ -25,6 +25,7 @@ class PessoaFisica extends Model
         return $pessoa;
     }
     public static function atualizar($request, $id){}
+    
     public function user()
     {
         return $this->belongsTo(\App\User::class, 'user_iduser');
@@ -35,5 +36,9 @@ class PessoaFisica extends Model
     }
     public function pagamento(){
         return $this->belongsToMany(\App\Model\Pagamento::class, 'pessoafisica_has_pagamento', 'pessoafisica_idpessoaFisica', 'pagamento_idpagamento');
+    }
+    public function endereco()
+    {
+        return $this->belongsTo(\App\Model\Endereco::class, 'Endereco_idEndereco');
     }
 }

@@ -34,10 +34,10 @@ class Compra extends Model
     public function users(){
         return $this->belongsToMany(\App\User::class, 'user_has_compra', 'compra_idcompra', 'user_iduser');
     }
-    // public function livro()
-    // {
-    //     return $this->belongsTo(\App\Model\Livro::class, 'livro_idlivro');
-    // }
+    public function livro()
+    {
+        return $this->belongsTo(\App\Model\Livro::class, 'livro_idlivro');
+    }
     public function pagamento()
     {
         return $this->belongsTo(\App\Model\Pagamento::class, 'pagamento_idpagamento');

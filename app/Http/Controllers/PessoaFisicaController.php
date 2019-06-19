@@ -10,6 +10,7 @@ use App\Model\PessoaFisica;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PessoaFisicaController extends Controller
 {
@@ -100,7 +101,7 @@ class PessoaFisicaController extends Controller
     }
 
     
-    public function updateDados(Request $request, $cpf){
+    public function updateDados(Request $request, $cpf, $interno = null){
         $userFisico = PessoaFisica::find($cpf);
         $user = User::find($userFisico->user_iduser);
         $userFisico->sexo = $request->sexo;
@@ -110,12 +111,20 @@ class PessoaFisicaController extends Controller
         $user->telefone = $request->telefone;
         $userFisico->save();
         $user->save();
-        return redirect()->route('perfil');
+        if ($interno == null) {
+            return redirect()->route('perfil');
+        }else{
+            return ['status'=> true];
+        }
     }
-    public function alteraEndereco(Request $request, $id){
+    public function alteraEndereco(Request $request, $id, $interno = null){
         $data = $request->all();
         $data['idEndereco']=$id;
         $endereco = Endereco::alterar($data);
-        return redirect()->route('perfil');
+        if ($interno == null) {
+            return redirect()->route('perfil');
+        }else{
+            return ['status'=> true];
+        }
     }
 }

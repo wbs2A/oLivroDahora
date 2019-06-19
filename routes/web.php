@@ -48,8 +48,8 @@ Route::group(['middleware'=>["web","verified"]], function (){
         Route::get('/getcategoriaPost', 'HeaderController@getcategoriaPost');  
         Route::get('/getIdFisica', 'UserController@getIdPessoa');
         Route::get('/getPFisica/{cpf}', 'PessoaFisicaController@show');
-        Route::post('/updateDadosPessoaisPessoaFisica/{cpf}', 'PessoaFisicaController@updateDados');
-        Route::post('/updateDadosPessoaisEndereco/{id}','PessoaFisicaController@alteraEndereco');
+        Route::post('/updateDadosPessoaisPessoaFisica/{cpf}/{interno?}', 'PessoaFisicaController@updateDados');
+        Route::post('/updateDadosPessoaisEndereco/{id}/{interno?}','PessoaFisicaController@alteraEndereco');
         Route::post('/updateDadosPessoaisUser/{id}', 'UserController@alteraEmailSenha');
         Route::post('insertPost/', 'PostController@store')->name('submit');
         Route::get('getPostUser/', 'PostController@getPostByUser');
@@ -95,9 +95,17 @@ Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::post('/avaliacao', 'AvaliacoesController@store');
     Route::post('/avaliacao/{id}', 'AvaliacoesController@update');
     Route::get('/carrinho', 'CarrinhoController@show');
+    Route::get('/carrinho/{id}', 'CarrinhoController@destroy');
 });
+Route::post('/carrinho-finaliza', 'CarrinhoController@finaliza');
+Route::post('/compra/finaliza', 'CarrinhoController@compra')->name('compra');
 Route::delete('/api/comentario/{id}', 'CommentController@deleteComentario');
 Route::post('api/register/imagem', 'UserController@postimagem');
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\vendor\uniSharp\LaravelFilemanager\Lfm::routes()';
 });
+// Route::get('/mailable', function () {
+//     $user = App\User::find(1);
+//     $c = App\Model\Compra::where('realizado', 1)->get();
+//     return new App\Mail\Email($user, $c);
+// });

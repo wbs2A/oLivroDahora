@@ -34,8 +34,8 @@ mix.js('resources/js/app.js', 'public/js');
     mix.js("resources/js/index.js", "public/js");
     mix.js("resources/js/conversation.js", "public/js");
     mix.js("resources/js/post.js", "public/js");
-    mix.js("resources/js/compra.js", "public/js");
     mix.js("resources/js/dashboard.js", "public/js");
     mix.js("resources/js/jquery.mask.js", "public/js");
     mix.js("resources/js/staticSideBar.js", "public/js")
    .sass('resources/sass/app.scss', 'public/css');
+   mix.js("resources/js/carrinho.js", "public/js");

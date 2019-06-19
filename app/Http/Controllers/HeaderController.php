@@ -38,19 +38,11 @@ class HeaderController extends Controller
             $post= Post::categoriaPosts();
         }
         $postsL= Post::postsAvaliacao();
-        if (Auth::check()) {
-            $id = Auth::user()->iduser;
-        $compra = Compra::has('users')->with(['users','pagamento'])->whereHas('users', function($q) use($id) {
-       // Query the name field in status table
-               $q->where('user_iduser', '=', $id); // '=' is optional
-        })->get();
-            return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'compra' => $compra]);    
-        }
         return view('index', ['post' => $post, 'categoria' =>$categoria, 'postsL'=>$postsL, ]);
     }
     public function showCarrinho(){
         $id = Auth::user()->iduser;
-        $compra = Compra::has('users')->with(['users','pagamento'])->whereHas('users', function($q) use($id) {
+        $compra = Compra::has('users')->with(['users','livro','pagamento'])->whereHas('users', function($q) use($id) {
        // Query the name field in status table
                $q->where('user_iduser', '=', $id); // '=' is optional
         })->where('compra.realizado', 0)->get();

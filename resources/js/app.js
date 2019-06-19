@@ -1,4 +1,23 @@
-
+(function carrinho() {
+    if ($("#carrinho").attr('href') !== undefined) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+           }
+        });
+        $.ajax({
+            url: 'api/carrinho',
+            method: 'get',
+            success: function(result){
+                if(result['status']){
+                    $("#checkout_items").text(result['compra'].length);
+                }else{
+                    $("#checkout_items").text(0);
+                }             
+            }
+        });
+    }
+})();
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -44,26 +63,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
 });
-
-// (function carrinho() {
-//     console.log('teste');
-//     var a = $('#carrinho').attr('href');
-//     console.log(a);
-//     if (a !== undefined) {
-//         $.ajaxSetup({
-//             headers: {
-//                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-//             }
-//         });
-//         $.ajax({
-//             url: 'api/carrinho',
-//             method: 'get',
-//             success: function(result){
-//                 console.log(result);
-//                 $('#checkout_items').text(result.length);
-//             }
-//         });
-//     }
-// })();
 
 require('./bulma-extensions');

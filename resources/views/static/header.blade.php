@@ -1,4 +1,4 @@
-<header class="header-area">
+<header class="header-area sticky-top">
     <div class="container">
         <div class="header-wrap">
             <div
@@ -72,11 +72,7 @@
                                     >
                                         <i class="fa fa-shopping-cart row justify-content-end mr-3" aria-hidden="true"></i>
                                         <span id="checkout_items" class="checkout_items row justify-content-end mr-3">
-                                        @if(Auth::check() && !(empty($compra)))
-                                            {{ count($compra)}}
-                                        @else
-                                            0
-                                        @endif    
+                                                
                                         </span>
                                     </a>
                             </li>

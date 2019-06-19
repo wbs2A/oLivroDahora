@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\UserController;
 use App\Notifications\PostCommented;
 use App\Notifications\ComentarioComentario;
+
 class CommentController extends Controller
 {
 	//

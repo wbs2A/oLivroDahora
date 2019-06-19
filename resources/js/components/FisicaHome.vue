@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card row m-1">
+            <div class="card row m-1" v-if="!teste">
                 <div class="card-header head">Dados de acesso à conta <button type="button" class="btn btn-info edit" data-toggle="modal" data-target="#updateConta">
                     <i class="fas fa-edit"></i> Editar dados
                 </button></div>
@@ -58,7 +58,7 @@
             </div>
 
             <div class="modal fade" id="updateDados" tabindex="-1" role="dialog" aria-labelledby="dadosLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="dadosLabel">Atualizar dados pessoais</h5>
@@ -102,7 +102,7 @@
             </div>
 
             <div class="modal fade" id="updateEndereco" tabindex="-1" role="dialog" aria-labelledby="enderecoLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="enderecoLabel">Atualizar Endereço</h5>
@@ -157,7 +157,7 @@
             </div>
 
             <div class="modal fade" id="updateConta" tabindex="-1" role="dialog" aria-labelledby="contaLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="contaLabel">Atualizar dados da Conta</h5>
@@ -214,8 +214,43 @@
 
 <script>
     import BuscaCep from '../components/buscacep.vue';
+    import axios from 'axios';
+    import moment from 'moment';
+    import Vue2Filters from 'vue2-filters';
+    import VeeValidate from 'vee-validate' ;
+    axios.defaults.headers.common = {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    };
+    Vue.use(Vue2Filters);
+    Vue.use(VeeValidate);
+
+    Vue.config.productionTip = false;
+
+    Vue.filter('formatDate', function(value) {
+        if (value) {
+            return moment(String(value)).format('MM/DD/YYYY')
+        }
+    });
+
+    Vue.filter('formatCep', function(value) {
+        if (value) {
+            value = value.slice(0,5)+'-'+value.slice(5); 
+            console.log(value);
+            return value;
+        }
+    });
+    Vue.filter('formatTelefone', function(value) {
+        if (value) {
+            value = "("+value;
+            value =  [value.slice(0,3),")", value.slice(3)].join('');
+            return [value.slice(0,9),"-", value.slice(9)].join('');
+        }
+    });
+
     export default {
         name: "FisicaHome",
+        props: ['teste'],
         components:{
             buscacep : BuscaCep,
 
