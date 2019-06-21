@@ -25,21 +25,24 @@ class CommentController extends Controller
 	* @param  \Illuminate\Http\Request  $request
 	* @return \Illuminate\Http\Response
 	*/
-   public function store(Request $request){
-	   $this->validate($request, [
-	   'texto' => 'filled',
-	   'reply_id' => 'filled',
-	   'imagens_idimagens' => 'filled',
-	   'idpost' => 'required',
-	   'user_iduser' => 'required',
-	   ]);
+    public function store(Request $request){
+    	$this->validate($request, [
+    		'texto' => 'filled',
+	   		'reply_id' => 'filled',
+	   		'imagens_idimagens' => 'filled',
+	   		'idpost' => 'required',
+	   		'user_iduser' => 'required',
+	   	]);
+	   	$data = $request->except('idpost');
+	   	if (!empty($request->file('imagem'))) {
+	   		$data['imagens_idimagens'] = $this->insertImagem($request);
+	   	}
+	   	$hp = Post::where('idpost',$request->input('idpost'))->with(['users'])->first();
+	   	$autorP =  $hp->users;
 
-	   $hp = Post::where('idpost',$request->input('idpost'))->with(['users'])->first();
-	   $autorP =  $hp->users;
-	   // dd($autorP);
-	   $comment = Comentarios::create($request->except('idpost'));
-	   $post = $hp;
-	   if (empty($request->input('reply_id'))) {
+	   	$comment = Comentarios::create($data);
+	   	$post = $hp;
+	   	if (empty($request->input('reply_id'))) {
 	   		$autorP->each->notify(new PostCommented($comment, $post));
 		   PostHasComentarios::create(['post_idpost' => $request->input('idpost'), 'comentarios_idcomentarios' => $comment->idcomentarios, 'comentarios_user_iduser' => $request->input('user_iduser')]);
 	   }else{
@@ -169,32 +172,29 @@ class CommentController extends Controller
     		$key = Comentarios::where('idcomentarios',$id)->delete();
     	}
     	if ($kImagem) {
-    		$userIm= (new UserController)->deleteimagem($kImagem);
+    		$userIm= $this->deleteImagem($kImagem);
     	}
     	return ['status'=> true];
     }
     public function update(Request $request, $id){
+    	// dd($request);
     	$comment = Comentarios::find($id);
     	$key = $comment->imagens_idimagens;
-    	$delete=false;
     	if (isset($request->texto)) {
     		$comment->texto=$request->texto;
     		if (!empty($comment->imagens_idimagens)) {
-    			// dd($key);
-    			$delete=true;
+    			$userIm= $this->deleteImagem($key);
     			$comment->imagens_idimagens=null;
     		}
     	}else{
     		$comment->texto=null;
     		if (!empty($comment->imagens_idimagens)) {
-    			$delete=true;
+    			$this->updateImagem($comment->imagens_idimagens, $request);
+    		}else{
+    			$comment->imagens_idimagens = $this->insertImagem($request);
     		}
-    		$comment->imagens_idimagens=$request->imagens_idimagens;	
     	}
     	$comment->save();
-    	if ($delete) {
-    		$userIm= (new UserController)->deleteimagem($key);
-    	}
     	return ['status'=> true];
     }
 }

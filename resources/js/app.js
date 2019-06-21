@@ -6,7 +6,7 @@
            }
         });
         $.ajax({
-            url: 'api/carrinho',
+            url: '/api/carrinho',
             method: 'get',
             success: function(result){
                 if(result['status']){

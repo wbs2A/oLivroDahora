@@ -47,10 +47,9 @@ class PostCommented extends Notification
     {
         return (new MailMessage)
                     ->subject('Novo Comentário')
-                    ->greeting('Oi!')
+                    ->greeting('Oi! Veja o novo comentario no seu post.')
                     ->line($this->c->texto)
                     ->action('Ver comentário', url('viewpost/'.$this->p->idpost))
-                    ->line('Tenha um bom dia')
                     ->salutation('Atenciosamente, oLivroDaHora');
     }
 

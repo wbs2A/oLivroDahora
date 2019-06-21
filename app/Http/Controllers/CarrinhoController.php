@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Model\Compra;
 use App\Model\Pagamento;
+use App\Model\Post;
 // use PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Email;
 use App\User;
+use App\Model\Livro;
 use App\Model\PessoaFisica;
 use App\Http\Controllers\PessoaFisicaController;
 
@@ -54,9 +56,17 @@ class CarrinhoController extends Controller
      */
     public function store(Request $request)
     {
-        // $compra = Compra::create('livro' =>, 'data' => , 'valor' =>);
-        // DB::table('user_has_compra')->insert(array('user_iduser' => , 'compra_idcompra' => , 'compra_livro_idlivro' =>));
-        // return ['status' => true];
+        // dd($request->all());
+        $id = Auth::user()->iduser;
+        $c =Compra::where('livro_idlivro' , $request->input('livro_idlivro'))->with(['users' => function($q) use($id){
+            $q->where('user_iduser', '=', $id); // '=' is optional
+        }])->get();
+        if (count($c) > 0) {
+            return ['status' => false];
+        }
+        $compra = Compra::create($request->all());
+        DB::table('user_has_compra')->insert(array('user_iduser' => $id , 'compra_idcompra' => $compra->idcompra, 'compra_livro_idlivro' => $request->input('livro_idlivro')));
+        return ['status' => true];
     }
 
     /**
@@ -124,16 +134,39 @@ class CarrinhoController extends Controller
            'vcc' => 'required',
            'numero-cartao' => 'required',
        ]);
+        $iduser= Auth::user()->iduser;
         $d= $request->input('validade-cartao').'-01 00:00:00';
-        $p = Pagamento::create(['nCartao' => $request->input('numero-cartao'), 'vcc'  => '"'.$request->input('vcc'), 'formaPagamento'  => $request->input('forma-pagamento'), 'dataValidade'  => $d]);
-        $compra = Compra::whereIn('idcompra',$request->compra) ->update(['realizado' => 1, 'pagamento_idpagamento' => $p->idpagamento, 'data' => now()]);
-        $c = Compra::whereIn('idcompra',$request->compra)->with(['livro','pagamento'])->get();
-        $u= User::where('iduser', Auth::user()->iduser)->get();
+        $cl=Compra::find($request->compra);
+        $usersV=array();
+        $v;
+        foreach ($cl as $value) {
+            $p = Pagamento::create(['nCartao' => $request->input('numero-cartao'), 'vcc'  => $request->input('vcc'), 'formaPagamento'  => $request->input('forma-pagamento'), 'dataValidade'  => $d]);
+            $compra = Compra::where('idcompra',$value->idcompra)->update(['realizado' => 1, 'pagamento_idpagamento' => $p->idpagamento, 'data' => now()]);
+            $l=Livro::where('idlivro', $value->livro_idlivro)->update(['comprado' => 1]);
+            DB::table('post_has_livro')->where('livro_id', '=', $value->livro_idlivro)->delete();
+        }
+        $c = Compra::whereIn('idcompra',$request->compra)->with(['livro' => function ($q) 
+        {
+            $q->join('user_has_livro','livro.idlivro', 'user_has_livro.livro_idlivro')->join('user', 'user_iduser','iduser')->select("*");
+        },'pagamento'])->get();
+        // dd();
+        // $v=User::where('iduser', Auth::user()->iduser)->get();
         $p = PessoaFisica::where("user_iduser",  Auth::user()->iduser)->get();
         $uu= (new PessoaFisicaController)->show($p[0]->idpessoaFisica);
-        // dd($uu);
+        foreach ($c as $value) {
+            $cs = Compra::where('idcompra',$value->idcompra)->with(['livro' => function ($q) 
+            {
+                $q->join('user_has_compra','livro.idlivro', 'user_has_compra.compra_livro_idlivro')->join('user', 'user_iduser','iduser')->select("*");
+            },'pagamento'])->get();
+            $pv = PessoaFisica::where("user_iduser",  $value->livro->iduser)->get();
+            $uuv= (new PessoaFisicaController)->show($pv[0]->idpessoaFisica);
+            // dd();
+            // return new Email($cs,$uuv,'Cliente');
+            Mail::to(User::where('iduser', $value->livro->iduser)->first())->send(new Email($cs,$uuv,'Cliente'));
+
+        }
         // return new Email($c,$uu);
-        Mail::to(Auth::user())->send(new Email($c,$uu));
+        Mail::to(Auth::user())->send(new Email($c,$uu,'Vendedor'));
         return view('compra', ['compra' => $c]);
     }
     // public function generatePDF(Request $request){

@@ -6,6 +6,7 @@ use App\Model\Friend;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\VerifyEmail;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -65,5 +66,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function compras(){
         return $this->belongsToMany(\App\Model\Compra::class, 'user_has_compra', 'compra_idcompra', 'user_iduser');
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail); // my notification
+    }
+
+    public function produto(){
+        return $this->belongsToMany(\App\Model\Livro::class,'user_has_livro', 'livro_idlivro', 'user_iduser');
     }
 }

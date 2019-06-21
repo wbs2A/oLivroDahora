@@ -8,12 +8,12 @@
                     <div class="card-header">Registrar-se</div>
 
                     <div class="card-body">
-                        <form id="register" method="POST" action="{{ route('register') }}">
+                        <form id="register" method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
 
                             @csrf
-                            <div class="form-group row">
-                                <div class="m-2">
-                                    <update-imagem ref="modal" :legenda="'Add foto'"v-on:submit="setImagem" :cla="'fa fa-user'" :size="'90'" :url="'/api/register/imagem'"></update-imagem> 
+                            <div class="form-group row m-3">
+                                <div class="">
+                                    <update-imagem ref="modal" :legenda="'Insira foto'"v-on:submit="setImagem" :cla="'fa fa-user icon'" :size="'90'" :url="'/api/register/imagem'"></update-imagem> 
                                 </div>
                             </div>
                             <div class="form-group row">

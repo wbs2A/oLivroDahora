@@ -2,6 +2,9 @@
 <div id="sideBar" class="col-lg-4 sidebar-widgets">
 
     <div class="widget-wrap">
+        @if(isset($livro))
+                <livro :livro="{{$livro}}"></livro>
+        @endif
         <div class="single-sidebar-widget search-widget">
             <h3 class="text-center">Anuncie aqui!</h3>
             <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">

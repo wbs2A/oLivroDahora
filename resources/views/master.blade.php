@@ -26,7 +26,7 @@
 </head>
 <body>
     @include('static.header')
-    <div id="app">
+    <div id="app" class="container-fluid">
         @yield('content')
     </div>
     <script

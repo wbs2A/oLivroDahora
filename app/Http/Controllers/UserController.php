@@ -163,22 +163,4 @@ class UserController extends Controller
             'success' => false
         ], 500);
     }
-    // public function updateimagem($id, Request $request){
-    //     $imagem=Imagens::where('idimagens',$id)->first();
-    //     $file = Input::file('imagem');
-    //     $path = Storage::disk('public')->putFile('', $request->file('imagem'));
-    //     if(Storage::disk('public')->delete($imagem->filename)) {
-    //         $imagem->filename = $path;
-    //         $imagem->mime = $file->getClientMimeType();
-    //         $imagem->path = storage_path();
-    //         $imagem->size = $file->getClientSize();
-    //         $imagem->save();
-    //         return response()->json([
-    //             'success' => true
-    //         ], 200);
-    //     }
-    //     return response()->json([
-    //         'success' => false
-    //     ], 500);
-    // }
 }

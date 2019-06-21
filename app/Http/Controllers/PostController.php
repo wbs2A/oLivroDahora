@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Kreait\Firebase\Auth;
 use App\User;   
 use App\Model\PostHasImagens;
+use App\Model\Livro;
+
 class PostController extends Controller
 {
     /**
@@ -40,11 +42,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
          //dd($request);
-       $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>2]);
-       DB::table('user_has_post')->insert(['user_iduser'=>\Illuminate\Support\Facades\Auth::user()->iduser, 'post_idpost'=>$id]);
-       if($request->imagem != null){
-           PostHasImagens::create(['post_idpost' => $id,'post_categoria_idcategoria' => 2,'imagens_idimagens' => $request->imagem]);
-       }
+        $id = DB::table('post')->insertGetId(['titulo'=>$request->title, 'descricao'=>$request->descricao, 'conteudo'=>$request->conteudo, 'datapostagem'=>now(), 'categoria_idcategoria'=>2]);
+        DB::table('user_has_post')->insert(['user_iduser'=>\Illuminate\Support\Facades\Auth::user()->iduser, 'post_idpost'=>$id]);
+        if (!empty($request->file('imagem'))) {
+            $imagem = $this->insertImagem($request);
+           PostHasImagens::create(['post_idpost' => $id,'post_categoria_idcategoria' => 2,'imagens_idimagens' => $imagem]);
+        }
        return redirect()->to('/admin/');
     }
 
@@ -59,10 +62,13 @@ class PostController extends Controller
         $categoria = Categoria::withCount('post')->get();
         $post = Post::getPostById($id);
         $postsL= Post::postsAvaliacao();
+        $livro = Livro::where('comprado', 0)->with(['imagem','post' =>function($q) use($id){
+            $q->where('post_id', $id);
+        }])->first();
         if (\Illuminate\Support\Facades\Auth::check()) {
-            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first()]);
+            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first(), 'livro' =>$livro]);
         }else{
-            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL]);
+            return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'livro' =>$livro]);
         }
         
     }
@@ -99,6 +105,11 @@ class PostController extends Controller
      */
     public function destroy($id,Post $post)
     {
+        $t= PostHasImagens::where('post_idpost', $id)->get();
+        $key = $t[0]->imagens_idimagens;
+        $this->deleteimagem($key);
+        PostHasImagens::where('post_idpost', $id)->delete();
+        DB::table('user_has_post')->where('post_idpost', $id)->delete();
         Post::find($id)->delete();
         return redirect()->to('/admin/posts');
     }

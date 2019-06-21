@@ -32,20 +32,38 @@ class Controller extends BaseController
             $file = Imagens::create($input);
             return $file->idimagens;
         }
-        return response()->json([
+        return [
             'success' => false
-        ], 500);
+        ];
     }
     public function deleteImagem($id){
         $imagem=Imagens::where('idimagens',$id)->first();
         if(Storage::disk('public')->delete($imagem->filename)) {
             Imagens::where('idimagens',$id)->delete();
-            return response()->json([
+            return [
                 'success' => true
-            ], 200);
+            ];
         }
-        return response()->json([
+        return [
             'success' => false
-        ], 500);
+        ];
+    }
+    public function updateImagem($id, $request){
+        $imagem=Imagens::where('idimagens',$id)->first();
+        $file = Input::file('imagem');
+        $path = Storage::disk('public')->putFile('', $request->file('imagem'));
+        if(Storage::disk('public')->delete($imagem->filename)) {
+            $imagem->filename = $path;
+            $imagem->mime = $file->getClientMimeType();
+            $imagem->path = storage_path();
+            $imagem->size = $file->getClientSize();
+            $imagem->save();
+            return [
+                'success' => true
+            ];
+        }
+        return [
+            'success' => false
+        ];
     }
 }

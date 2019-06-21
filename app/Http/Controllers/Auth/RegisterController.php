@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Http\Request;
 use App\Model\PessoaFisica;
 use App\Model\Endereco;
 use Validator;
@@ -60,7 +62,7 @@ class RegisterController extends Controller
         $data['rg']=preg_replace("/[^0-9]/", "", $data['rg']);
         $validate = Validator::make($data, [
             'name' => ['required', 'string', 'max:50'],
-            'email' => 'max:45',
+            'email' => 'max:45|unique:email',
             'telefone'=>'required',
             'idpessoaFisica' => 'cpf|unique:pessoafisica',
             'password' => 'min:6|required|confirmed',
@@ -77,6 +79,23 @@ class RegisterController extends Controller
         ]);
         return $validate;
     }
+     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request)));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -84,8 +103,10 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
+        $data = $request->all();
+        // dd($request);
         $data['telefone']=preg_replace("/[^0-9]/", "", $data['telefone']);
         $data['cep']=preg_replace("/[^0-9]/", "", $data['cep']);
         $data['cpf']=preg_replace("/[^0-9]/", "", $data['cpf']);
@@ -99,8 +120,11 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password'])
         ]);
         $data['user']=$user->iduser;
-        $endereco=Endereco::inserir($data);
+        $endereco=Endereco::inserir($request, $data);
         $data['endereco']=$endereco->idEndereco;
+        if (!empty($request->file('imagem'))) {
+            $data['imagem'] = $this->insertImagem($request);
+        }
         $pessoa = PessoaFisica::inserir($data);
         $data['pessoa']=$pessoa->idpessoaFisica;
         return $user;

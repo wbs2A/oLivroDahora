@@ -18,7 +18,11 @@ class CreateLivroTable extends Migration {
 			$table->string('nome', 45)->nullable();
 			$table->float('valor', 10, 0)->nullable();
 			$table->string('descricao', 45)->nullable();
+			$table->boolean('comprado')->default(false);
 			$table->date('ano')->nullable();
+			$table->integer('imagens_idimagens')->nullable()->index('fk_livro_imagens1_idx');
+			$table->foreign('imagens_idimagens', 'fk_livro_imagens1')->references('idimagens')->on('imagens')->onUpdate('CASCADE')->onDelete('CASCADE');
+
 			$table->string('peso', 45)->nullable();
 		});
 	}

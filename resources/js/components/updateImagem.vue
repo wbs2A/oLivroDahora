@@ -10,7 +10,7 @@
         <label  class="m-0 p-0" >
             <i :class="cla" :style="'font-size:'+size+'px;'" aria-hidden="true"></i>
             <input id="imagem" type="file" name="imagem" accept="image/*" @change="setImagem" style="display: none;">
-            <span :class="clas + ' row'">{{legenda}}</span>
+            <span v-if="legenda" :class="clas + ' row'">{{legenda}}</span>
         </label>
     </span>
 </template>
@@ -78,14 +78,26 @@ axios.defaults.headers.common = {
             }
         },
         mounted(){
-
             console.log(this.cla);
             if (this.cla) {
                 var s = this.cla.indexOf('icon');
                 var v = this.cla.substring(s);
-                console.log(v);
+                console.log(this.cla.substring(s));
                 this.clas=v;
             }
+            console.log(this.src);
+                if (this.src && this.src.imagem) {
+                    this.files.push(this.src.imagem);
+                    console.log(this.files);
+                    for (var i = 0; i <  document.getElementsByClassName(this.clas).length; i++) {
+                        console.log(document.getElementsByClassName(this.clas)[i].style.display);
+                        document.getElementsByClassName(this.clas)[i].style.display='none';
+                    }
+                    console.log(this.$refs);
+                    // console.log(this.$refs.preview);
+                    // this.$refs.preview.src='storage/'+this.src.imagem.filename;
+
+                }
         },
         methods:{
             setImagem(event){

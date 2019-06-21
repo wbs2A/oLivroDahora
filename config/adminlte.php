@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'admin/home',
+    'dashboard_url' => 'home',
 
     'logout_url' => 'logout',
 
@@ -144,12 +144,12 @@ return [
                 [
                     'text' => 'Inserir Livro',
                     'icon'=>'plus',
-                    'url'         => 'admin/createbook'
+                    'url'         => 'admin/viewpostbook'
                 ],
                 [
                     'text' => 'Gerenciar Livros',
                     'icon' => 'tasks',
-                    'url'  => 'admin/posts',
+                    'url'  => 'admin/viewpostbook/all',
                 ],
             ],
         ],

@@ -209,7 +209,8 @@
 			</table>
 			<input type="hidden" name="_token" :value="token">
 			<button class="form-control"   id="submit" v-if="!checked" disabled type="submit">Finalizar compra</button>
-			<button class="form-control"   id="submit" v-if="!fim" type="submit">Finalizar compra</button>
+
+			<button class="form-control"   id="submit" v-if="checked && !fim" type="submit">Finalizar compra</button>
 		</form>
 		<p v-else >Você não possui itens no carrinho</p>
 

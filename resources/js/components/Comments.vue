@@ -5,7 +5,7 @@
 		   <!-- From -->
 		   <div class="comment-form p-1" v-if="user">
 			   <!-- Comment Avatar -->
-			   <form class="form" name="form">
+			   <form class="form" id="saveComment" name="form">
 				   <div class="form-row m-3">
 					   <div class="comment-avatar col-1" v-if="user.pessoa_fisica.imagem">
 						   <img class="rounded col p-0 m-0" :src="'/storage/'+user.pessoa_fisica.imagem.filename">
@@ -16,12 +16,12 @@
 					   <input class="input col form-control" type="text" disabled :value="user.name">
 				   </div>
 				   <div class="form-row m-3">
-				   			<update-imagem ref="modal" v-on:submit="setImagem" :cla="'fa fa-file-image-o icon'" :size="'20'" :url="'/api/comentario/imagem'"></update-imagem>
+				   			<update-imagem ref="modal" :cla="'fa fa-file-image-o icon'" :size="'20'" :url="'/api/comentario/imagem'"></update-imagem>
 					   <textarea :class="'m-0 input form-control icon'" placeholder="Add comment..." required v-model="message"></textarea>
 					   <span class="input" v-if="errorComment" style="color:red">{{errorComment}}</span>
 				   </div>
 				   <div class="form-row m-3">
-					   <input type="button" class="btn btn-success" @click="saveComment" value="Add Comment">
+					   <input type="button" class="btn btn-success" @click="saveComment('saveComment')" value="Add Comment">
 				   </div>
 			   </form>
 		   </div>
@@ -67,7 +67,7 @@
 				   <!-- From -->
 				   <div class="comment-form p-1 col-10 ml-auto comment-v" v-if="commentBoxs[index]">
 					   <!-- Comment Avatar -->
-					   <form class="form" name="form">
+					   <form class="form" name="form" id="replyComment">
 					   		<div class="form-row m-3">
 							   <div class="comment-avatar col-1" v-if="user.pessoa_fisica.imagem">
 								   <img class="rounded col p-0 m-0" :src="'/storage/'+user.pessoa_fisica.imagem.filename">
@@ -78,12 +78,12 @@
 							   <input class="input col form-control" type="text" disabled :value="user.name">
 						   </div>
 						   <div class="form-row m-3">
-								<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o icon'+comment.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+								<update-imagem ref="reply" :cla="'fa fa-file-image-o icon'+comment.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
 								<textarea :class="'input form-control icon'+comment.commentid" placeholder="Add comment..." required v-model="message"></textarea>
 							   <span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
 						   </div>
 						   <div class="form-row m-3">
-							   <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index)" value="Add Replay">
+							   <input type="button" class="btn btn-success" v-on:click="replyComment(comment.commentid,index,'replyComment')" value="Add Replay">
 						   </div>
 					   </form>
 				   </div>
@@ -122,7 +122,7 @@
 								</div>
 								<!-- From -->
 								<div class="comment-form p-1 reply" v-if="replyCommentBoxs[index2]">
-									<form class="form" name="form">
+									<form class="form" id="replyReplyComment" name="form">
 										<div class="form-row m-3">
 										   <div class="comment-avatar col-1" v-if="user.pessoa_fisica.imagem">
 											   <img class="rounded col p-0 m-0" :src="'/storage/'+user.pessoa_fisica.imagem.filename">
@@ -133,12 +133,12 @@
 											<input class="input col form-control" type="text" disabled :value="user.name">
 										</div>
 										<div class="form-row m-3">
-											<update-imagem ref="reply" v-on:submit="setReplyImagem" :cla="'fa fa-file-image-o icon'+replies.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+											<update-imagem ref="reply" :cla="'fa fa-file-image-o icon'+replies.commentid" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
 											<textarea :class="'input form-control icon'+replies.commentid" placeholder="Add comment..." required v-model="message"></textarea>
 											<span class="input" v-if="errorReply" style="color:red">{{errorReply}}</span>
 										</div>
 										<div class="form-row m-3">
-										   <input type="button" class="btn btn-success" v-on:click="replyComment(replies.commentid,index2, index)" value="Add Comment">
+										   <input type="button" class="btn btn-success" v-on:click="replyComment(replies.commentid,index2, 'replyReplyComment', index)" value="Add Comment">
 										</div>
 									</form>
 								</div>
@@ -178,15 +178,17 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                        	<update-imagem ref="update" :src="imagem" v-on:submit="update":cla="'fa fa-file-image-o iconEdit'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
-							<textarea class="input form-control iconEdit" placeholder="Add comment..." required v-model="message2"></textarea>
-							<span class="input" v-if="errorReply" style="color:red">{{errorEdit}}</span>
-                            <span id="conteudoEdit"></span>
+                        	<form class="form" id="editComment" name="form">
+	                        	<update-imagem ref="update" :src="imagem" :cla="'fa fa-file-image-o iconEdit'" :size="'18'" :url="'/api/comentario/imagem'"></update-imagem>
+								<textarea class="input form-control iconEdit" placeholder="Add comment..." required v-model="message2"></textarea>
+								<span class="input" v-if="errorReply" style="color:red">{{errorEdit}}</span>
+	                            <span id="conteudoEdit"></span>
+	                        </form>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" @click="closeEdit" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                            <button  class="btn btn-success" data-ref="" @click="editComentario()" id="sim">Sim</button>
+                            <button  class="btn btn-success" data-ref="" @click="editComentario('editComment')" id="sim">Sim</button>
                         </div>
                     </div>
                 </div>
@@ -271,174 +273,105 @@ export default {
 			   }
 		   }
 	   },
-	   saveComment() {
-			if (document.getElementsByClassName('icon')[0].style.display == 'none') {
-				this.$refs.modal.submitFiles();
-			}else{
-			   if (this.message != null && this.message != ' ') {
-				   this.errorComment = null;
-				   axios.post('/api/comentario', {
-					   idpost: this.commentUrl,
-					   texto: this.message,
-					   user_iduser: this.user.iduser
-				   }).then(res => {
+	   saveComment(formid) {
+			    if (this.message != null && this.message != ' ' || document.getElementsByClassName('icon')[0].style.display == 'none') {
+				    this.errorComment = null;
+				    var myForm = document.getElementById(formid);
+					var formData = new FormData(myForm);
+					if (this.message != null && this.message != ' ' && document.getElementsByClassName('iconEdit')[0].style.display != 'none') {
+						formData.append('texto', this.message);	
+					}
+					formData.append('idpost', this.commentUrl);
+					formData.append('user_iduser', this.user.iduser);
+					axios.post('/api/comentario', 
+						formData,
+						{
+	                        headers: {
+	                            'Content-Type': 'multipart/form-data'
+	                        }
+	                    }
+				   	).then(res => {
 						console.log(res.data);
 						axios.get('/api/comentarios/'+this.commentUrl).then(res => {
 							this.commentData = res.data;
 							this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
 							this.message = null;
 							this.comments = this.commentData.length;
+							if (document.getElementsByClassName('icon')[0].style.display == 'none') {
+								this.$refs.modal.removeFile(0);
+							}
 							console.log(res.data);
 						});
 						console.log(this.commentsData);
 						this.comments = this.commentData.length;
 				   });
-			   } else {
-				   this.errorComment = "Por favor, insira um comentario";
-			   }
-			}
+			    } else {
+				    this.errorComment = "Por favor, insira um comentario";
+			    }
 	   },
-	   replyComment(commentId, index, index1 = null) {
+	   replyComment(commentId, index, formid,index1 = null) {
 	   		this.replyId = commentId;
 	   		this.index = index;
 	   		this.cr =index1;
-			if (document.getElementsByClassName('icon')[0].style.display == 'none') {
-				var tes=this.$refs.reply[0];
-				console.log(this.$refs.reply[0]);
-				tes.submitFiles();
-			}else{
-			   if (this.message != null && this.message != ' ') {
-				   this.errorComment = null;
-				   axios.post('/api/comentario', {
-					   idpost: this.commentUrl,
-					   texto: this.message,
-					   user_iduser: this.user.iduser,
-					   reply_id: this.replyId
-				   }).then(res => {
-						console.log(res.data);
-						if (res.data.status) {
-							if (this.cr == null) {
-								axios.get('/api/comentario/'+this.replyId+'/'+this.commentUrl).then(res => {
-									if (res.data.status) {
-										console.log(res.data);
-											if (this.commentData[this.index].reply == 0) {
-												this.commentData[this.index].reply = 1;
-											}
-											console.log(this.commentData[this.index]);
-											this.commentData[this.index].replies=res.data.comment.replies;	
-											this.comments = this.commentData.length;
-									   		this.message = null;
-											console.log(res.data);
-											Vue.set(this.replyCommentBoxs, this.index, 0);
-										   	Vue.set(this.commentBoxs, this.index, 0);	
-									}
-								});
-							}else{
-								axios.get('/api/comentario/'+this.commentData[this.cr].commentid+'/'+this.commentUrl).then(res => {
-									if (res.data.status) {
-										if (this.commentData[this.cr].reply == 0) {
-											this.commentData[this.cr].reply = 1;
-										}
-										console.log(this.commentData[this.cr]);
-										this.commentData[this.cr].replies=res.data.comment.replies;	
-										this.comments = this.commentData.length;
-								   		this.message = null;
-										console.log(res.data);
-										Vue.set(this.replyCommentBoxs, this.index, 0);
-									   	Vue.set(this.commentBoxs, this.index, 0);
-									}
-								});
-							}	
-						}
-				   });
-			   } else {
-				   this.errorReply = "Por favor, insira um comentario";
-			   }
-			}
-	   },
-	   setImagem(resposta){
-			console.log('resposta');
-			console.log(resposta.id);
-			this.id = resposta.id;
-			console.log(this.id);
-			console.log(this.user.iduser);
-			axios.post('/api/comentario', {
-				idpost: this.commentUrl,
-				imagens_idimagens: this.id,
-				user_iduser: this.user.iduser
-			}).then(res => {
-				console.log(res.data);
-				if (res.data.status) {
-					axios.get('/api/comentarios/'+this.commentUrl).then(res => {
-						this.commentData = res.data;
-						this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
-						this.comments = this.commentData.length;
-						this.$refs.modal.removeFile(0);
-						console.log(res.data);
-						Vue.set(this.replyCommentBoxs, this.index, 0);
-						Vue.set(this.commentBoxs, this.index, 0);	
-					});
+			if (this.message != null && this.message != ' ' || document.getElementsByClassName('icon')[0].style.display == 'none') {
+				this.errorComment = null;
+				var myForm = document.getElementById(formid);
+				var formData = new FormData(myForm);
+				if (this.message != null && this.message != ' ' && document.getElementsByClassName('iconEdit')[0].style.display != 'none') {
+					formData.append('texto', this.message);	
 				}
-				console.log(this.commentsData);
-			});
-	   },
-	   setReplyImagem(resposta){
-	   		console.log('resposta');
-			console.log(resposta.id);
-			this.id = resposta.id;
-			console.log(this.id);
-			axios.post('/api/comentario', {
-				idpost: this.commentUrl,
-				imagens_idimagens: this.id,
-				user_iduser: this.user.iduser,
-				reply_id: this.replyId
-			}).then(res => {
-				console.log(res.data);
-						if (res.data.status) {
-							if (this.cr == null) {
-								axios.get('/api/comentario/'+this.replyId+'/'+this.commentUrl).then(res => {
-									if (res.data.status) {
-										console.log(res.data);
-											if (this.commentData[this.index].reply == 0) {
-												this.commentData[this.index].reply = 1;
-											}
-											console.log(this.commentData[this.index]);
-											this.commentData[this.index].replies=res.data.comment.replies;
-											this.comments = this.commentData.length;
-									   		this.tes=this.$refs.reply[0];
-											this.tes.removeFile(0);
-											this.tes=null;
-											this.index=0;
-											this.id=0;
-											this.replyId=0;
-											console.log(res.data);
-											Vue.set(this.replyCommentBoxs, this.index, 0);
-										   	Vue.set(this.commentBoxs, this.index, 0);	
+				formData.append('idpost', this.commentUrl);
+				formData.append('user_iduser', this.user.iduser);
+				formData.append('reply_id', this.replyId);
+				axios.post('/api/comentario', 
+					formData,
+					{
+	                    headers: {
+	                        'Content-Type': 'multipart/form-data'
+	                    }
+	                }
+				).then(res => {
+					console.log(res.data);
+					if (res.data.status) {
+						if (this.cr == null) {
+							axios.get('/api/comentario/'+this.replyId+'/'+this.commentUrl).then(res => {
+								if (res.data.status) {
+									console.log(res.data);
+									if (this.commentData[this.index].reply == 0) {
+										this.commentData[this.index].reply = 1;
 									}
-								});
-							}else{
-								axios.get('/api/comentario/'+this.commentData[this.cr].commentid+'/'+this.commentUrl).then(res => {
-									if (res.data.status) {
-										if (this.commentData[this.cr].reply == 0) {
-											this.commentData[this.cr].reply = 1;
-										}
-										console.log(this.commentData[this.cr]);
-										this.commentData[this.cr].replies=res.data.comment.replies;	
-										this.comments = this.commentData.length;
-								   		this.tes=this.$refs.reply[0];
-										this.tes.removeFile(0);
-										this.tes=null;
-										this.index=0;
-										this.id=0;
-										this.replyId=0;
-										console.log(res.data);
-										Vue.set(this.replyCommentBoxs, this.index, 0);
-									   	Vue.set(this.commentBoxs, this.index, 0);
+									console.log(this.commentData[this.index]);
+									this.commentData[this.index].replies=res.data.comment.replies;	
+									this.comments = this.commentData.length;
+							   		this.message = null;
+									console.log(res.data);
+									Vue.set(this.replyCommentBoxs, this.index, 0);
+								   	Vue.set(this.commentBoxs, this.index, 0);	
+								}
+							});
+						}else{
+							console.log(this.commentData);
+							console.log(this.cr);
+							axios.get('/api/comentario/'+this.commentData[this.cr].commentid+'/'+this.commentUrl).then(res => {
+								if (res.data.status) {
+									if (this.commentData[this.cr].reply == 0) {
+										this.commentData[this.cr].reply = 1;
 									}
-								});
-							}	
-						}
-			});
+									console.log(this.commentData[this.cr]);
+									this.commentData[this.cr].replies=res.data.comment.replies;	
+									this.comments = this.commentData.length;
+							   		this.message = null;
+									console.log(res.data);
+									Vue.set(this.replyCommentBoxs, this.index, 0);
+								   	Vue.set(this.commentBoxs, this.index, 0);
+								}
+							});
+						}	
+					}
+				});
+			} else {
+			   this.errorReply = "Por favor, insira um comentario";
+			}
 	   },
 	    opendeleteComentario(string){
 	    	console.log(string);
@@ -480,53 +413,27 @@ export default {
 	        $('#sim').attr('data-ref', string);
 	        $('#Edit').modal('show');
 	    },
-	    editComentario(){
+	    editComentario(formid){
 	    	var string;
 	    	string = $('#sim').attr('data-ref');
 	    	console.log(string);
-	    	if (document.getElementsByClassName('iconEdit')[0].style.display == 'none') {
-				this.$refs.update.submitFiles();
-			}else{
-			   if (this.message2 != null && this.message2 != ' ') {
-				   this.errorEdit = null;
-			        axios.post(string,{
-			        	texto: this.message2
-			        }).then(res => {
-			        	console.log(res.data);
-			        	if (res.data.status) {
-				        	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
-								this.commentData = res.data;
-								this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
-								this.comments = this.commentData.length;
-								console.log(res.data);
-								this.closeEdit();
-								$('#Edit').modal('hide');
-							});
-			        	}
-			        });
-			    }else{
-			    	this.errorEdit = "Por favor, insira um comentario";
-			    }
-			}
-	    },
-	    closeEdit(){
-			this.message2='';
-			this.$refs.update.removeFile();
-			this.imagem=null;
-
-	    },
-	    update(resposta){
-	    	console.log('resposta');
-			console.log(resposta);
-			var string;
-	    	string = $('#sim').attr('data-ref');
-	    	console.log(string);
-        	if (resposta.success) {
-        		axios.post(string,{
-			        imagens_idimagens: resposta.id
-			    }).then(res => {
-			        console.log(res.data);
-			        if (res.data.status) {
+	    	if (this.message2 != null && this.message2 != ' ' || document.getElementsByClassName('iconEdit')[0].style.display == 'none') {
+			    this.errorEdit = null;
+			    var myForm = document.getElementById(formid);
+				var formData = new FormData(myForm);
+				if (this.message2 != null && this.message2 != ' ' && document.getElementsByClassName('iconEdit')[0].style.display != 'none') {
+					formData.append('texto', this.message2);	
+				}
+			    axios.post(string,
+					formData,
+					{
+	                    headers: {
+	                        'Content-Type': 'multipart/form-data'
+	                    }
+	                }
+				).then(res => {
+				   	console.log(res.data);
+				   	if (res.data.status) {
 				       	axios.get('/api/comentarios/'+this.commentUrl).then(res => {
 							this.commentData = res.data;
 							this.commentsData = _.orderBy(res.data, ['date'], ['desc']);
@@ -535,9 +442,17 @@ export default {
 							this.closeEdit();
 							$('#Edit').modal('hide');
 						});
-			      	}
+				    }
 			    });
-        	}
+			}else{
+			    this.errorEdit = "Por favor, insira um comentario";
+			}
+	    },
+	    closeEdit(){
+			this.message2='';
+			this.$refs.update.removeFile();
+			this.imagem=null;
+
 	    }
 	},
    mounted() {

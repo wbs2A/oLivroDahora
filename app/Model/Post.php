@@ -97,6 +97,6 @@ class Post extends Model
     }
 
     public function livros(){
-        return $this->belongsToMany(\App\Model\Livro::class, 'post_has_livro', 'post_id', 'post_id');
+        return $this->belongsToMany(\App\Model\Livro::class, 'post_has_livro', 'post_id', 'livro_id');
     }
 }

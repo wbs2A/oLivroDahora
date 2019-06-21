@@ -48,22 +48,14 @@
     
     <div id="app">
         <div id="carrinho" class="container">
-            <div class="card">
-              <div class="card-body">
-                <p>Código: {{$compra[0]->pagamento->idpagamento}} </p>
-                <p>Data: {{$compra[0]->data}} </p>
-              </div>
-            </div>
             <div class="row">
                 <div class="card col  m-1">
                             <div class="card-header head ">Dados Pessoais </div>
                            <div class="card-body cardbody">
                                <ul>
                                     <li><b>nome:</b>  {{$user['user_info']['name']}}</li>
-                                    <li><b>sexo:</b> {{$user['pf_info']['sexo']}}</li>
                                     <li><b>telefone:</b>{{$user['user_info']['telefone']}}</li>
                                     <li><b>RG:</b> {{$user['pf_info']['rg']}}</li>
-                                    <li><b>Data de Nascimento:</b> {{$user['pf_info']['dataNascimento'] }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -81,6 +73,53 @@
                             </div>
                         </div>
             </div>
+            <table  class='table table-striped table-bordered'>
+                <thead>
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Valor</th>
+                        <th> {{$identificador}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $total = 0;
+                    @endphp
+                    @foreach ($compra as $c)
+                        <tr>
+                            <td>
+                                {{$c->pagamento->idpagamento}} 
+                            </td>
+                            <td>{{Carbon\Carbon::parse($c->data)->format('d/m/Y')}}</td>
+                            <td>{{($c->livro()->get())[0]->nome}}</td>
+                            <td>{{($c->livro()->get())[0]->descricao}}</td>
+                            <td> R$ {{($c->livro()->get())[0]->valor}}</td>
+                            <td>
+                                <ul>
+                                    <li><b>nome:</b>{{$c->livro->name}}</li>
+                                    <li><b>Email:</b> {{$c->livro->email}}</li>
+                                    <li><b>Valor:</b>R$ {{$c->livro->valor}}</li>
+                                </ul>
+                            </td>
+                            @php
+                                $total = $total+ ($c->livro()->get())[0]->valor;
+                            @endphp
+                        </tr>
+                    @endforeach 
+                    @if($identificador == 'Vendedor')
+                        <tr>
+                            <td scope="col">
+                                Total
+                            </td>
+                            <td colspan="5">R$ {{$total}}</td>
+
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
     </div>
     <script

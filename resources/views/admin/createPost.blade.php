@@ -19,7 +19,7 @@
             <div class="col-xs-10 col-xs-offset-1">
 
                 <div class="card">
-                    <form id="createPost" action="{{route('submit')}}" method="post" >
+                    <form id="createPost" enctype="multipart/form-data" action="{{route('submit')}}" method="post" >
                         <div class="form-group">
                             <div class="col">
                                 <label for="title">Insira o título do Post</label>

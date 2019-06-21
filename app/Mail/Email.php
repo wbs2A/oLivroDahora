@@ -13,15 +13,17 @@ class Email extends Mailable
 
     protected $c;
     protected $u;
+    protected $i;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($c,$u)
+    public function __construct($c,$u,$i)
     {
         $this->c = $c;
         $this->u = $u;
+        $this->i = $i;
     }
 
     /**
@@ -32,6 +34,6 @@ class Email extends Mailable
     public function build()
     {
         return  $this->view('layouts.app')
-        ->with(['compra' => $this->c, 'user' => $this->u]);
+        ->with(['compra' => $this->c, 'user' => $this->u, 'identificador' => $this->i]);
     }
 }

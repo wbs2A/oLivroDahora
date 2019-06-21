@@ -51,7 +51,7 @@ new Vue({
         updateImagem
     },
     mounted(){
-        document.getElementById('register').addEventListener('submit',this.submitFiles,false);
+        // document.getElementById('register').addEventListener('submit',this.submitFiles,false);
         console.log('success');
     },
     methods:{

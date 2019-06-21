@@ -47,10 +47,9 @@ class ComentarioComentario extends Notification
     {
         return (new MailMessage)
                     ->subject('Nova resposta ao seu comentário')
-                    ->greeting('Oi!')
+                    ->greeting('Oi! Veja a resposta ao seu comentário.')
                     ->line($this->c->texto)
                     ->action('Ver comentário', url('viewpost/'.$this->p->idpost))
-                    ->line('Tenha um bom dia')
                     ->salutation('Atenciosamente, oLivroDaHora');
     }
 

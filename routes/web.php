@@ -80,7 +80,10 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
     Route::get('/removePost/{id}', 'PostController@destroy')->name('removePost');
     Route::get('/editpost/{id}','PostController@edit')->name('editPost');
-    Route::get('/createbook', 'BookController@create')->name('insertBook');
+    Route::get('/viewpostbook/{all?}', 'BookController@index')->name('viewPostBook');
+    Route::get('/createbook/{id}/{livro?}', 'BookController@create')->name('insertBook');
+    Route::post('/createbook/{id}', 'BookController@store')->name('insertBook');
+    Route::post('/updatebook/{id}', 'BookController@update')->name('updateBook');
 });
 
 
@@ -95,6 +98,7 @@ Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::post('/avaliacao', 'AvaliacoesController@store');
     Route::post('/avaliacao/{id}', 'AvaliacoesController@update');
     Route::get('/carrinho', 'CarrinhoController@show');
+    Route::post('/carrinho', 'CarrinhoController@store');
     Route::get('/carrinho/{id}', 'CarrinhoController@destroy');
 });
 Route::post('/carrinho-finaliza', 'CarrinhoController@finaliza');
@@ -104,8 +108,8 @@ Route::post('api/register/imagem', 'UserController@postimagem');
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     '\vendor\uniSharp\LaravelFilemanager\Lfm::routes()';
 });
-// Route::get('/mailable', function () {
-//     $user = App\User::find(1);
-//     $c = App\Model\Compra::where('realizado', 1)->get();
-//     return new App\Mail\Email($user, $c);
-// });
+Route::get('/mailable', function () {
+    $user = App\User::find(1);
+    $c = App\Model\Compra::where('realizado', 1)->get();
+    return new App\Mail\Email($user, $c);
+});

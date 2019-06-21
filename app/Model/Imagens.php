@@ -33,4 +33,8 @@ class Imagens extends Model
     {
         return $this->belongsTo(\App\Model\Comentarios::class, 'imagens_idimagens','idimagens');
     }
+    public function livro()
+    {
+        return $this->belongsTo(\App\Model\Livro::class, 'imagens_idimagens','idimagens');
+    }
 }
