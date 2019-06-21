@@ -62,9 +62,9 @@ class PostController extends Controller
         $categoria = Categoria::withCount('post')->get();
         $post = Post::getPostById($id);
         $postsL= Post::postsAvaliacao();
-        $livro = Livro::where('comprado', 0)->with(['imagem','post' =>function($q) use($id){
+        $livro = Livro::where('comprado', 0)->whereHas('post',function($q) use($id){
             $q->where('post_id', $id);
-        }])->first();
+        })->with(['imagem','post'])->first();
         if (\Illuminate\Support\Facades\Auth::check()) {
             return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first(), 'livro' =>$livro]);
         }else{
