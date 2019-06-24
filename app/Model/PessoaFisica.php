@@ -26,7 +26,9 @@ class PessoaFisica extends Model
         return $pessoa;
     }
     public static function atualizar($request, $id){}
-    
+    // protected $casts = [
+    //     'dataNascimento'  => 'date:d/m/Y',
+    // ];
     public function user()
     {
         return $this->belongsTo(\App\User::class, 'user_iduser');

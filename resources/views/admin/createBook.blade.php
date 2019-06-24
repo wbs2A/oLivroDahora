@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col">
-                                <label for="categoria">Insira o peso do livro:</label>
+                                <label for="categoria">Insira o peso do livro(kg):</label>
                                 <input class="form-control" id="peso" type="text" name="peso" value="@isset($livro){{$livro->peso}}@endisset">
                             </div>
                         </div>

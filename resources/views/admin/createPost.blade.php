@@ -10,38 +10,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @if(isset($post))
-        {{$post}}
-    @endif
 
     <div class="container">
         <div class="row text-center">
             <div class="col-xs-10 col-xs-offset-1">
 
                 <div class="card">
-                    <form id="createPost" enctype="multipart/form-data" action="{{route('submit')}}" method="post" >
+                    <form id="createPost" enctype="multipart/form-data" action="{{$action}}" method="post" >
                         <div class="form-group">
                             <div class="col">
                                 <label for="title">Insira o título do Post</label>
-                                <input class="form-control" v-model="titulo" id="title" name="title" max="45">
+                                <input class="form-control" id="title" name="titulo" value="@isset($post[0]){{$post[0]->titulo}}@endisset" max="45">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col">
                                 <label for="img">Insira a imagem do Post</label>
                                 <br>
-
-                                <update-imagem ref="modal" v-on:submit="setImagem" :url="'/api/register/imagem'" :legenda="'Imagem'" :cla="'fa fa-file-image-o icon'" :size="'50'"></update-imagem>
+                                <update-imagem ref="modal" @isset($post[0]) :src="{{$post[0]}}" @endisset :legenda="'Imagem'" :cla="'fa fa-file-image-o icon'" :size="'50'"></update-imagem>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col">
                                 <label for="descricao">Insira a descrição</label>
-                                <input class="form-control" id="descricao" name="descricao" max="40">
+                                <input class="form-control" id="descricao" name="descricao" value="@isset($post[0]){{$post[0]->descricao}}@endisset" max="40">
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea name="conteudo" class="form-control my-editor" id="input" rows="10"></textarea>
+                            <textarea name="conteudo" class="form-control my-editor" id="input" rows="10">@isset($post[0]){!! $post[0]->conteudo !!}@endisset</textarea>
                         </div>
 {{--                        <div class="form-group">
                             <div class="col">

@@ -120,9 +120,19 @@ class CarrinhoController extends Controller
 
         return redirect()->route('carrinho');
     }
+    public function frete(Request $request)
+    {
+        dd($request);
+    }
     public function finaliza(Request $request)
     {
         $compra = Compra::whereIn('idcompra',$request->compra)->with(['users','livro','pagamento'])->where('compra.realizado', 0)->get();
+        // $i=0;
+        // while ($i < count($compra)) {
+
+        //     $compra[$i]->frete = 2;
+        //     $i=$i+1;
+        // }
         return view('finalizar', ['compra' => $compra]);
     }
     public function compra(Request $request)
@@ -142,30 +152,31 @@ class CarrinhoController extends Controller
         foreach ($cl as $value) {
             $p = Pagamento::create(['nCartao' => $request->input('numero-cartao'), 'vcc'  => $request->input('vcc'), 'formaPagamento'  => $request->input('forma-pagamento'), 'dataValidade'  => $d]);
             $compra = Compra::where('idcompra',$value->idcompra)->update(['realizado' => 1, 'pagamento_idpagamento' => $p->idpagamento, 'data' => now()]);
+            
             $l=Livro::where('idlivro', $value->livro_idlivro)->update(['comprado' => 1]);
             DB::table('post_has_livro')->where('livro_id', '=', $value->livro_idlivro)->delete();
+            // falta retirar de qualquer carrinho os livros vendidos
+            Compra::where([['idcompra','<>',$value->idcompra], ['livro_idlivro', $value->livro_idlivro]])->delete();
         }
-        $c = Compra::whereIn('idcompra',$request->compra)->with(['livro' => function ($q) 
-        {
-            $q->join('user_has_livro','livro.idlivro', 'user_has_livro.livro_idlivro')->join('user', 'user_iduser','iduser')->select("*");
+        $c = Compra::whereIn('idcompra',$request->compra)->with(['livro' => function($q){
+             $q->join('user_has_compra','livro.idlivro', 'user_has_compra.compra_livro_idlivro')->join('user', 'user_iduser','iduser')->join("pessoafisica","pessoafisica.user_iduser","user.iduser")->join('endereco','pessoafisica.Endereco_idEndereco', 'endereco.idEndereco')->select("*");
+             //  $q->join('user_has_compra','livro.idlivro', 'user_has_compra.compra_livro_idlivro')->join('user', 'user_iduser','iduser')->join("Pessoafisica","pessoafisica.user_iduser","user.iduser")->join('endereco','pessoafisica.Endereco_idEndereco', 'endereco.idEndereco')->join('cidade', 'endereco.Cidade_idCidade', 'cidade.idCidade')->join('estado', 'cidade.Estado_idEstado', 'estado.idEstado')->select("*","estado.nome as estado","cidade.nome as cidade");
         },'pagamento'])->get();
         // dd();
-        // $v=User::where('iduser', Auth::user()->iduser)->get();
         $p = PessoaFisica::where("user_iduser",  Auth::user()->iduser)->get();
         $uu= (new PessoaFisicaController)->show($p[0]->idpessoaFisica);
         foreach ($c as $value) {
             $cs = Compra::where('idcompra',$value->idcompra)->with(['livro' => function ($q) 
             {
-                $q->join('user_has_compra','livro.idlivro', 'user_has_compra.compra_livro_idlivro')->join('user', 'user_iduser','iduser')->select("*");
+                $q->join('user_has_compra','livro.idlivro', 'user_has_compra.compra_livro_idlivro')->join('user', 'user_iduser','iduser')->join('pessoafisica','iduser', 'pessoafisica.user_iduser')->join('endereco','pessoafisica.Endereco_idEndereco', 'endereco.idEndereco')->join('cidade', 'endereco.Cidade_idCidade', 'cidade.idCidade')->join('estado', 'cidade.Estado_idEstado', 'estado.idEstado')->select("*","estado.nome as estado","cidade.nome as cidade");
             },'pagamento'])->get();
+            // dd($value);
             $pv = PessoaFisica::where("user_iduser",  $value->livro->iduser)->get();
             $uuv= (new PessoaFisicaController)->show($pv[0]->idpessoaFisica);
-            // dd();
             // return new Email($cs,$uuv,'Cliente');
             Mail::to(User::where('iduser', $value->livro->iduser)->first())->send(new Email($cs,$uuv,'Cliente'));
-
         }
-        // return new Email($c,$uu);
+        // return new Email($c,$uu,'Vendedor');
         Mail::to(Auth::user())->send(new Email($c,$uu,'Vendedor'));
         return view('compra', ['compra' => $c]);
     }

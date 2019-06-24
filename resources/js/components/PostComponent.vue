@@ -33,7 +33,7 @@
                     </a>
                 </div>
                 <div class="category">
-                    <a href="#">
+                    <a @click="href(model['categoria']['idcategoria'])">
                         <span class="ti-folder mr-1"></span> {{model['categoria']['nome']}}
                     </a>
                 </div>
@@ -47,6 +47,26 @@
     export default {
         name: "PostComponent",
         props:['edit','idpost','descricao', 'titulo', 'categoria','model'],
+        methods:{
+            href:function (categoria) {
+                console.log(categoria);
+                this.teste=categoria;
+                var form = document.createElement("form");
+                // form.method = "post";
+                form.action = '/categoria';
+                var element2 = document.createElement("input");  
+                element2.value=categoria; 
+                element2.name="id";
+                var element3 = document.createElement("input");  
+                element3.value=document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
+                element3.name="_token";
+                element3.type="hidden";
+                form.appendChild(element2);
+                form.appendChild(element3);
+                document.body.appendChild(form);
+                form.submit();
+            }
+        },
     }
 </script>
 

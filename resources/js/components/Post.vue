@@ -1,17 +1,21 @@
 <template>
     <div class="col">
         <div class="card">
-            <div class="card-header">
+            <div class="card-header row-10 m-0 p-0">
 
+                <div class="col-10">
                     <h1>{{model[0]['titulo']}}</h1>
-                    <br>
-                <span v-if="model[0]['avaliacoes']['length'] > 0">
-                    <star-rating v-if="user" :inline="true" :star-size="20" :rating="model[0]['avaliacoes'][0]['quantidade']"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
-                </span>
-                <span v-else>
-                    <star-rating v-if="user" :inline="true" :star-size="20"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
+                </div>
+                <div class="col-2">
+                        
+                        <span v-if="model[0]['avaliacoes']['length'] > 0">
+                            <star-rating v-if="user" :inline="true" :show-rating="false" :star-size="20" :rating="model[0]['avaliacoes'][0]['quantidade']"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
+                        </span>
+                        <span v-else>
+                            <star-rating v-if="user" :show-rating="false" :inline="true" :star-size="20"  @current-rating="showCurrentRating" @rating-selected="setCurrentSelectedRating" :increment="0.5"></star-rating>
 
-                </span>
+                        </span>
+                    </div>
 
             </div>
             <div class="card-body">

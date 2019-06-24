@@ -5,7 +5,7 @@
     <div class="row">
 
     	<div class="col-2  p-0 m-0">
-    		<img class="col p-0 m-0" :src="'/storage/'+livro.imagem.filename">
+    		<img v-if="livro.imagem" class="col p-0 m-0" :src="'/storage/'+livro.imagem.filename">
     	</div>
     	<div class="col-4 p-0 m-0">
     		<span><strong>Ano: </strong>{{ year(livro.ano)}}</span>

@@ -90,7 +90,7 @@ class CommentController extends Controller
 				"reply" => $reply,
 				"reply_id" => $key->reply_id,
 				"replies" => $replies,
-				"date" => (new Carbon($key->updated_at))->format('d/m/Y')
+				"date" => (new Carbon($key->updated_at))->format('d M Y H:00:00')
 			]);
 	   }
 	   // dd($commentsData);
@@ -121,7 +121,7 @@ class CommentController extends Controller
 				"reply" => $reply,
 				"idimagem" => $key->imagens_idimagens,
 				"imagem" => $key->imagem,
-				"date" => (new Carbon($key->updated_at))->format('d/m/Y')
+				"date" => (new Carbon($key->updated_at))->format('d M Y H:00:00')
 			]);
 			if (sizeof($r) > 0) {
 				$replies = array_merge($replies, $r);
@@ -153,7 +153,7 @@ class CommentController extends Controller
                 "reply" => $reply,
                 "reply_id" => $key->reply_id,
                 "replies" => $replies,
-                "date" => (new Carbon($key->updated_at))->format('d/m/Y')
+                "date" => (new Carbon($key->updated_at))->format('d M Y H:00:00')
             ]];
     }
     public function getComentario($id,$idpost){

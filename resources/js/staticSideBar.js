@@ -25,12 +25,17 @@ const app = new Vue({
    			console.log(categoria);
    			this.teste=categoria;
         var form = document.createElement("form");
-        form.method = "get";
+        // form.method = "post";
         form.action = '/categoria';
         var element2 = document.createElement("input");  
         element2.value=categoria; 
         element2.name="id";
+        var element3 = document.createElement("input");  
+        element3.value=document.querySelector('meta[name="csrf-token"]').getAttribute('content'); 
+        element3.name="_token";
+        element3.type="hidden";
         form.appendChild(element2);
+        form.appendChild(element3);
         document.body.appendChild(form);
         form.submit();
       }

@@ -25,7 +25,10 @@ class Post extends Model
      * @var bool
      */
     public $timestamps = false;
-    
+    protected $fillable = ['titulo', 'conteudo', 'descricao','datapostagem','categoria_idcategoria'];
+    protected $casts = [
+        'datapostagem'  => 'date:d M Y H:00:00',
+    ];
     public static function buscaPostAll($data){
         return Post::where('post.titulo', 'like', '%'.$data['busca'].'%')
             ->orWhere('post.descricao', 'like', '%'.$data['busca'].'%')

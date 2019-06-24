@@ -30,7 +30,9 @@ class Compra extends Model
      * @var array
      */
     protected $fillable = ['valor', 'data', 'realizado', 'livro_idlivro', 'pagamento_idpagamento'];
-
+    protected $casts = [
+        'data'  => 'date:d/m/Y',
+    ];
     public function users(){
         return $this->belongsToMany(\App\User::class, 'user_has_compra', 'compra_idcompra', 'user_iduser');
     }

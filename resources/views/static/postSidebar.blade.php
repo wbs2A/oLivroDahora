@@ -3,7 +3,7 @@
 
     <div class="widget-wrap">
         @if(isset($livro))
-                <livro :livro="{{$livro}}"></livro>
+            <livro :livro="{{$livro}}"></livro>
         @endif
         <div class="single-sidebar-widget search-widget">
             <h3 class="text-center">Anuncie aqui!</h3>
