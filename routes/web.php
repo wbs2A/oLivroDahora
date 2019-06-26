@@ -10,6 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 Auth::routes(['verify' => true]);
 
 Route::get('/', 'HeaderController@index')->name('home');
@@ -100,6 +104,17 @@ Route::group(['prefix'=>'api/', 'middleware'=>'api'], function (){
     Route::get('/carrinho', 'CarrinhoController@show');
     Route::post('/carrinho', 'CarrinhoController@store');
     Route::get('/carrinho/{id}', 'CarrinhoController@destroy');
+    Route::post('/addFriend', function (Request $request){
+        try{
+            $friend = \App\User::where('name','=',$request->nome)->firstOrFail();
+            \Illuminate\Support\Facades\DB::table('friends')->insert(['user_id'=>Auth::user()->iduser, 'friend_id'=>$friend->iduser]);
+            \Illuminate\Support\Facades\DB::table('friends')->insert(['friend_id'=>Auth::user()->iduser, 'user_id'=>$friend->iduser]);
+            return redirect('/admin/chat')->with('success','Amigo adicionado com sucesso.');
+        }catch (\Exception $e){
+            return redirect('/admin/chat')->withErrors(['Não foi possível adicionar o amigo! Certifique o nome e tente novamente.']);
+        }
+
+    });
 });
 Route::post('/carrinho-finaliza', 'CarrinhoController@finaliza');
 Route::post('/compra/finaliza', 'CarrinhoController@compra')->name('compra');
