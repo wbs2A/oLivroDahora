@@ -24,7 +24,7 @@
                                 <div class="col">
                                     <div class="text-right">
                                     	@if(count($post->livros()->get()) > 0)
-                                    		<a class="btn" href="{{route('insertBook', $post->idpost)}}" ><i class="fa fa-address-book-o"></i> </a>
+                                    		<a class="btn" href="{{route('updateBook', $post->idpost)}}" ><i class="fa fa-address-book-o"></i> </a>
                                     	@else
 											<a class="btn" href="{{route('insertBook', $post->idpost)}}"><i style="font-size: 7px" class="fa fa-plus"></i><i class="fa fa-address-book-o"></i></a>
                                     	@endif

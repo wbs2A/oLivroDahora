@@ -22,6 +22,7 @@
                             </div>
                     @endif
                 </div>
+                
                 @include("static.postSidebar")
 
             </div>

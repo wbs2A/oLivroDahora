@@ -56,6 +56,7 @@ Route::group(['middleware'=>["web","verified"]], function (){
         Route::post('/updateDadosPessoaisEndereco/{id}/{interno?}','PessoaFisicaController@alteraEndereco');
         Route::post('/updateDadosPessoaisUser/{id}', 'UserController@alteraEmailSenha');
         Route::post('insertPost/', 'PostController@store')->name('submit');
+        Route::post('updatePost/{id}', 'PostController@update')->name('updatePost');
         Route::get('getPostUser/', 'PostController@getPostByUser');
     });
     Route::get('viewpost/{id}', "PostController@show");
@@ -79,13 +80,15 @@ Route::group(['prefix'=>'admin/', 'middleware'=>['auth','verified']], function()
     Route::get('/','HomeController@index');
     Route::get('home', 'HomeController@index')->name('dashboard');
     Route::get('createpost',['uses'=>'PostController@create']);
+    Route::get('updatepost',['uses'=>'PostController@edit']);
     Route::get('/posts', 'PostController@getPosts')->name('posts');
     Route::get('/chat', 'ChatController@index')->middleware('auth');
     Route::get('/chat/{id}', 'ChatController@show')->middleware('auth')->name('chat.show');
     Route::get('/removePost/{id}', 'PostController@destroy')->name('removePost');
     Route::get('/editpost/{id}','PostController@edit')->name('editPost');
     Route::get('/viewpostbook/{all?}', 'BookController@index')->name('viewPostBook');
-    Route::get('/createbook/{id}/{livro?}', 'BookController@create')->name('insertBook');
+    Route::get('/createbook/{id}', 'BookController@create')->name('insertBook');
+    Route::get('/updatebook/{id}', 'BookController@edit')->name('updateBook');
     Route::post('/createbook/{id}', 'BookController@store')->name('insertBook');
     Route::post('/updatebook/{id}', 'BookController@update')->name('updateBook');
 });

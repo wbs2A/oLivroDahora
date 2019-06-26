@@ -27,7 +27,7 @@
 <body>
     <header class="header-area sticky-top">
         <nav class="navbar navbar-expand-xlg text-center m-4">
-            <div class="container justify-content-center">
+            <div class="container justify-content-center p-3">
                 <div class="header-wrap">
                     <div
                             class="header-top d-flex justify-content-between align-items-lg-center navbar-expand-lg"
@@ -81,12 +81,14 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Descrição</th>
                         <th scope="col">Valor</th>
+                        <th scope="col">Subtotal(Valor + Frete)</th>
                         <th> {{$identificador}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $total = 0;
+                        $frete = 10.00;
                     @endphp
                     @foreach ($compra as $c)
                         <tr>
@@ -97,24 +99,52 @@
                             <td>{{($c->livro()->get())[0]->nome}}</td>
                             <td>{{($c->livro()->get())[0]->descricao}}</td>
                             <td> R$ {{($c->livro()->get())[0]->valor}}</td>
+                            <td >
+                                <!-- <select v-bind:change="frete">
+                                    <option value="04014">SEDEX à vista</option>
+                                    <option value="04065">SEDEX à vista pagamento na entrega</option>
+                                    <option value="04510">PAC à vista</option>
+                                    <option value="04707">PAC à vista pagamento na entrega</option>
+                                    <option value="40169">SEDEX 12 ( à vista e a faturar)</option>
+                                    <option value="40215">SEDEX 10 (à vista e a faturar)</option>
+                                    <option value="40290">SEDEX Hoje Varejo</option>
+                                </select> -->
+                                Preço minimo : R$ {{ $frete+($c->livro()->get())[0]->valor}}                            
+                            </td>
                             <td>
                                 <ul>
                                     <li><b>nome:</b>{{$c->livro->name}}</li>
                                     <li><b>Email:</b> {{$c->livro->email}}</li>
                                     <li><b>Valor:</b>R$ {{$c->livro->valor}}</li>
+                                    @if($identificador == 'Cliente')
+                                        <li><b>Rua: </b>{{$c->livro->rua }}</li>
+                                        <li><b>Bairro: </b>{{$c->livro->bairro}}</li>
+                                        <li><b>Número: </b>{{$c->livro->numero}}</li>
+                                        <li><b>Cidade: </b>{{$c->livro->cidade}}</li>
+                                        <li><b>Estado: </b>{{$c->livro->estado}}</li>
+                                    @endif
+                                    <li><b>CEP: </b>{{$c->livro->cep}}</li>
                                 </ul>
                             </td>
                             @php
                                 $total = $total+ ($c->livro()->get())[0]->valor;
+                                 $frete = $frete+ ($c->livro()->get())[0]->valor;
                             @endphp
                         </tr>
                     @endforeach 
                     @if($identificador == 'Vendedor')
                         <tr>
                             <td scope="col">
-                                Total
+                                Subtotal
                             </td>
-                            <td colspan="5">R$ {{$total}}</td>
+                            <td colspan="4" >R$ {{$total}}</td>
+
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                Total(Frete+Subtotal)
+                            </td>
+                            <td colspan="5">R$ {{$frete}}</td>
 
                         </tr>
                     @endif

@@ -47,20 +47,9 @@ class BookController extends Controller
         {
             $q->where('user_iduser', $user);
         }])->first();
-        $livro = $post->livros()->with(['imagem'])->get();
         // dd(!empty($livro[0]));
         if (empty($post)) {
             return redirect()->route('viewPostBook');
-        }
-        if (!empty($livro[0])) {
-            $livro=$livro[0];
-            $action='updateBook';
-            $livro->ano=Carbon::parse($livro->ano)->format('Y');
-            return view('admin.createBook')->with([
-                'post' => $livro->idlivro,
-                'a' => $action,
-                'livro' => $livro
-            ]);
         }
         return view('admin.createBook')->with([
                 'post' => $id,
@@ -84,7 +73,6 @@ class BookController extends Controller
         if (!empty($request->file('imagem'))) {
             $data['imagens_idimagens'] = $this->insertImagem($request);
         }
-        // dd($data);
         $livro = Livro::create($data);
         DB::table('post_has_livro')->insert(['livro_id'=> $livro->idlivro, 'post_id'=> $id]);
         DB::table('user_has_livro')->insert(['livro_idlivro'=> $livro->idlivro, 'user_iduser'=> $user[0]->iduser]);
@@ -110,7 +98,31 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = Auth::user()->iduser;
+        $action='insertBook';
+        $post=Post::where('idpost', $id)->with(['users' => function ($q) use($user)
+        {
+            $q->where('user_iduser', $user);
+        }])->first();
+        $livro = $post->livros()->with(['imagem'])->get();
+        // dd(!empty($livro[0]));
+        if (empty($post)) {
+            return redirect()->route('viewPostBook');
+        }
+        if (!empty($livro[0])) {
+            $livro=$livro[0];
+            $action='updateBook';
+            $livro->ano=Carbon::parse($livro->ano)->format('Y');
+            return view('admin.createBook')->with([
+                'post' => $livro->idlivro,
+                'a' => $action,
+                'livro' => $livro
+            ]);
+        }
+        return view('admin.createBook')->with([
+                'post' => $id,
+                'a' => $action
+            ]);
     }
 
     /**

@@ -24,7 +24,7 @@ class Livro extends Model
 
 
     public function post(){
-        return $this->belongsToMany(\App\Model\Post::class,'post_has_livro', 'post_id', 'livro_id');
+        return $this->belongsToMany(\App\Model\Post::class,'post_has_livro', 'livro_id', 'post_id');
     }
     public function vendedor(){
         return $this->belongsToMany(\App\User::class,'user_has_livro', 'user_iduser', 'livro_idlivro');

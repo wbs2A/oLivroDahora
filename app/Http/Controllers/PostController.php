@@ -30,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin/createPost');
+        return view('admin/createPost', ["action" => route('submit')]);
     }
 
     /**
@@ -62,10 +62,11 @@ class PostController extends Controller
         $categoria = Categoria::withCount('post')->get();
         $post = Post::getPostById($id);
         $postsL= Post::postsAvaliacao();
-        $livro = Livro::where('comprado', 0)->with(['imagem','post' =>function($q) use($id){
+        $livro = Livro::where('comprado', 0)->whereHas('post',function($q) use($id){
             $q->where('post_id', $id);
-        }])->first();
+        })->with(['imagem','post'])->first();
         if (\Illuminate\Support\Facades\Auth::check()) {
+            // dd($livro);
             return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'user' => User::where('iduser',\Illuminate\Support\Facades\Auth::user()->iduser)->with(['pessoaFisica.imagem'])->first(), 'livro' =>$livro]);
         }else{
             return view('viewpost',['post'=>$post, 'categoria' =>$categoria, 'postsL'=>$postsL, 'livro' =>$livro]);
@@ -82,7 +83,8 @@ class PostController extends Controller
     public function edit($id, Post $post)
     {
         $post = Post::getPostById($id);
-        return view('admin.createPost', ['post'=>$post]);
+        $post[0]->imagem = $post[0]->imagens[0];
+        return view('admin.createPost', ['post'=>$post, 'action' => route('updatePost', $id)]);
     }
 
     /**
@@ -92,9 +94,19 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        //
+        $data= $request->except('_token');
+        $data['datapostagem']=(now())->toDateTimeString();
+        // $data['categoria_idcategoria']= $data['categoria'];
+        $post = Post::find($id);
+        if (!empty($request->file('imagem'))) {
+            $this->updateImagem(($post->imagens()->get())[0]->idimagens, $request);
+        }
+        $post = Post::where('idpost',$id)->update($data);
+        // dd(Post::where('idpost',$id)->get());
+        return redirect()->to('admin/posts');
+
     }
 
     /**
@@ -106,8 +118,10 @@ class PostController extends Controller
     public function destroy($id,Post $post)
     {
         $t= PostHasImagens::where('post_idpost', $id)->get();
-        $key = $t[0]->imagens_idimagens;
-        $this->deleteimagem($key);
+        if (!empty($t[0]->imagens_idimagens)) {
+            $key = $t[0]->imagens_idimagens;
+            $this->deleteimagem($key);
+        }
         PostHasImagens::where('post_idpost', $id)->delete();
         DB::table('user_has_post')->where('post_idpost', $id)->delete();
         Post::find($id)->delete();

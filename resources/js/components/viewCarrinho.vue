@@ -179,6 +179,8 @@
 				        <th scope="col">Nome</th>
 				        <th scope="col">Descrição</th>
 				        <th scope="col">Valor</th>
+				   		<!-- <th v-if="!fim" scope="col">Frete <br>produto</th> -->
+				   		<th scope="col">Subtotal(Valor + Frete)</th>
 				        <th v-if="!fim" scope="col">Remover <br>produto</th>
 			        </tr>
 			    </thead>
@@ -191,7 +193,21 @@
 				        <td>{{c.livro.nome}}</td>
 				        <td>{{c.livro.descricao}}</td>
 				        <td> R$ {{c.livro.valor}}</td>
-
+				        <td >
+					    	<!-- <select v-bind:change="frete">
+								<option value="04014">SEDEX à vista</option>
+								<option value="04065">SEDEX à vista pagamento na entrega</option>
+								<option value="04510">PAC à vista</option>
+								<option value="04707">PAC à vista pagamento na entrega</option>
+								<option value="40169">SEDEX 12 ( à vista e a faturar)</option>
+								<option value="40215">SEDEX 10 (à vista e a faturar)</option>
+								<option value="40290">SEDEX Hoje Varejo</option>
+					    	</select> -->
+					    	Preço minimo : R$ {{ soma(t,c.livro.valor)}}					    	
+					    </td>
+					    <!-- <td v-if="!fim">
+					    	
+					    </td> -->
 					    <td v-if="!fim">
 					    	<a  v-bind:href="'api/carrinho/'+ c.idcompra" class="btn btn-danger">X</a>
 					    	
@@ -199,10 +215,18 @@
 				    </tr>
 				    <tr>
 				    	<td scope="col">
-				    		Total
+				    		Subtotal
 				    	</td>
-				        <td colspan="4" v-if="!fim">R$ {{total}}</td>
-				        <td colspan="3" v-else>R$ {{total}}</td>
+				        <td colspan="5" v-if="!fim">R$ {{total}}</td>
+				        <td colspan="4" v-else>R$ {{total}}</td>
+
+				    </tr>
+				    <tr>
+				    	<td scope="col">
+				    		Total(Frete+Subtotal)
+				    	</td>
+				        <td colspan="5" v-if="!fim">R$ {{soma(t,total)}}</td>
+				        <td colspan="4" v-else>R$ {{soma(t,total)}}</td>
 
 				    </tr>
 				</tbody>
@@ -265,14 +289,14 @@
                 cpf: '',
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 			    compra: this.carrinho,			   
-			    t:0,
+			    t:10.00,
 			    v:true,
                 error: null,
 			    token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 		   }
 	   },
         computed:{
-        	total: function() {
+        	total: function(t) {
         		var sum = 0;
                 this.compra.forEach(e => {
                     sum += e.livro.valor;
@@ -284,6 +308,9 @@
             this.fetchData();
         },
         methods: {
+        	soma(t,value){
+				return t+value;
+			},
             fetchData() {
                 this.error = this.user = null;
                 this.loading = true;
@@ -376,6 +403,9 @@
 		    	}else{
 		    		$('#submit').attr('disabled','disabled');
 		    	}
+		    },
+		    frete: function(e){
+		    	console.log(e.target.value);
 		    }
 		}
     }
